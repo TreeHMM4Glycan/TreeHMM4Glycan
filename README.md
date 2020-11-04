@@ -1,1 +1,1 @@
-# TreeHMM4Glycan
+# Glycan-Protein Binding Prediction using Tree HMM
