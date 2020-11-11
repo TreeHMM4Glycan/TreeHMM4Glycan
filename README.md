@@ -7,23 +7,23 @@ Install Pipenv from here
 [https://github.com/pypa/pipenv]
 
 ### Create virtualenv
-    ```pipenv install ```
+    pipenv install 
 
 ### Enable virtualenv
 Go to Project folder
-    ```pipenv shell ```
+    pipenv shell 
 
 ### Exist virtualenv
 Go to Project folder
-    ```exit ```
+    exit 
 #
 ### Use git submodule to get TreeHMM Package
 [http://openmetric.org/til/programming/git-pull-with-submodule/]
 #### Pull Submodule
-    ```git submodule update --init --recursive```
+    git submodule update --init --recursive
 
 ####  Update  Submodule
-    ```git submodule update --recursive --remote``` 
+    git submodule update --recursive --remote
 
 ## TreeHMM Repos
 Our own version [https://github.com/TreeHMM4Glycan/TreeHMM]
