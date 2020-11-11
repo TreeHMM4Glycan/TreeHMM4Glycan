@@ -1,0 +1,3 @@
+[submodule "TreeHMM"]
+	path = TreeHMM
+	url = https://github.com/TreeHMM4Glycan/TreeHMM.git
