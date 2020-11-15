@@ -54,9 +54,9 @@ class Node(object):
 class Glycan(object):
 
     pattern = re.compile(
-        r'''(?P<modification>((?:\([a-zA-Z0-9]+\)*)*(?:[a-zA-Z0-9]+)*)*)
-            (?P<base_type>([a-zA-Z]{3}[0-9]{0,1}[a-zA-Z]{0,3}))
-            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9?/]+->?[0-9?/]+\)-?)?$''', re.VERBOSE)
+        r'''(?P<modification>(\(?[0-9][A-Z]\)?)*)
+            (?P<base_type>([a-zA-Z]{3}[0-9]?[a-zA-Z]{0,3}))
+            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-(?:Sp)?[0-9]+\)?)?$''', re.VERBOSE)
 
     def __init__(self, iupac_text:str) -> None:
         self.nodes = []
@@ -74,7 +74,7 @@ class Glycan(object):
         return [node.get_mono_type() for node in self.nodes]
 
     def get_emssions_with_linkage(self):
-        return [node.get_linkage_type() + node.get_modification_type() + node.get_mono_type()  for node in self.nodes]
+        return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_mono_type()) for node in self.nodes]
 
     def get_adj_matrix(self):
         adj_matrix = np.zeros((len(self.nodes),len(self.nodes))).astype(int)
@@ -156,13 +156,14 @@ class Glycan(object):
 case1 = '(3S)Gal(b1-4)[Fuc(a1-3)](6S)Glc'
 case2 = '6S(3S)Gal(b1-4)[Fuc(a1-3)][Fuc(a1-3)]Glc'
 case3 =  'Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc'
-case4 = 'KDN(a2-3)Gal(b1-3)GlcNAc'
+case4 = 'KDN(a2-3)Gal(b1-3)GlcNAc(a1-Sp0'
 #'GlcNAc(b1-6)[GlcNAc(b1-2)](3S)Man(a1-6)[GlcNAc(b1-4)][GlcNAc(b1-4)[GlcNAc(b1-2)]Man(a1-3)]Man'
 #glycan_from_iupac(case3)
 #case2_glycan = Glycan(case2)
 #print(case2_glycan.get_emssions())
 for case in [case1, case2, case3, case4]:
     glycan = Glycan(case)
+    print(case)
     print(glycan.get_emssions_with_linkage())
     print(glycan.get_adj_list())
     print(glycan.get_emssions())
