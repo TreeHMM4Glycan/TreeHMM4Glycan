@@ -2,8 +2,6 @@ import re
 import numpy as np
 from typing import List
 
-
-
 class Node(object):
     def __init__(self, id, parent_id, mono_type = None, modification = None, linkage_type = None, remaning_text = None) -> None:
         # idx in the node list
@@ -54,57 +52,57 @@ class Node(object):
 class Glycan(object):
 
     pattern = re.compile(
-        r'''(?P<modification>((?:\([a-zA-Z0-9]+\)*)*(?:[a-zA-Z0-9]+)*)*)
-            (?P<base_type>([a-zA-Z]{3}[0-9]{0,1}[a-zA-Z]{0,3}))
-            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9?/]+->?[0-9?/]+\)-?)?$''', re.VERBOSE)
+        r'''(?P<modification>(\(?[0-9][A-Z]\)?)*)
+            (?P<base_type>([a-zA-Z]{3}[0-9]?[a-zA-Z]{0,3}))
+            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-(?:Sp)?[0-9]+\)?)?$''', re.VERBOSE)
 
     def __init__(self, iupac_text:str) -> None:
-        self.nodes = []
-        self.adj_matrix = None
-        self.adj_list = {} # adj list is dict
+        self._nodes = []
+        self._adj_matrix = None
+        self._adj_list = {} # adj list is dict
         self.glycan_from_iupac(iupac_text)
 
     def get_adj_list(self):
-        return self.adj_list
+        return self._adj_list
 
     def get_root(self):
-        return self.nodes[0]
+        return self._nodes[0]
     
     def get_emssions(self):
-        return [node.get_mono_type() for node in self.nodes]
+        return [node.get_mono_type() for node in self._nodes]
 
     def get_emssions_with_linkage(self):
-        return [node.get_linkage_type() + node.get_modification_type() + node.get_mono_type()  for node in self.nodes]
+        return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_mono_type()) for node in self._nodes]
 
     def get_adj_matrix(self):
-        adj_matrix = np.zeros((len(self.nodes),len(self.nodes))).astype(int)
-        for from_id in self.adj_list:
-            for to_id in self.adj_list[from_id]:
+        adj_matrix = np.zeros((len(self._nodes),len(self._nodes))).astype(int)
+        for from_id in self._adj_list:
+            for to_id in self._adj_list[from_id]:
                 adj_matrix[from_id, to_id] = 1
 
         return adj_matrix
     
     def _add_node(self, current_node, next_node_remaning_text, node_stack, is_branch = False):
-        next_node_idx = len(self.nodes)
+        next_node_idx = len(self._nodes)
         current_node_parent_id = current_node.get_parent_id() if is_branch else current_node.get_id()
         branch_out_node = Node(next_node_idx, current_node_parent_id, remaning_text = next_node_remaning_text)
         # add to glacn nodes
-        self.nodes.append(branch_out_node)
+        self._nodes.append(branch_out_node)
         # add this node as a child to current node
         current_node.add_child(branch_out_node)
         # add to stack 
         node_stack.append(branch_out_node)
         # update adj_list
 
-        if current_node_parent_id not in self.adj_list:
-            self.adj_list[current_node_parent_id] = []
-        self.adj_list[current_node_parent_id].append(next_node_idx)
+        if current_node_parent_id not in self._adj_list:
+            self._adj_list[current_node_parent_id] = []
+        self._adj_list[current_node_parent_id].append(next_node_idx)
 
     def glycan_from_iupac(self, iupac_text:str):
         #iupac_text = re.sub(r"\((\d*|\?)->?$", "", iupac_text)
         #new_branch_open = re.compile(r"(\]-?)$")
         root = Node(0, -1, remaning_text = iupac_text)
-        self.nodes.append(root)
+        self._nodes.append(root)
         node_stack = [root]
 
         while len(node_stack) > 0: 
@@ -152,18 +150,3 @@ class Glycan(object):
             for branch_out_text in branch_out_texts:
                 # create branch out node and added as a child of current node
                 self._add_node(current_node, branch_out_text, node_stack, True)
-            
-case1 = '(3S)Gal(b1-4)[Fuc(a1-3)](6S)Glc'
-case2 = '6S(3S)Gal(b1-4)[Fuc(a1-3)][Fuc(a1-3)]Glc'
-case3 =  'Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc'
-case4 = 'KDN(a2-3)Gal(b1-3)GlcNAc'
-#'GlcNAc(b1-6)[GlcNAc(b1-2)](3S)Man(a1-6)[GlcNAc(b1-4)][GlcNAc(b1-4)[GlcNAc(b1-2)]Man(a1-3)]Man'
-#glycan_from_iupac(case3)
-#case2_glycan = Glycan(case2)
-#print(case2_glycan.get_emssions())
-for case in [case1, case2, case3, case4]:
-    glycan = Glycan(case)
-    print(glycan.get_emssions_with_linkage())
-    print(glycan.get_adj_list())
-    print(glycan.get_emssions())
-    print(glycan.get_adj_matrix())

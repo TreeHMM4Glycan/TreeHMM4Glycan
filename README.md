@@ -2,28 +2,14 @@
 
 ## Create Development Environment
 
-### Install Pipenv 
-Install Pipenv from here
-[https://github.com/pypa/pipenv]
+### Install Conda 
+Install Conda
 
-### Create virtualenv
-    pipenv install 
+### Create conda environment
+    conda env create --file environment.yml
 
-### Enable virtualenv
-Go to Project folder
-    pipenv shell 
-
-### Exist virtualenv
-Go to Project folder
-    exit 
-#
-### Use git submodule to get TreeHMM Package
-[http://openmetric.org/til/programming/git-pull-with-submodule/]
-#### Pull Submodule
-    git submodule update --init --recursive
-
-####  Update  Submodule
-    git submodule update --recursive --remote
+### Update conda environment
+    conda env update --file environment.yml  --prune
 
 ## TreeHMM Repos
 Our own version [https://github.com/TreeHMM4Glycan/TreeHMM]
