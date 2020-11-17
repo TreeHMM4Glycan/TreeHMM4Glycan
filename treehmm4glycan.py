@@ -21,18 +21,24 @@ def get_iupcas(iupac_name_file):
                 iupacs[id] = iupac
     return iupacs
 
-def create_and_run_treehmm(glycan:Glycan, number_state = 2, emissions = None):
+def create_and_run_treehmm(glycan:Glycan, number_state):
     sample_tree = glycan.get_adj_matrix()
 
     # Declaring the emission_observation list
-    emission_observation = glycan.get_emssions()
-
+    emission_observation = [glycan.get_emssions()]
+    
     #states = ['P','N']
     # create states
     states = [ str(i) for i in range(number_state)]
+    emissions = []
+    for i in range(number_state):
+        emissions.append(list(set(glycan.get_emssions())))
+    print(sample_tree)
+    print(states)
+    print(emissions)
+    print(emission_observation)
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
     hmm = initHMM.initHMM(states, emissions, sample_tree)
-
 
     # The baumWelch part: To find the new parameters and result statistics
     newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
@@ -42,19 +48,19 @@ def example1():
     #sparse = csr_matrix(sample_tree)
     states = ['P','N']
     emissions = [['L','M','H'],['L','M','H']]
-    state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
-    hmm = initHMM.initHMM(states,emissions,sample_tree,state_transition_probabilities = state_transition_probabilities)
+    #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
+    hmm = initHMM.initHMM(states,emissions,sample_tree)
 
     # Declaring the emission_observation list
     emission_observation = [["L","M","H","M","L","L"],["M","L","H","H","L","L"]]
 
     # Declaring the observed_states_training_nodes
-    data = {'node' : [0,3,4], 'state' : ['P','N','P']}
-    observed_states_training_nodes = pd.DataFrame(data = data,columns=["node","state"])
+    #data = {'node' : [0,3,4], 'state' : ['P','N','P']}
+    #observed_states_training_nodes = pd.DataFrame(data = data,columns=["node","state"])
 
     # Declaring the observed_states_validation_nodes
-    data1 = {'node' : [1,2], 'state' : ['N','P']}
-    observed_states_validation_nodes = pd.DataFrame(data = data1,columns=["node","state"])
+    #data1 = {'node' : [1,2], 'state' : ['N','P']}
+    #observed_states_validation_nodes = pd.DataFrame(data = data1,columns=["node","state"])
 
     # For calculating the forward probabilities
     # ForwardProbs = forward.forward(hmm,emission_observation,forward_tree_sequence,observed_states_training_nodes)
@@ -65,7 +71,7 @@ def example1():
     # print(BackwardProbs)
 
     # The baumWelch part: To find the new parameters and result statistics
-    newparam = baumWelch.baumWelchRecursion(copy.deepcopy(hmm), emission_observation, observed_states_training_nodes, observed_states_validation_nodes)
+    newparam = baumWelch.baumWelchRecursion(copy.deepcopy(hmm), emission_observation)
     #learntHMM = baumWelch.baumWelch(copy.deepcopy(hmm), emission_observation, observed_states_training_nodes, observed_states_validation_nodes)
 
     print("newparam :", newparam)
@@ -76,19 +82,20 @@ def example1():
 if __name__ == "__main__":
     #pass
     #example1()
+    
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
     gylcans = {}
-    monos = []
+    #monos = []
     for id in iupacs:
         inpuac_text = iupacs[id]
         #print(inpuac_text)
         gylcans[id] = Glycan(inpuac_text)
-        mono = gylcans[id].get_emssions()
-        if None in mono:
-            print(inpuac_text)
-            print(mono)
-        monos += mono
+        #mono = gylcans[id].get_emssions()
+        #monos += mono
     
     #go over each gylcans
-    print(set(monos))
+    #emissions = list(set(monos))
+    id = '60'
+    if gylcans[id].get_num_mono() > 1:
+        create_and_run_treehmm(gylcans[id], 2)

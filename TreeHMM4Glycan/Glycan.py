@@ -150,3 +150,6 @@ class Glycan(object):
             for branch_out_text in branch_out_texts:
                 # create branch out node and added as a child of current node
                 self._add_node(current_node, branch_out_text, node_stack, True)
+        
+    def get_num_mono(self):
+        return len(self._nodes)
