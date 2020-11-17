@@ -1,4 +1,4 @@
-from TreeHMM import initHMM, baumWelch
+from treehmm import initHMM, baumWelch
 from TreeHMM4Glycan.Glycan import Glycan
 import csv
 import numpy as np

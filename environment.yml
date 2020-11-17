@@ -1,0 +1,13 @@
+name: treehmm4glycan-env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - setuptools
+  - scipy
+  - scikit-learn
+  - pip
+  - pip:
+    - "--editable=git+https://github.com/TreeHMM4Glycan/TreeHMM#egg=tree_hmm"
