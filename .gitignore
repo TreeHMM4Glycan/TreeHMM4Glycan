@@ -133,3 +133,4 @@ dmypy.json
 
 #conda install
 ./src
+./src/*
