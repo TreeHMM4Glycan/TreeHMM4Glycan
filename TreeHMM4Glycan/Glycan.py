@@ -54,7 +54,7 @@ class Glycan(object):
     pattern = re.compile(
         r'''(?P<modification>(\(?[0-9][A-Z]\)?)*)
             (?P<base_type>([a-zA-Z]{3}[0-9]?[a-zA-Z]{0,3}))
-            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-(?:Sp)?[0-9]+\)?)?$''', re.VERBOSE)
+            (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-[0-9]+\))?$''', re.VERBOSE)
 
     def __init__(self, iupac_text:str) -> None:
         self._nodes = []

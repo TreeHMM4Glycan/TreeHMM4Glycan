@@ -4,6 +4,7 @@ import csv
 import numpy as np
 import pandas as pd
 import copy
+import re
 
 def get_iupcas(iupac_name_file):
     iupacs = {}
@@ -13,7 +14,8 @@ def get_iupcas(iupac_name_file):
             if idx == 0:
                 continue
             id = row[0]
-            iupac = row[1]
+            # remove right most part'(a1-sp14'
+            iupac = re.split(r"\([^\)]*$", row[1], 1)[0]
             count = int(row[2])
             if count > 0:
                 iupacs[id] = iupac
@@ -73,5 +75,20 @@ def example1():
 
 if __name__ == "__main__":
     #pass
-    example1()
-    #iupac_name_file = './Data/IUPAC.csv'
+    #example1()
+    iupac_name_file = './Data/IUPAC.csv'
+    iupacs = get_iupcas(iupac_name_file)
+    gylcans = {}
+    monos = []
+    for id in iupacs:
+        inpuac_text = iupacs[id]
+        #print(inpuac_text)
+        gylcans[id] = Glycan(inpuac_text)
+        mono = gylcans[id].get_emssions()
+        if None in mono:
+            print(inpuac_text)
+            print(mono)
+        monos += mono
+    
+    #go over each gylcans
+    print(set(monos))
