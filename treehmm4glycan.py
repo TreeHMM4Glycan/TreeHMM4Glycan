@@ -43,11 +43,12 @@ def create_forest_inputs(glycans_dict:Dict[int, str]):
     joint_adj_matrix = block_diag(*adj_matrices)
     return joint_adj_matrix, joint_emissions
 
-def create_and_run_treehmm_for_one_glycan(glycan:Glycan, number_state, possible_emissions, init_trans_matrix, init_emission_matrix):
-    sample_tree = glycan.get_adj_matrix()
+def create_and_train_treehmm(joint_adj_matrix, joint_emissions, number_state, possible_emissions):
+    # TODO : add random init for both state trans matrix and emission matrix
+    sample_tree = joint_adj_matrix
 
     # Declaring the emission_observation list
-    emission_observation = [glycan.get_emssions()]
+    emission_observation = [joint_emissions]
     
     #states = ['P','N']
     # create states
@@ -60,10 +61,12 @@ def create_and_run_treehmm_for_one_glycan(glycan:Glycan, number_state, possible_
     #print(emission_observation)
     
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
-    hmm = initHMM.initHMM(states, emissions, sample_tree, state_transition_probabilities = init_trans_matrix, emission_probabilities = init_emission_matrix)
+    hmm = initHMM.initHMM(states, emissions, sample_tree)
 
     # The baumWelch part: To find the new parameters and result statistics
-    newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
+    newparam = baumWelch.hmm_train_and_test(hmm, emission_observation)
+    #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
+
     print(newparam["Emission_Matrix"][0])
     print(newparam["Emission_Matrix"][0].to_numpy())
     return newparam["Transition_Matrix"], newparam["Emission_Matrix"][0].to_numpy()
