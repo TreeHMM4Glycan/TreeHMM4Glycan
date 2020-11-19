@@ -62,6 +62,17 @@ class Glycan(object):
         self._adj_list = {} # adj list is dict
         self.glycan_from_iupac(iupac_text)
 
+    def _add_end_nodes(self, node:Node):
+        if len(node.get_children()) == 0:
+            new_node_id = len(self._nodes)
+            end_node = Node(new_node_id, node.get_id(), mono_type= 'End', linkage_type= 'void')
+            node.add_child(end_node)
+            self._nodes.append(end_node)
+            self._update_adj_list_after_add_node(node.get_id(), new_node_id)
+        else:
+            for child in node.get_children():
+                self._add_end_nodes(child)
+
     def get_adj_list(self):
         return self._adj_list
 
@@ -82,21 +93,24 @@ class Glycan(object):
 
         return adj_matrix
     
-    def _add_node(self, current_node, next_node_remaning_text, node_stack, is_branch = False):
-        next_node_idx = len(self._nodes)
-        current_node_parent_id = current_node.get_parent_id() if is_branch else current_node.get_id()
-        branch_out_node = Node(next_node_idx, current_node_parent_id, remaning_text = next_node_remaning_text)
-        # add to glacn nodes
-        self._nodes.append(branch_out_node)
-        # add this node as a child to current node
-        current_node.add_child(branch_out_node)
-        # add to stack 
-        node_stack.append(branch_out_node)
-        # update adj_list
+    def _update_adj_list_after_add_node(self, parent_id, next_node_idx):
+        if parent_id not in self._adj_list:
+            self._adj_list[parent_id] = []
+        self._adj_list[parent_id].append(next_node_idx)
 
-        if current_node_parent_id not in self._adj_list:
-            self._adj_list[current_node_parent_id] = []
-        self._adj_list[current_node_parent_id].append(next_node_idx)
+    def _glycan_from_iupac_add_node(self, current_node, next_node_remaning_text, node_stack, is_branch = False):
+        next_node_id = len(self._nodes)
+        parent_id = current_node.get_parent_id() if is_branch else current_node.get_id()
+        new_node = Node(next_node_id, parent_id, remaning_text = next_node_remaning_text)
+        # add to glacn nodes
+        self._nodes.append(new_node)
+        # add this node as a child to current node
+        current_node.add_child(new_node)
+        # add to stack 
+        node_stack.append(new_node)
+        # update adj_list
+        self._update_adj_list_after_add_node(parent_id, next_node_id)
+
 
     def glycan_from_iupac(self, iupac_text:str):
         #iupac_text = re.sub(r"\((\d*|\?)->?$", "", iupac_text)
@@ -144,12 +158,14 @@ class Glycan(object):
                     if len(remaining_text) > 0:
                         #print('add to the stack:' + remaining_text)
                         # create next node and added as a child of current node
-                        self._add_node(current_node, remaining_text, node_stack, False)
+                        self._glycan_from_iupac_add_node(current_node, remaining_text, node_stack, False)
             
             # add others branchs
             for branch_out_text in branch_out_texts:
                 # create branch out node and added as a child of current node
-                self._add_node(current_node, branch_out_text, node_stack, True)
-        
+                self._glycan_from_iupac_add_node(current_node, branch_out_text, node_stack, True)
+        # add end node and void arc
+        self._add_end_nodes(self._nodes[0])
+
     def get_num_mono(self):
         return len(self._nodes)
