@@ -31,17 +31,22 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
 #   glycans_dict: dict of glycans
 # Return:
 #   joint_adj_matrix - joint adjcent matrix 
-#   joint_emissions - joint emissions
-def create_forest_inputs(glycans_dict:Dict[int, str]):
+#   joint_monosaccharide_emissions - joint emissions for monosaccharides types
+#   joint_linkage_emissions - joint emissions for linkage types
+def create_forest_inputs(glycans_dict:Dict[int, Glycan]):
     adj_matrices = []
-    joint_emissions = []
+    joint_monosaccharide_emissions = []
+    joint_linkage_emissions = []
     for id in glycans_dict:
         glyan = glycans_dict[id]
-        #print(glyan.get_adj_matrix())
+        # update list of adj_matrices we are going to join along the diagonal
         adj_matrices.append(glyan.get_adj_matrix())
-        joint_emissions = joint_emissions + glyan.get_emssions()
+        # update joint_monosaccharide_emissions and joint_linkage_emissions
+        joint_monosaccharide_emissions = joint_monosaccharide_emissions + glyan.get_monosaccharide_emssions()
+        joint_linkage_emissions = joint_linkage_emissions + glyan.get_linkage_emssions()
+    # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
-    return joint_adj_matrix, joint_emissions
+    return joint_adj_matrix, joint_monosaccharide_emissions, joint_linkage_emissions
 
 def create_and_train_treehmm(joint_adj_matrix, joint_emissions, number_state, possible_emissions):
     # TODO : add random init for both state trans matrix and emission matrix
@@ -84,12 +89,12 @@ if __name__ == "__main__":
     for id in iupacs:
         inpuac_text = iupacs[id]
         gylcan = Glycan(inpuac_text)
-        if gylcan.get_num_mono() > 1:
+        if gylcan.get_num_nosaccharides() > 1:
             gylcans[id] = gylcan
-            mono = gylcans[id].get_emssions()
+            mono = gylcans[id].get_monosaccharide_emssions()
             monos += mono
-            mono_count = gylcans[id].get_num_mono()
-            #print(gylcans[id].get_emssions())
+            mono_count = gylcans[id].get_num_nosaccharides()
+            #print(gylcans[id].get_monosaccharide_emssions())
             if mono_count not in counts:
                 counts[mono_count] = 0
             counts[mono_count] += 1
@@ -109,7 +114,7 @@ if __name__ == "__main__":
     
     '''
     for id in gylcans:
-        if gylcans[id].get_num_mono() > 1 and id > 50:
+        if gylcans[id].get_num_nosaccharides() > 1 and id > 50:
             print('Process: {}'.format(id))
             trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan(gylcans[id], 4, emissions, trans_matrix, emission_matrix)
             print(trans_matrix)
