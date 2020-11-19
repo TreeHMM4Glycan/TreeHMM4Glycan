@@ -1,19 +1,23 @@
+from re import VERBOSE
+from typing import Dict, List
 from treehmm import initHMM, baumWelch
 from TreeHMM4Glycan.Glycan import Glycan
 import csv
-import numpy as np
-import pandas as pd
+from scipy.linalg import block_diag
 import copy
 import re
 
-def get_iupcas(iupac_name_file):
+#
+# Method read a file and then retunr a Dict of iupac names
+#
+def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
     iupacs = {}
     with open(iupac_name_file) as file_in:
         csv_reader = csv.reader(file_in)
         for idx,row in enumerate(csv_reader):
             if idx == 0:
                 continue
-            id = row[0]
+            id = int(row[0])
             # remove right most part'(a1-sp14'
             iupac = re.split(r"\([^\)]*$", row[1], 1)[0]
             count = int(row[2])
@@ -21,7 +25,25 @@ def get_iupcas(iupac_name_file):
                 iupacs[id] = iupac
     return iupacs
 
-def create_and_run_treehmm(glycan:Glycan, number_state, possible_emissions):
+
+# Method create foreset iputs from a dict collection of glycans
+# Input:
+#   glycans_dict: dict of glycans
+# Return:
+#   joint_adj_matrix - joint adjcent matrix 
+#   joint_emissions - joint emissions
+def create_forest_inputs(glycans_dict:Dict[int, str]):
+    adj_matrices = []
+    joint_emissions = []
+    for id in glycans_dict:
+        glyan = glycans_dict[id]
+        #print(glyan.get_adj_matrix())
+        adj_matrices.append(glyan.get_adj_matrix())
+        joint_emissions = joint_emissions + glyan.get_emssions()
+    joint_adj_matrix = block_diag(*adj_matrices)
+    return joint_adj_matrix, joint_emissions
+
+def create_and_run_treehmm_for_one_glycan(glycan:Glycan, number_state, possible_emissions, init_trans_matrix, init_emission_matrix):
     sample_tree = glycan.get_adj_matrix()
 
     # Declaring the emission_observation list
@@ -30,21 +52,21 @@ def create_and_run_treehmm(glycan:Glycan, number_state, possible_emissions):
     #states = ['P','N']
     # create states
     states = [ str(i) for i in range(number_state)]
-    emissions = []
-    for i in range(number_state):
-        emissions.append(possible_emissions)
+    emissions = [possible_emissions]
 
-    print(sample_tree)
-    print(states)
-    print(emissions)
-    print(emission_observation)
+    #print(sample_tree)
+    #print(states)
+    #print(init_emission_matrix)
+    #print(emission_observation)
+    
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
-    hmm = initHMM.initHMM(states, emissions, sample_tree)
+    hmm = initHMM.initHMM(states, emissions, sample_tree, state_transition_probabilities = init_trans_matrix, emission_probabilities = init_emission_matrix)
 
     # The baumWelch part: To find the new parameters and result statistics
     newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
-
-    print("newparam :", newparam)
+    print(newparam["Emission_Matrix"][0])
+    print(newparam["Emission_Matrix"][0].to_numpy())
+    return newparam["Transition_Matrix"], newparam["Emission_Matrix"][0].to_numpy()
 
 if __name__ == "__main__":
     #pass
@@ -55,15 +77,38 @@ if __name__ == "__main__":
     gylcans = {}
     
     monos = []
+    counts = {}
     for id in iupacs:
         inpuac_text = iupacs[id]
-        #print(inpuac_text)
-        gylcans[id] = Glycan(inpuac_text)
-        mono = gylcans[id].get_emssions()
-        monos += mono
+        gylcan = Glycan(inpuac_text)
+        if gylcan.get_num_mono() > 1:
+            gylcans[id] = gylcan
+            mono = gylcans[id].get_emssions()
+            monos += mono
+            mono_count = gylcans[id].get_num_mono()
+            #print(gylcans[id].get_emssions())
+            if mono_count not in counts:
+                counts[mono_count] = 0
+            counts[mono_count] += 1
     emissions = list(set(monos))
 
+    #print(counts)
     #go over each gylcans
-    id = '60'
-    if gylcans[id].get_num_mono() > 1:
-        create_and_run_treehmm(gylcans[id], 2, emissions)
+    trans_matrix = None
+    emission_matrix = None
+    create_forest_inputs(gylcans)
+    #len(emissions)
+    #print(emissions)
+    #trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan2(gylcans['21'], 10, emissions, trans_matrix)
+    #trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan(gylcans['21'], 2, emissions, trans_matrix, emission_matrix)
+    #print(trans_matrix)
+    #print(emission_matrix)
+    
+    '''
+    for id in gylcans:
+        if gylcans[id].get_num_mono() > 1 and id > 50:
+            print('Process: {}'.format(id))
+            trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan(gylcans[id], 4, emissions, trans_matrix, emission_matrix)
+            print(trans_matrix)
+            print(emission_matrix)
+    '''
