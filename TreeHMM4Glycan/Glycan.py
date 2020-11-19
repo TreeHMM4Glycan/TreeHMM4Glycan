@@ -1,52 +1,52 @@
 import re
 import numpy as np
-from typing import List
+from typing import List, Dict
 
 class Node(object):
-    def __init__(self, id, parent_id, monosaccharide_type = None, modification = None, linkage_type = None, remaning_text = None) -> None:
+    def __init__(self, id:int, parent_id:int, monosaccharide_type:str = None, modification:str = None, linkage_type:str = None, remaning_text:str = None) -> None:
         # idx in the node list
-        self._id = id
-        self._parent_id = parent_id
-        self._modification_type = modification
-        self._monosaccharide_type = monosaccharide_type
-        self._linkage_type = linkage_type
-        self._remaning_text = remaning_text
-        self._children = []
+        self._id:int = id
+        self._parent_id:int = parent_id
+        self._modification_type:str = modification
+        self._monosaccharide_type:str = monosaccharide_type
+        self._linkage_type:str = linkage_type
+        self._remaning_text:str = remaning_text
+        self._children:List['Node'] = []
     
     def __str__(self):
         return '{}, {}, {} ,{}, {}'.format(self._id, self._remaning_text, self._monosaccharide_type, self._modification, self._linkage_type)
 
-    def set_monosaccharide_type(self, monosaccharide_type):
+    def set_monosaccharide_type(self, monosaccharide_type:str):
         self._monosaccharide_type = monosaccharide_type
 
-    def get_monosaccharide_type(self):
+    def get_monosaccharide_type(self) -> str:
         return self._monosaccharide_type
 
-    def set_linkage_type(self, linkage_type):
+    def set_linkage_type(self, linkage_type:str):
         self._linkage_type = linkage_type
 
-    def get_linkage_type(self):
+    def get_linkage_type(self) -> str:
         return self._linkage_type
 
-    def set_modification_type(self, modification_type):
+    def set_modification_type(self, modification_type:str):
         self._modification_type = modification_type
 
-    def get_modification_type(self):
+    def get_modification_type(self) -> str:
         return self._modification_type
     
-    def add_child(self, child_node):
+    def add_child(self, child_node:'Node'):
         self._children.append(child_node)
         
-    def get_children(self) -> List:
+    def get_children(self) -> List['Node']:
         return self._children
         
-    def get_remaning_text(self):
+    def get_remaning_text(self) -> str:
         return self._remaning_text
 
-    def get_parent_id(self):
+    def get_parent_id(self) -> int:
         return self._parent_id
     
-    def get_id(self):
+    def get_id(self) -> int:
         return self._id
 
 class Glycan(object):
@@ -57,9 +57,9 @@ class Glycan(object):
             (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-[0-9]+\))?$''', re.VERBOSE)
 
     def __init__(self, iupac_text:str) -> None:
-        self._nodes = []
-        self._adj_matrix = None
-        self._adj_list = {} # adj list is dict
+        self._nodes:List[Node] = []
+        self._adj_matrix:np.ndarray = None
+        self._adj_list:Dict[int, List[int]] = {} # adj list is dict
         self.glycan_from_iupac(iupac_text)
 
     def _add_end_nodes(self, node:Node):
@@ -73,25 +73,25 @@ class Glycan(object):
             for child in node.get_children():
                 self._add_end_nodes(child)
 
-    def get_adj_list(self):
+    def get_adj_list(self) -> Dict[int, List[int]]:
         return self._adj_list
 
-    def get_root(self):
+    def get_root(self) -> Node:
         return self._nodes[0]
     
-    def get_monosaccharide_emssions(self):
+    def get_monosaccharide_emssions(self) -> List[str]:
         return [node.get_monosaccharide_type() for node in self._nodes]
 
-    def get_linkage_emssions(self):
+    def get_linkage_emssions(self) -> List[str]:
         return [node.get_linkage_type() for node in self._nodes]
 
-    def get_modification_emssions(self):
+    def get_modification_emssions(self) -> List[str]:
         return [node.get_modification_type() for node in self._nodes]
 
     #def get_monosaccharide_emssions_with_linkage(self):
     #    return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_monosaccharide_type()) for node in self._nodes]
 
-    def get_adj_matrix(self):
+    def get_adj_matrix(self) -> np.ndarray:
         adj_matrix = np.zeros((len(self._nodes),len(self._nodes))).astype(int)
         for from_id in self._adj_list:
             for to_id in self._adj_list[from_id]:

@@ -1,10 +1,9 @@
-from re import VERBOSE
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from treehmm import initHMM, baumWelch
 from TreeHMM4Glycan.Glycan import Glycan
 import csv
 from scipy.linalg import block_diag
-import copy
+import numpy as np
 import re
 
 #
@@ -33,7 +32,7 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
 #   joint_adj_matrix - joint adjcent matrix 
 #   joint_monosaccharide_emissions - joint emissions for monosaccharides types
 #   joint_linkage_emissions - joint emissions for linkage types
-def create_forest_inputs(glycans_dict:Dict[int, Glycan]):
+def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     adj_matrices = []
     joint_monosaccharide_emissions = []
     joint_linkage_emissions = []
