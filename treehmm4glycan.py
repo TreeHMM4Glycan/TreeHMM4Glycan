@@ -24,56 +24,63 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
                 iupacs[id] = iupac
     return iupacs
 
+# method to get a dict of glycans form input iupac snfg
+def get_glycans(iupacs:Dict[int, str]) -> Dict[int, Glycan]:
+    gylcans_dict = {}
+    for id in iupacs:
+        inpuac_text = iupacs[id]
+        gylcan = Glycan(inpuac_text)
+        gylcans_dict[id] = gylcan
+    return gylcans_dict
 
 # Method create foreset iputs from a dict collection of glycans
 # Input:
 #   glycans_dict: dict of glycans
 # Return:
 #   joint_adj_matrix - joint adjcent matrix 
-#   joint_monosaccharide_emissions - joint emissions for monosaccharides types
-#   joint_linkage_emissions - joint emissions for linkage types
+#   joint_monosaccharide_emission_observations - joint emissions for monosaccharides types
+#   joint_linkage_emission_observations - joint emissions for linkage types
 def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     adj_matrices = []
-    joint_monosaccharide_emissions = []
-    joint_linkage_emissions = []
+    joint_monosaccharide_emission_observations = []
+    joint_linkage_emission_observations = []
     for id in glycans_dict:
         glyan = glycans_dict[id]
         # update list of adj_matrices we are going to join along the diagonal
         adj_matrices.append(glyan.get_adj_matrix())
-        # update joint_monosaccharide_emissions and joint_linkage_emissions
-        joint_monosaccharide_emissions = joint_monosaccharide_emissions + glyan.get_monosaccharide_emssions()
-        joint_linkage_emissions = joint_linkage_emissions + glyan.get_linkage_emssions()
+        # update joint_monosaccharide_emission_observations and joint_linkage_emission_observations
+        joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_monosaccharide_emssions()
+        joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_linkage_emssions()
     # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
-    return joint_adj_matrix, joint_monosaccharide_emissions, joint_linkage_emissions
+    return joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
 
-def create_and_train_treehmm(joint_adj_matrix, joint_emissions, number_state, possible_emissions):
-    # TODO : add random init for both state trans matrix and emission matrix
+# Method learn a treehmm from a forset
+# Input:
+#   joint_adj_matrix - joint adjcent matrix 
+#   joint_emissions_observations - emissions observations for this foreset N * M, N is the number of emissions group eg,monosaccharide, linkage,
+#       M is number of emssions groups eg.  monosaccharide_emissions for group 1 and linkage_emissions for group 2
+#   number_state - number of states
+#   possible_emissions -  possible_ emissions for this foreset N * M, N is the number of emissions group eg,monosaccharide, linkage, 
+#       M is number of emssions groups   eg.  monosaccharide_emissions for group 1 and linkage_emissions for group 2
+def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, joint_emissions_observations:List[List[str]], possible_emissions :List[List[str]], 
+                            max_iterations=50, delta=1e-5):
     sample_tree = joint_adj_matrix
 
-    # Declaring the emission_observation list
-    emission_observation = [joint_emissions]
-    
-    #states = ['P','N']
+    #   TODO : add random init for both state trans matrix and emission matrix, this can be done with this method or outside, or we can change TreeHMM src to add a random init
     # create states
     states = [ str(i) for i in range(number_state)]
-    emissions = [possible_emissions]
-
-    #print(sample_tree)
-    #print(states)
-    #print(init_emission_matrix)
-    #print(emission_observation)
     
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
-    hmm = initHMM.initHMM(states, emissions, sample_tree)
+    hmm = initHMM.initHMM(states, possible_emissions, sample_tree)
 
     # The baumWelch part: To find the new parameters and result statistics
-    newparam = baumWelch.hmm_train_and_test(hmm, emission_observation)
+    newparam = baumWelch.hmm_train_and_test(hmm, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
     #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
 
     print(newparam["Emission_Matrix"][0])
     print(newparam["Emission_Matrix"][0].to_numpy())
-    return newparam["Transition_Matrix"], newparam["Emission_Matrix"][0].to_numpy()
+    return newparam
 
 if __name__ == "__main__":
     #pass
@@ -81,41 +88,19 @@ if __name__ == "__main__":
     
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    gylcans = {}
+    gylcans = get_glycans(iupacs)
     
-    monos = []
-    counts = {}
-    for id in iupacs:
-        inpuac_text = iupacs[id]
-        gylcan = Glycan(inpuac_text)
-        if gylcan.get_num_nosaccharides() > 1:
-            gylcans[id] = gylcan
-            mono = gylcans[id].get_monosaccharide_emssions()
-            monos += mono
-            mono_count = gylcans[id].get_num_nosaccharides()
-            #print(gylcans[id].get_monosaccharide_emssions())
-            if mono_count not in counts:
-                counts[mono_count] = 0
-            counts[mono_count] += 1
-    emissions = list(set(monos))
+    joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
 
-    #print(counts)
-    #go over each gylcans
-    trans_matrix = None
-    emission_matrix = None
-    create_forest_inputs(gylcans)
-    #len(emissions)
-    #print(emissions)
-    #trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan2(gylcans['21'], 10, emissions, trans_matrix)
-    #trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan(gylcans['21'], 2, emissions, trans_matrix, emission_matrix)
-    #print(trans_matrix)
-    #print(emission_matrix)
-    
-    '''
-    for id in gylcans:
-        if gylcans[id].get_num_nosaccharides() > 1 and id > 50:
-            print('Process: {}'.format(id))
-            trans_matrix, emission_matrix = create_and_run_treehmm_for_one_glycan(gylcans[id], 4, emissions, trans_matrix, emission_matrix)
-            print(trans_matrix)
-            print(emission_matrix)
-    '''
+    possible_monosaccharide_emissions = list(set(joint_monosaccharide_emission_observations))
+    possible_linkage_emissions = list(set(joint_linkage_emission_observations))
+
+    # we only use monosaccharide
+    joint_emissions_observations = [joint_monosaccharide_emission_observations]
+    possible_emissions = [possible_monosaccharide_emissions]
+
+    # if we want to use both of them
+    #joint_emissions_observations = [joint_monosaccharide_emission_observations, joint_linkage_emission_observations]
+    #possible_emissions = [possible_monosaccharide_emissions, possible_linkage_emissions]
+    num_state = 6
+    create_and_train_treehmm(joint_adj_matrix, num_state, joint_emissions_observations, possible_emissions)
