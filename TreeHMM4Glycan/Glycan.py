@@ -1,52 +1,52 @@
 import re
 import numpy as np
-from typing import List
+from typing import List, Dict
 
 class Node(object):
-    def __init__(self, id, parent_id, mono_type = None, modification = None, linkage_type = None, remaning_text = None) -> None:
+    def __init__(self, id:int, parent_id:int, monosaccharide_type:str = None, modification:str = None, linkage_type:str = None, remaning_text:str = None) -> None:
         # idx in the node list
-        self._id = id
-        self._parent_id = parent_id
-        self._modification_type = modification
-        self._mono_type = mono_type
-        self._linkage_type = linkage_type
-        self._remaning_text = remaning_text
-        self._children = []
+        self._id:int = id
+        self._parent_id:int = parent_id
+        self._modification_type:str = modification
+        self._monosaccharide_type:str = monosaccharide_type
+        self._linkage_type:str = linkage_type
+        self._remaning_text:str = remaning_text
+        self._children:List['Node'] = []
     
     def __str__(self):
-        return '{}, {}, {} ,{}, {}'.format(self._id, self._remaning_text, self._mono_type, self._modification, self._linkage_type)
+        return '{}, {}, {} ,{}, {}'.format(self._id, self._remaning_text, self._monosaccharide_type, self._modification, self._linkage_type)
 
-    def set_mono_type(self, mono_type):
-        self._mono_type = mono_type
+    def set_monosaccharide_type(self, monosaccharide_type:str):
+        self._monosaccharide_type = monosaccharide_type
 
-    def get_mono_type(self):
-        return self._mono_type
+    def get_monosaccharide_type(self) -> str:
+        return self._monosaccharide_type
 
-    def set_linkage_type(self, linkage_type):
+    def set_linkage_type(self, linkage_type:str):
         self._linkage_type = linkage_type
 
-    def get_linkage_type(self):
+    def get_linkage_type(self) -> str:
         return self._linkage_type
 
-    def set_modification_type(self, modification_type):
+    def set_modification_type(self, modification_type:str):
         self._modification_type = modification_type
 
-    def get_modification_type(self):
+    def get_modification_type(self) -> str:
         return self._modification_type
     
-    def add_child(self, child_node):
+    def add_child(self, child_node:'Node'):
         self._children.append(child_node)
         
-    def get_children(self) -> List:
+    def get_children(self) -> List['Node']:
         return self._children
         
-    def get_remaning_text(self):
+    def get_remaning_text(self) -> str:
         return self._remaning_text
 
-    def get_parent_id(self):
+    def get_parent_id(self) -> int:
         return self._parent_id
     
-    def get_id(self):
+    def get_id(self) -> int:
         return self._id
 
 class Glycan(object):
@@ -57,15 +57,15 @@ class Glycan(object):
             (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-[0-9]+\))?$''', re.VERBOSE)
 
     def __init__(self, iupac_text:str) -> None:
-        self._nodes = []
-        self._adj_matrix = None
-        self._adj_list = {} # adj list is dict
+        self._nodes:List[Node] = []
+        self._adj_matrix:np.ndarray = None
+        self._adj_list:Dict[int, List[int]] = {} # adj list is dict
         self.glycan_from_iupac(iupac_text)
 
     def _add_end_nodes(self, node:Node):
         if len(node.get_children()) == 0:
             new_node_id = len(self._nodes)
-            end_node = Node(new_node_id, node.get_id(), mono_type= 'End', linkage_type= 'void')
+            end_node = Node(new_node_id, node.get_id(), monosaccharide_type= 'End', linkage_type= 'End-Linkage')
             node.add_child(end_node)
             self._nodes.append(end_node)
             self._update_adj_list_after_add_node(node.get_id(), new_node_id)
@@ -73,19 +73,25 @@ class Glycan(object):
             for child in node.get_children():
                 self._add_end_nodes(child)
 
-    def get_adj_list(self):
+    def get_adj_list(self) -> Dict[int, List[int]]:
         return self._adj_list
 
-    def get_root(self):
+    def get_root(self) -> Node:
         return self._nodes[0]
     
-    def get_emssions(self):
-        return [node.get_mono_type() for node in self._nodes]
+    def get_monosaccharide_emssions(self) -> List[str]:
+        return [node.get_monosaccharide_type() for node in self._nodes]
 
-    def get_emssions_with_linkage(self):
-        return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_mono_type()) for node in self._nodes]
+    def get_linkage_emssions(self) -> List[str]:
+        return [node.get_linkage_type() for node in self._nodes]
 
-    def get_adj_matrix(self):
+    def get_modification_emssions(self) -> List[str]:
+        return [node.get_modification_type() for node in self._nodes]
+
+    #def get_monosaccharide_emssions_with_linkage(self):
+    #    return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_monosaccharide_type()) for node in self._nodes]
+
+    def get_adj_matrix(self) -> np.ndarray:
         adj_matrix = np.zeros((len(self._nodes),len(self._nodes))).astype(int)
         for from_id in self._adj_list:
             for to_id in self._adj_list[from_id]:
@@ -116,6 +122,7 @@ class Glycan(object):
         #iupac_text = re.sub(r"\((\d*|\?)->?$", "", iupac_text)
         #new_branch_open = re.compile(r"(\]-?)$")
         root = Node(0, -1, remaning_text = iupac_text)
+        root.set_linkage_type('Root-Linkage')
         self._nodes.append(root)
         node_stack = [root]
 
@@ -146,14 +153,14 @@ class Glycan(object):
                 # extact node and edge info from text
                 match = self.pattern.search(current_iupac_text)
                 if match:
-                    mono_type = match.group('base_type') if match.group('base_type') else ''
-                    current_node.set_mono_type(mono_type)
+                    monosaccharide_type = match.group('base_type') if match.group('base_type') else ''
+                    current_node.set_monosaccharide_type(monosaccharide_type)
                     linkage_type = match.group('linkage') if match.group('linkage') else ''
                     current_node.set_linkage_type(linkage_type)
                     modification_type = match.group('modification') if match.group('modification') else ''
                     current_node.set_modification_type(modification_type)
 
-                    #print('mono: {}, modification: {}, linkage: {} '. format(mono_type, modification_type, linkage_type))
+                    #print('mono: {}, modification: {}, linkage: {} '. format(monosaccharide_type, modification_type, linkage_type))
                     remaining_text = current_iupac_text[:match.start()]
                     if len(remaining_text) > 0:
                         #print('add to the stack:' + remaining_text)
@@ -167,5 +174,5 @@ class Glycan(object):
         # add end node and void arc
         self._add_end_nodes(self._nodes[0])
 
-    def get_num_mono(self):
+    def get_num_nosaccharides(self):
         return len(self._nodes)
