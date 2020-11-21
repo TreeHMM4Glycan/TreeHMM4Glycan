@@ -14,6 +14,14 @@ Install Conda
 
     conda env update --file environment.yml  --prune
 
+### Update from git
+    
+    git pull
+
+### Merge main to your branch
+
+    git merge main
+    
 ## TreeHMM Repos
 
 Our own version [https://github.com/TreeHMM4Glycan/TreeHMM]
