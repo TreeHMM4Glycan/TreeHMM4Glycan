@@ -6,6 +6,7 @@ from scipy.linalg import block_diag
 import numpy as np
 import re
 import argparse
+from scipy.sparse.csr import csr_matrix
 
 #
 # Method read a file and then retunr a Dict of iupac names
@@ -66,17 +67,18 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
 #       M is number of emssions groups   eg.  monosaccharide_emissions for group 1 and linkage_emissions for group 2
 def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, joint_emissions_observations:List[List[str]], possible_emissions :List[List[str]], 
                             max_iterations=50, delta=1e-5):
-    sample_tree = joint_adj_matrix
+
+    forest = csr_matrix(joint_adj_matrix)
 
     #   TODO : add random init for both state trans matrix and emission matrix, this can be done with this method or outside, or we can change TreeHMM src to add a random init
     # create states
     states = [ str(i) for i in range(number_state)]
     
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
-    hmm = initHMM.initHMM(states, possible_emissions, sample_tree)
+    hmm = initHMM.initHMM(states, possible_emissions)
 
     # The baumWelch part: To find the new parameters and result statistics
-    newparam = baumWelch.hmm_train_and_test(hmm, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
+    newparam = baumWelch.hmm_train_and_test(hmm, forest, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
     #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
 
     print(newparam["Emission_Matrix"][0])
@@ -84,7 +86,7 @@ def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, join
     return newparam
 
 if __name__ == "__main__":
-    
+
     # get arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--num_states', help='num of hidden states', type = int, default = 2)
