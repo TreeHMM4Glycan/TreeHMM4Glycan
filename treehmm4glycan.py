@@ -5,6 +5,7 @@ import csv
 from scipy.linalg import block_diag
 import numpy as np
 import re
+import argparse
 
 #
 # Method read a file and then retunr a Dict of iupac names
@@ -83,9 +84,17 @@ def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, join
     return newparam
 
 if __name__ == "__main__":
-    #pass
-    #example1()
     
+    # get arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--num_states', help='num of hidden states', type = int, default = 2)
+    parser.add_argument('--include_linkage', help='0 for no, 1 for yes', type = int, default = 0)
+    args = parser.parse_args()
+
+    num_states = args.num_states
+    include_linkage = True if args.include_linkage > 0 else False
+
+    # read iupac and get gylcans
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
     gylcans = get_glycans(iupacs)
@@ -96,11 +105,12 @@ if __name__ == "__main__":
     possible_linkage_emissions = list(set(joint_linkage_emission_observations))
 
     # we only use monosaccharide
-    joint_emissions_observations = [joint_monosaccharide_emission_observations]
-    possible_emissions = [possible_monosaccharide_emissions]
-
+    if not include_linkage:
+        joint_emissions_observations = [joint_monosaccharide_emission_observations]
+        possible_emissions = [possible_monosaccharide_emissions]
+    else:
     # if we want to use both of them
-    #joint_emissions_observations = [joint_monosaccharide_emission_observations, joint_linkage_emission_observations]
-    #possible_emissions = [possible_monosaccharide_emissions, possible_linkage_emissions]
-    num_state = 6
-    create_and_train_treehmm(joint_adj_matrix, num_state, joint_emissions_observations, possible_emissions)
+        joint_emissions_observations = [joint_monosaccharide_emission_observations, joint_linkage_emission_observations]
+        possible_emissions = [possible_monosaccharide_emissions, possible_linkage_emissions]
+ 
+    create_and_train_treehmm(joint_adj_matrix, num_states, joint_emissions_observations, possible_emissions)
