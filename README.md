@@ -14,7 +14,7 @@ Install Conda
 
     conda env update --file environment.yml  --prune
 
-### Update from git - Commit or statsh your change before this
+### Update from git - Commit or stash your change before this
     
     git pull
 
