@@ -57,6 +57,20 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
     return binding_train, binding_test, nonbinding_train, nonbinding_test
 
 
+def prepare_data(training_data):
+    glycans_train = {}
+
+    for i in range(len(training_data)):
+        iupac_text = training_data[i]
+        iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
+        glycans_train[i]= Glycan(iupac)
+
+
+    adj_matrix, mono_emissions, link_emissions = create_forest_inputs(glycans_train)
+    parse_matrix_adj_matrix = csr_matrix(adj_matrix)
+    return parse_matrix_adj_matrix, mono_emissions, link_emissions
+    #nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,random_init_emission_probabilities=True)
+
 def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e-5, random_seed=None):
     """Train GlyNet using n-fold cross-validation.
     """
@@ -92,24 +106,8 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         logging.info('*' * 50)
         logging.info('Training and testing in {} folds'.format(fold_iter))
         # prepare glycans dictionary
-        glycans_bind_train = {}
-        glycans_nonbind_train = {}
-        for i in range(len(bind_train)):
-            iupac_text = bind_train[i]
-            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_bind_train = Glycan(iupac)
-            glycans_bind_train[i] = glycan_bind_train
-
-        for i in range(len(nonbind_train)):
-            iupac_text = nonbind_train[i]
-            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_nonbind_train = Glycan(iupac)
-            glycans_nonbind_train[i] = glycan_nonbind_train
-
-        bind_adj_matrix, bind_mono_emission, bind_link_emission = create_forest_inputs(glycans_bind_train)
-        nonbind_adj_matrix, nonbind_mono_emission, nonbind_link_emission = create_forest_inputs(glycans_nonbind_train)
-        bind_parse_matrix = csr_matrix(bind_adj_matrix)
-        nonbind_parse_matrix = csr_matrix(nonbind_adj_matrix)
+        bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
+        nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
 
         binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
                                       random_init_emission_probabilities=True)

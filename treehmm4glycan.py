@@ -48,17 +48,22 @@ def get_glycans(iupacs:Dict[int, str]) -> Tuple[Dict[int, Glycan], List[str], Li
 #   glycans_dict: dict of glycans
 # Return:
 #   joint_adj_matrix - joint adjcent matrix 
+#   joint_monosaccharide_emission_observations - joint emissions for monosaccharides types
+#   joint_linkage_emission_observations - joint emissions for linkage types
 def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     adj_matrices = []
-
+    joint_monosaccharide_emission_observations = []
+    joint_linkage_emission_observations = []
     for id in glycans_dict:
         glyan = glycans_dict[id]
         # update list of adj_matrices we are going to join along the diagonal
         adj_matrices.append(glyan.get_adj_matrix())
-
+        # update joint_monosaccharide_emission_observations and joint_linkage_emission_observations
+        joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_monosaccharide_emssions()
+        joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_linkage_emssions()
     # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
-    return joint_adj_matrix  #, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
+    return joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
 
 # Method learn a treehmm from a forset
 # Input:
@@ -82,8 +87,8 @@ def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, join
     newparam = baumWelch.hmm_train_and_test(hmm, forest, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
     #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
 
-    print(newparam["Emission_Matrix"][0])
-    print(newparam["Emission_Matrix"][0].to_numpy())
+    #print(newparam["Emission_Matrix"][0])
+    #print(newparam["Emission_Matrix"][0].to_numpy())
     return newparam
 
 if __name__ == "__main__":
@@ -100,12 +105,12 @@ if __name__ == "__main__":
     # read iupac and get gylcans
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    gylcans, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = get_glycans(iupacs)
+    gylcans, monosaccharide_emission_observations, linkage_emission_observations = get_glycans(iupacs)
     
-    joint_adj_matrix = create_forest_inputs(gylcans)
+    joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
 
-    possible_monosaccharide_emissions = list(set(joint_monosaccharide_emission_observations))
-    possible_linkage_emissions = list(set(joint_linkage_emission_observations))
+    possible_monosaccharide_emissions = list(set(monosaccharide_emission_observations))
+    possible_linkage_emissions = list(set(linkage_emission_observations))
 
     # we only use monosaccharide
     if not include_linkage:
