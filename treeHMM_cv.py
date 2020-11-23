@@ -190,8 +190,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # build results folder
-    os.makedirs('./results', exist_ok= True)
-    args.save = './results/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
+    os.makedirs('./Results', exist_ok= True)
+    args.save = './Results/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
 
     log_format = '%(asctime)s %(message)s'
     logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=log_format, datefmt='%m/%d %I:%M:%S %p')
