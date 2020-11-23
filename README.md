@@ -15,7 +15,7 @@ Install Conda
     conda env update --file environment.yml  --prune
 
 ### Update from git
-    
+
     git pull
 
 ### Merge main to your branch

@@ -27,35 +27,38 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
     return iupacs
 
 # method to get a dict of glycans form input iupac snfg
-def get_glycans(iupacs:Dict[int, str]) -> Dict[int, Glycan]:
+def get_glycans(iupacs:Dict[int, str]) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
     gylcans_dict = {}
+    monos = []
+    links = []
     for id in iupacs:
         inpuac_text = iupacs[id]
         gylcan = Glycan(inpuac_text)
         gylcans_dict[id] = gylcan
-    return gylcans_dict
+        monos += gylcan.get_monosaccharide_emssions()
+        links += gylcan.get_linkage_emssions()
+
+    mono_emissions = list(set(monos))
+    link_emissions = list(set(links))
+
+    return gylcans_dict, mono_emissions, link_emissions
 
 # Method create foreset iputs from a dict collection of glycans
 # Input:
 #   glycans_dict: dict of glycans
 # Return:
 #   joint_adj_matrix - joint adjcent matrix 
-#   joint_monosaccharide_emission_observations - joint emissions for monosaccharides types
-#   joint_linkage_emission_observations - joint emissions for linkage types
 def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     adj_matrices = []
-    joint_monosaccharide_emission_observations = []
-    joint_linkage_emission_observations = []
+
     for id in glycans_dict:
         glyan = glycans_dict[id]
         # update list of adj_matrices we are going to join along the diagonal
         adj_matrices.append(glyan.get_adj_matrix())
-        # update joint_monosaccharide_emission_observations and joint_linkage_emission_observations
-        joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_monosaccharide_emssions()
-        joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_linkage_emssions()
+
     # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
-    return joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
+    return joint_adj_matrix  #, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
 
 # Method learn a treehmm from a forset
 # Input:
@@ -65,12 +68,10 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
 #   number_state - number of states
 #   possible_emissions -  possible_ emissions for this foreset N * M, N is the number of emissions group eg,monosaccharide, linkage, 
 #       M is number of emssions groups   eg.  monosaccharide_emissions for group 1 and linkage_emissions for group 2
-def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, joint_emissions_observations:List[List[str]], possible_emissions :List[List[str]], 
+def create_and_train_treehmm(joint_adj_matrix:np.ndarray, number_state:int, joint_emissions_observations:List[List[str]], possible_emissions :List[List[str]],
                             max_iterations=50, delta=1e-5):
 
     forest = csr_matrix(joint_adj_matrix)
-
-    #   TODO : add random init for both state trans matrix and emission matrix, this can be done with this method or outside, or we can change TreeHMM src to add a random init
     # create states
     states = [ str(i) for i in range(number_state)]
     
@@ -99,9 +100,9 @@ if __name__ == "__main__":
     # read iupac and get gylcans
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    gylcans = get_glycans(iupacs)
+    gylcans, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = get_glycans(iupacs)
     
-    joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
+    joint_adj_matrix = create_forest_inputs(gylcans)
 
     possible_monosaccharide_emissions = list(set(joint_monosaccharide_emission_observations))
     possible_linkage_emissions = list(set(joint_linkage_emission_observations))

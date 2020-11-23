@@ -134,3 +134,6 @@ dmypy.json
 #conda install
 ./src
 ./src/*
+
+#not include results folder
+./results
