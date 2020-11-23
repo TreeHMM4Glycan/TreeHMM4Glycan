@@ -18,7 +18,7 @@ from scipy.special import logsumexp
 
 # Global variables for hyper params selection and logging
 parser = argparse.ArgumentParser('Glycan TreeHMM')
-parser.add_argument('--use_edge', type=bool, default=False, help='whether use link information as part of the features')
+parser.add_argument('--use_edge', type=bool, default=True, help='whether use link information as part of the features')
 parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
 parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
 parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
@@ -74,13 +74,19 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
         strong_binding_train.append([strong_binding[i] for i in strong_binding_train_idx.tolist()])
         strong_binding_test.append([strong_binding[i] for i in strong_binding_test_idx.tolist()])
 
-    nonbinding_train = []
-    nonbinding_test = []
-    for nonbinding_train_idx, nonbinding_test_idx in nonbinding_kf.split(nonbinding):
-        nonbinding_train.append([nonbinding[i] for i in nonbinding_train_idx.tolist()])
-        nonbinding_test.append([nonbinding[i] for i in nonbinding_test_idx.tolist()])
+    mid_binding_train = []
+    mid_binding_test = []
+    for mid_binding_train_idx, mid_binding_test_idx, in mid_binding_kf.split(mid_binding):
+        mid_binding_train.append([mid_binding[i] for i in mid_binding_train_idx.tolist()])
+        mid_binding_test.append([mid_binding[i] for i in mid_binding_test_idx.tolist()])
 
-    return binding_train, binding_test, nonbinding_train, nonbinding_test
+    weak_binding_train = []
+    weak_binding_test = []
+    for weak_binding_train_idx, weak_binding_test_idx in weak_binding_kf.split(weak_binding):
+        weak_binding_train.append([weak_binding[i] for i in weak_binding_train_idx.tolist()])
+        weak_binding_test.append([weak_binding[i] for i in weak_binding_test_idx.tolist()])
+
+    return strong_binding_train, strong_binding_test, mid_binding_train, mid_binding_test, weak_binding_train, weak_binding_test
 
 
 def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e-5, random_seed=None):
@@ -124,62 +130,80 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
     # Prepare data
     data, col_names = get_data()
     target_protein = 'AAL (100 ug/ml)'
-    binding_train, binding_test, nonbinding_train, nonbinding_test = n_fold(data, col_names, target_protein,
-                                                                            num_folds=n_folds, seed=random_seed)
-    for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
-                                                                                         nonbinding_train,
-                                                                                         nonbinding_test)):
+    strong_bind_train, strong_bind_test, mid_bind_train, mid_bind_test, weak_bind_train, weak_bind_test = \
+        n_fold(data, col_names, target_protein, num_folds=n_folds, seed=random_seed)
+    for fold_iter, (strong_train, strong_test, mid_train, mid_test, weak_train, weak_test) in enumerate(
+            zip(strong_bind_train, strong_bind_test, mid_bind_train, mid_bind_test, weak_bind_train, weak_bind_test)):
         logging.info('*' * 50)
         logging.info('Training and testing in {} folds'.format(fold_iter))
         # prepare glycans dictionary
-        glycans_bind_train = {}
-        glycans_nonbind_train = {}
-        for i in range(len(bind_train)):
-            iupac_text = bind_train[i]
+        glycans_strong_train = {}
+        glycans_mid_train = {}
+        glycans_weak_train = {}
+        for i in range(len(strong_train)):
+            iupac_text = strong_train[i]
             iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_bind_train = Glycan(iupac)
-            glycans_bind_train[i] = glycan_bind_train
+            glycan_strong_train = Glycan(iupac)
+            glycans_strong_train[i] = glycan_strong_train
 
-        for i in range(len(nonbind_train)):
-            iupac_text = nonbind_train[i]
+        for i in range(len(mid_train)):
+            iupac_text = mid_train[i]
             iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_nonbind_train = Glycan(iupac)
-            glycans_nonbind_train[i] = glycan_nonbind_train
+            glycan_mid_train = Glycan(iupac)
+            glycans_mid_train[i] = glycan_mid_train
 
-        bind_adj_matrix, bind_mono_emission, bind_link_emission = create_forest_inputs(glycans_bind_train)
-        nonbind_adj_matrix, nonbind_mono_emission, nonbind_link_emission = create_forest_inputs(glycans_nonbind_train)
-        bind_parse_matrix = csr_matrix(bind_adj_matrix)
-        nonbind_parse_matrix = csr_matrix(nonbind_adj_matrix)
+        for i in range(len(weak_train)):
+            iupac_text = weak_train[i]
+            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
+            glycan_weak_train = Glycan(iupac)
+            glycans_weak_train[i] = glycan_weak_train
 
-        binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
-                                      random_init_emission_probabilities=True)
-        nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
-                                         random_init_emission_probabilities=True)
+        strong_adj_matrix, strong_mono_emission, strong_link_emission = create_forest_inputs(glycans_strong_train)
+        mid_adj_matrix, mid_mono_emission, mid_link_emission = create_forest_inputs(glycans_mid_train)
+        weak_adj_matrix, weak_mono_emission, weak_link_emission = create_forest_inputs(glycans_weak_train)
+        strong_parse_matrix = csr_matrix(strong_adj_matrix)
+        mid_parse_matrix = csr_matrix(mid_adj_matrix)
+        weak_parse_matrix = csr_matrix(weak_adj_matrix)
+
+        strong_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
+                                     random_init_emission_probabilities=True)
+        mid_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
+                                  random_init_emission_probabilities=True)
+        weak_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
+                                   random_init_emission_probabilities=True)
 
         if use_edge:
-            bind_emission = [bind_mono_emission, bind_link_emission]
-            nonbind_emission = [nonbind_mono_emission, nonbind_link_emission]
+            strong_emission = [strong_mono_emission, strong_link_emission]
+            mid_emission = [mid_mono_emission, mid_link_emission]
+            weak_emission = [weak_mono_emission, weak_link_emission]
         else:
-            bind_emission = [bind_mono_emission]
-            nonbind_emission = [nonbind_mono_emission]
+            strong_emission = [strong_mono_emission]
+            mid_emission = [mid_mono_emission]
+            weak_emission = [weak_mono_emission]
 
-        bind_param = baumWelch.hmm_train_and_test(copy.deepcopy(binding_hmm), bind_parse_matrix, bind_emission,
+        strong_param = baumWelch.hmm_train_and_test(copy.deepcopy(strong_hmm), strong_parse_matrix, strong_emission,
+                                                    maxIterations=max_iter, delta=delta)
+        mid_param = baumWelch.hmm_train_and_test(copy.deepcopy(mid_hmm), mid_parse_matrix, mid_emission,
+                                                 maxIterations=max_iter, delta=delta)
+        weak_param = baumWelch.hmm_train_and_test(copy.deepcopy(weak_hmm), weak_parse_matrix, weak_emission,
                                                   maxIterations=max_iter, delta=delta)
-        nonbind_param = baumWelch.hmm_train_and_test(copy.deepcopy(nonbinding_hmm), nonbind_parse_matrix, nonbind_emission,
-                                                     maxIterations=max_iter, delta=delta)
 
         # Finished training, reinitialized models with trained params
-        binding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=bind_param['hmm']['state_transition_probabilities'],
-                                              emission_probabilities=bind_param['hmm']['emission_probabilities'])
-        nonbinding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=nonbind_param['hmm']['state_transition_probabilities'],
-                                                 emission_probabilities=nonbind_param['hmm']['emission_probabilities'])
+        strong_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=strong_param['hmm']['state_transition_probabilities'],
+                                             emission_probabilities=strong_param['hmm']['emission_probabilities'])
+        mid_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=mid_param['hmm']['state_transition_probabilities'],
+                                          emission_probabilities=mid_param['hmm']['emission_probabilities'])
+        weak_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=weak_param['hmm']['state_transition_probabilities'],
+                                           emission_probabilities=weak_param['hmm']['emission_probabilities'])
 
-        pickle.dump({'bind_mode_{}'.format(fold_iter): binding_hmm_trained}, pickle_file)
-        pickle.dump({'nonbind_mode_{}'.format(fold_iter): nonbinding_hmm_trained}, pickle_file)
+        pickle.dump({'strong_model_{}'.format(fold_iter): strong_hmm_trained}, pickle_file)
+        pickle.dump({'mid_model_{}'.format(fold_iter): mid_hmm_trained}, pickle_file)
+        pickle.dump({'weak_model_{}'.format(fold_iter): weak_hmm_trained}, pickle_file)
 
-        testset = bind_test + nonbind_test
-        testlabel = [1] * len(bind_test) + [0] * len(nonbind_test)
+        testset = weak_test + mid_test + strong_test
+        testlabel = [0] * len(weak_test) + [1] * len(mid_test) + [2] * len(strong_test)
         testpred = []
+        likelihood_list = []
         for i in range(len(testset)):
             iupac_text = testset[i]
             cv_iupac.append(iupac_text)
@@ -200,14 +224,14 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             # calculate the likelihood
             fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(glycan_sparse_matrix)
 
-            bind_fwd_probs = forward.forward(binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-            nonbind_fwd_probs = forward.forward(nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+            strong_fwd_probs = forward.forward(strong_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+            mid_fwd_probs = forward.forward(mid_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+            weak_fwd_probs = forward.forward(weak_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
 
-            if logsumexp(bind_fwd_probs.iloc[:, -1]) >= logsumexp(nonbind_fwd_probs.iloc[:, -1]):
-                testpred.append(1)
-            else:
-                testpred.append(0)
+            likelihood_list.append([logsumexp(weak_fwd_probs.iloc[:, -1]), logsumexp(mid_fwd_probs.iloc[:, -1]), logsumexp(strong_fwd_probs.iloc[:, -1])])
 
+        ll_array = np.array(likelihood_list)
+        testpred = ll_array.argmax(axis=1).tolist()
         logging.info(classification_report(testlabel, testpred))
         cv_label += testlabel
         cv_pred += testpred
