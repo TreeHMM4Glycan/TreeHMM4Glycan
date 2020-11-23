@@ -1,40 +1,18 @@
-import numpy as np
-import copy
 import re
 import logging
 import sys
 import argparse
 import pickle
 import time
+import os
 import pandas as pd
 from sklearn.model_selection import KFold
-from treehmm4glycan import create_forest_inputs, get_iupcas
+from treehmm4glycan import create_forest_inputs, get_iupcas, get_glycans
 from TreeHMM4Glycan.Glycan import Glycan
 from treehmm import initHMM, baumWelch, forward, fwd_seq_gen
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, classification_report
 from scipy.sparse import csr_matrix
 from scipy.special import logsumexp
-
-
-# Global variables for hyper params selection and logging
-parser = argparse.ArgumentParser('Glycan TreeHMM')
-parser.add_argument('--use_edge', type=bool, default=False, help='whether use link information as part of the features')
-parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
-parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
-parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
-parser.add_argument('--delta', type=float, default=1e-5, help='stop training when difference is less than delta')
-parser.add_argument('--seed', type=int, default=0, help='random seed')
-parser.add_argument('--save', type=str, default='EXP', help='experiment name')
-args = parser.parse_args()
-
-args.save = 'eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
-
-log_format = '%(asctime)s %(message)s'
-logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=log_format, datefmt='%m/%d %I:%M:%S %p')
-fh = logging.FileHandler(args.save + '-log.txt')
-fh.setFormatter(logging.Formatter(log_format))
-logging.getLogger().addHandler(fh)
-
 
 def get_data():
     """Get IUPAC, and MScore.
@@ -79,6 +57,20 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
     return binding_train, binding_test, nonbinding_train, nonbinding_test
 
 
+def prepare_data(training_data):
+    glycans_train = {}
+
+    for i in range(len(training_data)):
+        iupac_text = training_data[i]
+        iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
+        glycans_train[i]= Glycan(iupac)
+
+
+    adj_matrix, mono_emissions, link_emissions = create_forest_inputs(glycans_train)
+    parse_matrix_adj_matrix = csr_matrix(adj_matrix)
+    return parse_matrix_adj_matrix, mono_emissions, link_emissions
+    #nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,random_init_emission_probabilities=True)
+
 def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e-5, random_seed=None):
     """Train GlyNet using n-fold cross-validation.
     """
@@ -95,28 +87,14 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
     # Get total possible number of emissions
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    glycans = {}
+    _, mono_emissions, link_emissions =  get_glycans(iupacs)
 
-    monos = []
-    links = []
-    for id in iupacs:
-        iupac_text = iupacs[id]
-        glycan = Glycan(iupac_text)
-        if glycan.get_num_nosaccharides() > 1:
-            glycans[id] = glycan
-            mono = glycans[id].get_monosaccharide_emssions()
-            link = glycans[id].get_linkage_emssions()
-            monos += mono
-            links += link
-
-    mono_emissions = list(set(monos))
-    link_emissions = list(set(links))
     if use_edge:
         emissions = [mono_emissions, link_emissions]
     else:
         emissions = [mono_emissions]
     states = [str(i) for i in range(1, n_states + 1)]
-
+    
     # Prepare data
     data, col_names = get_data()
     target_protein = 'AAL (100 ug/ml)'
@@ -128,24 +106,8 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         logging.info('*' * 50)
         logging.info('Training and testing in {} folds'.format(fold_iter))
         # prepare glycans dictionary
-        glycans_bind_train = {}
-        glycans_nonbind_train = {}
-        for i in range(len(bind_train)):
-            iupac_text = bind_train[i]
-            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_bind_train = Glycan(iupac)
-            glycans_bind_train[i] = glycan_bind_train
-
-        for i in range(len(nonbind_train)):
-            iupac_text = nonbind_train[i]
-            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_nonbind_train = Glycan(iupac)
-            glycans_nonbind_train[i] = glycan_nonbind_train
-
-        bind_adj_matrix, bind_mono_emission, bind_link_emission = create_forest_inputs(glycans_bind_train)
-        nonbind_adj_matrix, nonbind_mono_emission, nonbind_link_emission = create_forest_inputs(glycans_nonbind_train)
-        bind_parse_matrix = csr_matrix(bind_adj_matrix)
-        nonbind_parse_matrix = csr_matrix(nonbind_adj_matrix)
+        bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
+        nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
 
         binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
                                       random_init_emission_probabilities=True)
@@ -158,10 +120,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         else:
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
-
-        bind_param = baumWelch.hmm_train_and_test(copy.deepcopy(binding_hmm), bind_parse_matrix, bind_emission,
+        
+        bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
                                                   maxIterations=max_iter, delta=delta)
-        nonbind_param = baumWelch.hmm_train_and_test(copy.deepcopy(nonbinding_hmm), nonbind_parse_matrix, nonbind_emission,
+        nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
                                                      maxIterations=max_iter, delta=delta)
 
         # Finished training, reinitialized models with trained params
@@ -215,6 +177,29 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
 
 
 if __name__ == '__main__':
+    
+    # Global variables for hyper params selection and logging
+    parser = argparse.ArgumentParser('Glycan TreeHMM')
+    parser.add_argument('--use_edge', type=bool, default=False, help='whether use link information as part of the features')
+    parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
+    parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
+    parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
+    parser.add_argument('--delta', type=float, default=1e-5, help='stop training when difference is less than delta')
+    parser.add_argument('--seed', type=int, default=0, help='random seed')
+    parser.add_argument('--save', type=str, default='EXP', help='experiment name')
+    args = parser.parse_args()
+
+    # build results folder
+    os.makedirs('./results', exist_ok= True)
+    args.save = './results/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
+
+    log_format = '%(asctime)s %(message)s'
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=log_format, datefmt='%m/%d %I:%M:%S %p')
+    fh = logging.FileHandler(args.save + '-log.txt')
+    fh.setFormatter(logging.Formatter(log_format))
+    logging.getLogger().addHandler(fh)
+
+
     logging.info('args = %s', args)
     train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter=args.max_iter, n_states=args.n_states,
                    delta=args.delta, random_seed=args.seed)
