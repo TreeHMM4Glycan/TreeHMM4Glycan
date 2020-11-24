@@ -104,7 +104,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
                                                                                          nonbinding_train,
                                                                                          nonbinding_test)):
         logging.info('*' * 50)
-        logging.info('Training and testing in {} folds'.format(fold_iter))
+        logging.info('Training and testing in fold #{}'.format(fold_iter))
         # prepare glycans dictionary
         bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
@@ -120,9 +120,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         else:
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
-        
+        logging.info('*Training tree for binding cases*')
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
                                                   maxIterations=max_iter, delta=delta)
+        logging.info('*Training tree for non-binding cases*')
         nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
                                                      maxIterations=max_iter, delta=delta)
 
@@ -166,21 +167,21 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             else:
                 testpred.append(0)
 
-        logging.info(classification_report(testlabel, testpred))
+        logging.info('\n' + classification_report(testlabel, testpred))
         cv_label += testlabel
         cv_pred += testpred
     pickle.dump({'y_label': cv_label, 'y_pred': cv_pred, 'y_iupac': cv_iupac}, pickle_file)
     pickle_file.close()
     logging.info('*' * 50)
     logging.info('Overall performance')
-    logging.info(classification_report(cv_label, cv_pred))
+    logging.info('\n' + classification_report(cv_label, cv_pred))
 
 
 if __name__ == '__main__':
     
     # Global variables for hyper params selection and logging
     parser = argparse.ArgumentParser('Glycan TreeHMM')
-    parser.add_argument('--use_edge', type=bool, default=False, help='whether use link information as part of the features')
+    parser.add_argument('--use_edge', default=False, action='store_true', help='whether use link information as part of the features')
     parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
     parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
     parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
@@ -190,15 +191,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # build results folder
-    os.makedirs('./results', exist_ok= True)
-    args.save = './results/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
+    os.makedirs('./Results', exist_ok= True)
+    args.save = './Results/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
 
     log_format = '%(asctime)s %(message)s'
     logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=log_format, datefmt='%m/%d %I:%M:%S %p')
     fh = logging.FileHandler(args.save + '-log.txt')
     fh.setFormatter(logging.Formatter(log_format))
     logging.getLogger().addHandler(fh)
-
 
     logging.info('args = %s', args)
     train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter=args.max_iter, n_states=args.n_states,
