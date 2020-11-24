@@ -104,7 +104,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
                                                                                          nonbinding_train,
                                                                                          nonbinding_test)):
         logging.info('*' * 50)
-        logging.info('Training and testing in {} folds'.format(fold_iter))
+        logging.info('Training and testing in fold #{}'.format(fold_iter))
         # prepare glycans dictionary
         bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
@@ -173,7 +173,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
     pickle_file.close()
     logging.info('*' * 50)
     logging.info('Overall performance')
-    logging.info(classification_report(cv_label, cv_pred))
+    logging.info('\n' + classification_report(cv_label, cv_pred))
 
 
 if __name__ == '__main__':
@@ -198,7 +198,6 @@ if __name__ == '__main__':
     fh = logging.FileHandler(args.save + '-log.txt')
     fh.setFormatter(logging.Formatter(log_format))
     logging.getLogger().addHandler(fh)
-
 
     logging.info('args = %s', args)
     train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter=args.max_iter, n_states=args.n_states,
