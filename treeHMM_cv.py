@@ -181,7 +181,7 @@ if __name__ == '__main__':
     
     # Global variables for hyper params selection and logging
     parser = argparse.ArgumentParser('Glycan TreeHMM')
-    parser.add_argument('--use_edge', type=bool, default=False, help='whether use link information as part of the features')
+    parser.add_argument('--use_edge', default=False, action='store_true', help='whether use link information as part of the features')
     parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
     parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
     parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
