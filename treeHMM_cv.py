@@ -120,9 +120,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         else:
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
-        
+        logging.info('*Training tree for binding cases*')
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
                                                   maxIterations=max_iter, delta=delta)
+        logging.info('*Training tree for non-binding cases*')
         nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
                                                      maxIterations=max_iter, delta=delta)
 
@@ -166,7 +167,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             else:
                 testpred.append(0)
 
-        logging.info(classification_report(testlabel, testpred))
+        logging.info('\n' + classification_report(testlabel, testpred))
         cv_label += testlabel
         cv_pred += testpred
     pickle.dump({'y_label': cv_label, 'y_pred': cv_pred, 'y_iupac': cv_iupac}, pickle_file)
