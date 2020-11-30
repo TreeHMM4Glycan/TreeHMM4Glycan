@@ -62,6 +62,26 @@ class Glycan(object):
         self._adj_list:Dict[int, List[int]] = {} # adj list is dict
         self.glycan_from_iupac(iupac_text)
 
+    # methods add an end node to the tree
+    # end of each branch are linked to the same end node
+    # because this tree is dircted, this wil create a polytree
+    def _add_end_node(self, root:Node):
+        end_node_id = len(self._nodes)
+        # use -1 as parent id is not used in thi stage 
+        # and we can have more then one parent for end node
+        end_node = Node(end_node_id, -1, monosaccharide_type= 'End', linkage_type= 'End-Linkage')
+        self._nodes.append(end_node)
+        self._add_end_nodes_recursive(root, end_node)
+
+    def _add_end_nodes_recursive (self, node:Node, end_node:Node):
+        if len(node.get_children()) == 0:
+            node.add_child(end_node)
+            self._update_adj_list_after_add_node(node.get_id(), end_node.get_id())
+        else:
+            for child in node.get_children():
+                self._add_end_nodes_recursive(child, end_node)
+
+    # methods add an end node to each end
     def _add_end_nodes(self, node:Node):
         if len(node.get_children()) == 0:
             new_node_id = len(self._nodes)
@@ -101,7 +121,7 @@ class Glycan(object):
             if item in ['(b2-6)','(a2-8)']:
                 emissions[idx] = 'Other'
         return emissions
-        
+
     #def get_monosaccharide_emssions_with_linkage(self):
     #    return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_monosaccharide_type()) for node in self._nodes]
 
@@ -186,7 +206,13 @@ class Glycan(object):
                 # create branch out node and added as a child of current node
                 self._glycan_from_iupac_add_node(current_node, branch_out_text, node_stack, True)
         # add end node and void arc
-        self._add_end_nodes(self._nodes[0])
+        self._add_end_node(self._nodes[0])
 
     def get_num_nosaccharides(self):
         return len(self._nodes)
+
+if __name__ == "__main__":
+    test_input =  'Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)[Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)]Man(b1-4)GlcNAc(b1-4)GlcNAc'
+    glycan = Glycan(test_input)
+    print(glycan.get_filtered_monosaccharide_emssions())
+    print(glycan.get_monosaccharide_emssions())

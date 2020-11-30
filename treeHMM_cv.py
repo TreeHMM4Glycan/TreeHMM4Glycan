@@ -148,8 +148,8 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             # get test data features
             glycan_adj_matrix = glycan_test.get_adj_matrix()
             glycan_sparse_matrix = csr_matrix(glycan_adj_matrix)
-            glycan_mono_emission = glycan_test.get_monosaccharide_emssions()
-            glycan_link_emission = glycan_test.get_linkage_emssions()
+            glycan_mono_emission = glycan_test.get_filtered_monosaccharide_emssions()
+            glycan_link_emission = glycan_test.get_filtered_linkage_emssions()
 
             if use_edge:
                 glycan_emission = [glycan_mono_emission, glycan_link_emission]
