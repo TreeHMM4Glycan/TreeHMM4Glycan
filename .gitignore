@@ -136,5 +136,4 @@ dmypy.json
 ./src/*
 
 #not include results folder
-./Results
-./Results/*
+Results
