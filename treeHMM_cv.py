@@ -111,6 +111,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     target_protein = 'AAL (100 ug/ml)'
     binding_train, binding_test, nonbinding_train, nonbinding_test = n_fold(data, col_names, target_protein,
                                                                             num_folds=n_folds, seed=random_seed)
+    
     for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
                                                                                          nonbinding_train,
                                                                                          nonbinding_test)):
@@ -119,7 +120,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         # compute by chance prob for each class
         by_chance_bind_prob = len(bind_train) / \
             (len(bind_train) + len(nonbind_train))
-        logging.info('By Chance Bind Prob: {}'.format(by_chance_bind_prob))
+        logging.info('By Chance Bind Prob: {:.3f}'.format(by_chance_bind_prob))
         log_by_chance_bind_prob = math.log(by_chance_bind_prob)
         log_by_chance_nobind_prob = math.log(1 - by_chance_bind_prob)
         # prepare glycans dictionary
@@ -140,6 +141,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
 
+        # training new models
         logging.info('*' * 8 + ' Training tree for binding cases ' + '*' * 9)
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
                                                   maxIterations=max_iter_1, delta=delta)
