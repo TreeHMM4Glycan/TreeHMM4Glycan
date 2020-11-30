@@ -88,6 +88,20 @@ class Glycan(object):
     def get_modification_emssions(self) -> List[str]:
         return [node.get_modification_type() for node in self._nodes]
 
+    def get_filtered_monosaccharide_emssions(self)-> List[str]:
+        emissions = self.get_monosaccharide_emssions()
+        for idx, item in enumerate(emissions):
+            if item in ['Neu5Gc','KDN','GlcA']:
+                emissions[idx] = 'Other'
+        return emissions
+
+    def get_filtered_linkage_emssions(self)-> List[str]:
+        emissions = self.get_linkage_emssions()
+        for idx, item in enumerate(emissions):
+            if item in ['(b2-6)','(a2-8)']:
+                emissions[idx] = 'Other'
+        return emissions
+        
     #def get_monosaccharide_emssions_with_linkage(self):
     #    return ['{} {}{}'.format(node.get_linkage_type(),node.get_modification_type(),node.get_monosaccharide_type()) for node in self._nodes]
 
