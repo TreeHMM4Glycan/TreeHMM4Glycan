@@ -71,15 +71,21 @@ def prepare_data(training_data):
     return parse_matrix_adj_matrix, mono_emissions, link_emissions
     #nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,random_init_emission_probabilities=True)
 
-def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e-5, random_seed=None):
+
+def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_iter_2=None, delta=1e-5,
+                   random_seed=None):
     """Train GlyNet using n-fold cross-validation.
     """
     print('Training with hyper parameters:')
-    print('use edge: {}, n_folds: {}, n_states: {}, max_iter: {}, delta: {}, random seed: {}'.
-          format(use_edge, n_folds, n_states, max_iter, delta, random_seed))
+    print('use edge: {}, n_folds: {}, n_states: {}, max_iter_pos: {}, max_iter_neg: {}, delta: {}, random seed: {}'.
+          format(use_edge, n_folds, n_states, max_iter_1, max_iter_2, delta, random_seed))
+
+    if max_iter_2 is None:
+        max_iter_2 = max_iter_1
 
     pickle_file = open(args.save + '-model.pkl', 'wb')
 
+    dict_to_save = {}
     cv_label = []
     cv_pred = []
     cv_iupac = []
@@ -122,10 +128,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             nonbind_emission = [nonbind_mono_emission]
         logging.info('*Training tree for binding cases*')
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
-                                                  maxIterations=max_iter, delta=delta)
+                                                  maxIterations=max_iter_1, delta=delta)
         logging.info('*Training tree for non-binding cases*')
         nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
-                                                     maxIterations=max_iter, delta=delta)
+                                                     maxIterations=max_iter_2, delta=delta)
 
         # Finished training, reinitialized models with trained params
         binding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=bind_param['hmm']['state_transition_probabilities'],
@@ -133,8 +139,8 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         nonbinding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=nonbind_param['hmm']['state_transition_probabilities'],
                                                  emission_probabilities=nonbind_param['hmm']['emission_probabilities'])
 
-        pickle.dump({'bind_mode_{}'.format(fold_iter): binding_hmm_trained}, pickle_file)
-        pickle.dump({'nonbind_mode_{}'.format(fold_iter): nonbinding_hmm_trained}, pickle_file)
+        dict_to_save['bind_mode_{}'.format(fold_iter)] = binding_hmm_trained
+        dict_to_save['nonbind_mode_{}'.format(fold_iter)] = nonbinding_hmm_trained
 
         testset = bind_test + nonbind_test
         testlabel = [1] * len(bind_test) + [0] * len(nonbind_test)
@@ -170,20 +176,28 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
         logging.info('\n' + classification_report(testlabel, testpred))
         cv_label += testlabel
         cv_pred += testpred
-    pickle.dump({'y_label': cv_label, 'y_pred': cv_pred, 'y_iupac': cv_iupac}, pickle_file)
+    dict_to_save['y_label'] = cv_label
+    dict_to_save['y_pred'] = cv_pred
+    dict_to_save['y_iupac'] = cv_iupac
+    pickle.dump(dict_to_save, pickle_file)
     pickle_file.close()
     logging.info('*' * 50)
     logging.info('Overall performance')
     logging.info('\n' + classification_report(cv_label, cv_pred))
+    logging.info('Overall f1 score is {}'.format(f1_score(cv_label, cv_pred)))
 
 
 if __name__ == '__main__':
     
     # Global variables for hyper params selection and logging
     parser = argparse.ArgumentParser('Glycan TreeHMM')
-    parser.add_argument('--use_edge', default=False, action='store_true', help='whether use link information as part of the features')
+    parser.add_argument('--use_edge', default=False, action='store_true',
+                        help='whether use link information as part of the features')
     parser.add_argument('--n_folds', type=int, default=5, help='number of folds for cross-validation')
-    parser.add_argument('--max_iter', type=int, default=1, help='maximum number of epochs for BW to train')
+    parser.add_argument('--max_iter_1', type=int, default=1,
+                        help='maximum number of epochs for BW to train the positive class')
+    parser.add_argument('--max_iter_2', type=int, default=None,
+                        help='maximum number of epochs for BW to train the negative class, same as positive if None')
     parser.add_argument('--n_states', type=int, default=5, help='number of hidden states')
     parser.add_argument('--delta', type=float, default=1e-5, help='stop training when difference is less than delta')
     parser.add_argument('--seed', type=int, default=0, help='random seed')
@@ -201,5 +215,5 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(fh)
 
     logging.info('args = %s', args)
-    train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter=args.max_iter, n_states=args.n_states,
-                   delta=args.delta, random_seed=args.seed)
+    train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter_1=args.max_iter_1, max_iter_2=args.max_iter_2,
+                   n_states=args.n_states, delta=args.delta, random_seed=args.seed)
