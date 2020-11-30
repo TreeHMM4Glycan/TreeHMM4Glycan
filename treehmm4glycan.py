@@ -1,3 +1,4 @@
+from os import stat
 from typing import Dict, List, Tuple
 from treehmm import initHMM, baumWelch
 from treehmm import fwd_seq_gen, forward
@@ -31,11 +32,16 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
     return iupacs
 
 # method to get a dict of glycans form input iupac snfg
-def get_glycans(iupacs:Dict[int, str] , total = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
+def get_glycans(iupacs:Dict[int, str] , start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
     gylcans_dict = {}
     monos = []
     links = []
+    
     for id in iupacs:
+        if start is not None and id < start:
+            continue
+        if end is not None and id > end:
+            continue 
         inpuac_text = iupacs[id]
         gylcan = Glycan(inpuac_text)
         
@@ -44,8 +50,6 @@ def get_glycans(iupacs:Dict[int, str] , total = None) -> Tuple[Dict[int, Glycan]
             monos += gylcan.get_filtered_monosaccharide_emssions()
             links += gylcan.get_filtered_linkage_emssions()
         
-        if total is not None and len(gylcans_dict) == total:
-            break
 
     mono_emissions = list(set(monos))
     link_emissions = list(set(links))
@@ -84,7 +88,7 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
 #       M is number of emssions groups   eg.  monosaccharide_emissions for group 1 and linkage_emissions for group 2
 def create_and_train_treehmm(number_state:int, iupacs, include_linkage = False, max_iterations=50, delta=1e-5):
 
-    gylcans, possible_monosaccharide_emissions, possible_linkage_emissions = get_glycans(iupacs, 100)
+    gylcans, possible_monosaccharide_emissions, possible_linkage_emissions = get_glycans(iupacs, 50, 75)
     
     joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
 
@@ -118,41 +122,45 @@ def create_and_train_treehmm(number_state:int, iupacs, include_linkage = False, 
     
     #state_transition_probabilities = np.array([0.1,0.9,0.1,0.9]).reshape(2,2)
     hmm = initHMM.initHMM(states, possible_emissions)
+    newparam = None
+    for i in range(5):
+        # The baumWelch part: To find the new parameters and result statistics
+        newparam = baumWelch.hmm_train_and_test(hmm, forest, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
+        #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
 
-    # The baumWelch part: To find the new parameters and result statistics
-    newparam = baumWelch.hmm_train_and_test(hmm, forest, joint_emissions_observations, maxIterations = max_iterations, delta = delta)
-    #newparam = baumWelch.baumWelchRecursion(hmm, emission_observation)
 
-
-    hmm_trained = initHMM.initHMM(states, possible_emissions, state_transition_probabilities=newparam['hmm']['state_transition_probabilities'],
-                                              emission_probabilities=newparam['hmm']['emission_probabilities'])
-    
-    #fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(forest)
-    #bind_fwd_probs = forward.forward(hmm_trained, forest, joint_emissions_observations, fwd_tree_sequence)
-    #print(joint_emissions_observations)
-    
-    ll = 0
-    for glycan_idx in gylcans:
-        glycan = gylcans[glycan_idx]
-        #print(glycan.get_filtered_monosaccharide_emssions())
-        glycan_tree = csr_matrix(glycan.get_adj_matrix())
-        fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(glycan_tree)
-        emssions = glycan.get_filtered_monosaccharide_emssions()
-        if include_linkage:
-            emssions += glycan.get_filtered_linkage_emssions()
-            
-        bind_fwd_probs = forward.forward(hmm_trained, glycan_tree, [emssions], fwd_tree_sequence)
-        case_ll = logsumexp(bind_fwd_probs.iloc[:, -1])
-        ll += case_ll
+        hmm = initHMM.initHMM(states, possible_emissions, state_transition_probabilities=newparam['hmm']['state_transition_probabilities'],
+                                                emission_probabilities=newparam['hmm']['emission_probabilities'])
         
-    print(ll)
+        #print(newparam['hmm']['state_transition_probabilities'])
+        #print(newparam['hmm']['emission_probabilities'])
+        #fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(forest)
+        #bind_fwd_probs = forward.forward(hmm_trained, forest, joint_emissions_observations, fwd_tree_sequence)
+        #print(joint_emissions_observations)
+        
+        ll = 0
+        for glycan_idx in gylcans:
+            glycan = gylcans[glycan_idx]
+            #print(glycan.get_filtered_monosaccharide_emssions())
+            glycan_tree = csr_matrix(glycan.get_adj_matrix())
+            fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(glycan_tree)
+            emssions = glycan.get_filtered_monosaccharide_emssions()
+            if include_linkage:
+                emssions += glycan.get_filtered_linkage_emssions()
+            if fwd_tree_sequence[-1] != glycan.get_num_nosaccharides() - 1:
+                print('oops')
+            bind_fwd_probs = forward.forward(hmm, glycan_tree, [emssions], fwd_tree_sequence)
+            case_ll = logsumexp(bind_fwd_probs.iloc[:, -1])
+            ll += case_ll
+            
+        print(max_iterations * (i + 1), ll)
     return newparam
 
 if __name__ == "__main__":
 
-    log_format = '%(asctime)s %(message)s'
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO,
-                        format=log_format, datefmt='%m/%d %I:%M:%S %p')
+    #log_format = '%(asctime)s %(message)s'
+    #$logging.basicConfig(stream=sys.stdout, level=logging.INFO,
+    #                    format=log_format, datefmt='%m/%d %I:%M:%S %p')
     
     # get arguments
     parser = argparse.ArgumentParser()
@@ -167,6 +175,8 @@ if __name__ == "__main__":
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
  
-    create_and_train_treehmm(num_states, iupacs, max_iterations = 1)
-    create_and_train_treehmm(num_states, iupacs, max_iterations = 10)
-    create_and_train_treehmm(num_states, iupacs, max_iterations = 20)
+    create_and_train_treehmm(num_states, iupacs, max_iterations = 5)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 10)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 20)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 30)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 40)
