@@ -202,9 +202,9 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
             else:
                 testpred_posterior.append(0)
 
-        logging.info('Performence Metrics\n' +
+        logging.info('Fold #{} Performence Metrics\n'.format(fold_iter) +
                      get_metric_str(testlabel, testpred))
-        logging.info('Performence Metrics  (Use Posterior)\n' +
+        logging.info('Fold #{} Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
                      get_metric_str(testlabel, testpred_posterior))
 
         cv_label += testlabel
