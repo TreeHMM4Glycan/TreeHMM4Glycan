@@ -160,20 +160,20 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
             fold_iter)] = nonbinding_hmm_trained
 
         # compute training metrics
-  
-        train_set = bind_train + nonbind_train
+        train_preds, train_preds_posterior, bind_train_ll, non_bind_train_ll = batch_predict(
+            bind_train, nonbind_train, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
         train_labels = [1] * len(bind_train) + [0] * len(nonbind_train)
-        train_preds,train_preds_posterior, bind_train_ll,non_bind_train_ll = batch_predict(train_set, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
-        
+         
         logging.info('Fold #{} Training Performence Metrics\nBind Training LL: {:.3f} \nNon Bind Training LL: {:.3f} \n'.format(fold_iter,bind_train_ll, non_bind_train_ll))
         logging.info('Fold #{} Training Performence Metrics\n'.format(fold_iter) +
                     get_metric_str(train_labels, train_preds))
         logging.info('Fold #{} Training  Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
                     get_metric_str(train_labels, train_preds_posterior))
-    
-        test_set = bind_test + nonbind_test
+
+        # compute testing metrics
+        test_preds, test_preds_posterior, _, _ = batch_predict(
+            bind_test, nonbind_test, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
         test_labels = [1] * len(bind_test) + [0] * len(nonbind_test)
-        test_preds,test_preds_posterior,_,_ = batch_predict(test_set, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
         cv_label += test_labels
         cv_pred += test_preds
         cv_pred_posterior += test_preds_posterior
@@ -196,7 +196,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     logging.info('*' * 50)
 
 
-def batch_predict(test_set:List[str], cv_iupac:List[str], use_edge:bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
+def batch_predict(bind_test_set:List[str], nonbind_test_set:List[str], cv_iupac:List[str], use_edge:bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
     
     test_pred = []
     test_pred_posterior = []
@@ -206,6 +206,8 @@ def batch_predict(test_set:List[str], cv_iupac:List[str], use_edge:bool, binding
     
     bind_ll = 0
     non_bind_ll = 0
+    test_set = bind_test_set + nonbind_test_set
+    
     num_cases = len(test_set)
     
     for i in range(num_cases):
@@ -236,8 +238,12 @@ def batch_predict(test_set:List[str], cv_iupac:List[str], use_edge:bool, binding
         # update lls:
         case_bind_ll = logsumexp(bind_fwd_probs.iloc[:, -1])
         case_none_bind_ll = logsumexp(nonbind_fwd_probs.iloc[:, -1])
-        bind_ll += case_bind_ll
-        non_bind_ll += case_none_bind_ll
+        
+        # this is one for training evalution
+        if i < len(bind_test_set):
+            bind_ll += case_bind_ll
+        else:
+            non_bind_ll += case_none_bind_ll
         
         # not use posterior
         if case_bind_ll >= case_none_bind_ll:
@@ -251,7 +257,7 @@ def batch_predict(test_set:List[str], cv_iupac:List[str], use_edge:bool, binding
         else:
             test_pred_posterior.append(0)
 
-    return test_pred, test_pred_posterior, bind_ll/num_cases , non_bind_ll/num_cases
+    return test_pred, test_pred_posterior, bind_ll/len(bind_test_set) , non_bind_ll/len(nonbind_test_set)
 
         
 def get_metric_str(ground_truth, prediction):
