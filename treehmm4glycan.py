@@ -35,8 +35,8 @@ def get_glycans(iupacs:Dict[int, str]) -> Tuple[Dict[int, Glycan], List[str], Li
         inpuac_text = iupacs[id]
         gylcan = Glycan(inpuac_text)
         gylcans_dict[id] = gylcan
-        monos += gylcan.get_monosaccharide_emssions()
-        links += gylcan.get_linkage_emssions()
+        monos += gylcan.get_filtered_monosaccharide_emssions()
+        links += gylcan.get_filtered_linkage_emssions()
 
     mono_emissions = list(set(monos))
     link_emissions = list(set(links))
@@ -59,8 +59,8 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
         # update list of adj_matrices we are going to join along the diagonal
         adj_matrices.append(glyan.get_adj_matrix())
         # update joint_monosaccharide_emission_observations and joint_linkage_emission_observations
-        joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_monosaccharide_emssions()
-        joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_linkage_emssions()
+        joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_filtered_monosaccharide_emssions()
+        joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_filtered_linkage_emssions()
     # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
     return joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
@@ -105,12 +105,24 @@ if __name__ == "__main__":
     # read iupac and get gylcans
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    gylcans, monosaccharide_emission_observations, linkage_emission_observations = get_glycans(iupacs)
+    gylcans, possible_monosaccharide_emissions, possible_linkage_emissions = get_glycans(iupacs)
     
     joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
 
-    possible_monosaccharide_emissions = list(set(monosaccharide_emission_observations))
-    possible_linkage_emissions = list(set(linkage_emission_observations))
+    #print(possible_monosaccharide_emissions)
+    monosaccharide_emission_observations_counts = {}
+    for item in possible_monosaccharide_emissions:
+        monosaccharide_emission_observations_counts[item] = 0
+    for item in joint_monosaccharide_emission_observations:
+        monosaccharide_emission_observations_counts[item] += 1
+    print(monosaccharide_emission_observations_counts)
+
+    possible_linkage_emissions_counts = {}
+    for item in possible_linkage_emissions:
+        possible_linkage_emissions_counts[item] = 0
+    for item in joint_linkage_emission_observations:
+        possible_linkage_emissions_counts[item] += 1
+    print(possible_linkage_emissions_counts)
 
     # we only use monosaccharide
     if not include_linkage:
@@ -120,5 +132,5 @@ if __name__ == "__main__":
     # if we want to use both of them
         joint_emissions_observations = [joint_monosaccharide_emission_observations, joint_linkage_emission_observations]
         possible_emissions = [possible_monosaccharide_emissions, possible_linkage_emissions]
- 
-    create_and_train_treehmm(joint_adj_matrix, num_states, joint_emissions_observations, possible_emissions)
+    
+    #create_and_train_treehmm(joint_adj_matrix, num_states, joint_emissions_observations, possible_emissions)
