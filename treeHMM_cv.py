@@ -128,10 +128,8 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(
             nonbind_train)
 
-        binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=False,
-                                      random_init_emission_probabilities=False)
-        nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=False,
-                                         random_init_emission_probabilities=False)
+        binding_hmm = initHMM.initHMM(states, emissions)
+        nonbinding_hmm = initHMM.initHMM(states, emissions)
 
         if use_edge:
             bind_emission = [bind_mono_emission, bind_link_emission]
