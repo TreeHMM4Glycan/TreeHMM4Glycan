@@ -89,6 +89,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     dict_to_save = {}
     cv_label = []
     cv_pred = []
+    cv_pred_posterior = []
     cv_iupac = []
 
     # Get total possible number of emissions
@@ -121,10 +122,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
 
-        binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
-                                      random_init_emission_probabilities=True)
-        nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,
-                                         random_init_emission_probabilities=True)
+        binding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=False,
+                                      random_init_emission_probabilities=False)
+        nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=False,
+                                         random_init_emission_probabilities=False)
 
         if use_edge:
             bind_emission = [bind_mono_emission, bind_link_emission]
@@ -132,10 +133,11 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         else:
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
-        logging.info('*Training tree for binding cases*')
+            
+        logging.info('*' * 8 +  ' Training tree for binding cases ' + '*' * 9)
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
                                                   maxIterations=max_iter_1, delta=delta)
-        logging.info('*Training tree for non-binding cases*')
+        logging.info('*' *  6 +  ' Training tree for non-binding cases ' + '*' * 7)
         nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
                                                      maxIterations=max_iter_2, delta=delta)
 
@@ -151,6 +153,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         testset = bind_test + nonbind_test
         testlabel = [1] * len(bind_test) + [0] * len(nonbind_test)
         testpred = []
+        testpred_posterior = []
         for i in range(len(testset)):
             iupac_text = testset[i]
             cv_iupac.append(iupac_text)
@@ -174,24 +177,43 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
             bind_fwd_probs = forward.forward(binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
             nonbind_fwd_probs = forward.forward(nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
 
-            if logsumexp(bind_fwd_probs.iloc[:, -1]) + log_by_chance_bind_prob >= logsumexp(nonbind_fwd_probs.iloc[:, -1]) + log_by_chance_nobind_prob:
+            # not use posterior
+            if logsumexp(bind_fwd_probs.iloc[:, -1]) >= logsumexp(nonbind_fwd_probs.iloc[:, -1]):
                 testpred.append(1)
             else:
                 testpred.append(0)
 
-        logging.info('\n' + classification_report(testlabel, testpred))
+            # use posterior
+            if logsumexp(bind_fwd_probs.iloc[:, -1]) + log_by_chance_bind_prob >= logsumexp(nonbind_fwd_probs.iloc[:, -1]) + log_by_chance_nobind_prob:
+                testpred_posterior.append(1)
+            else:
+                testpred_posterior.append(0)
+        
+        logging.info('Performence Metrics\n' + get_metric_str(testlabel, testpred))
+        logging.info('Performence Metrics  (Use Posterior)\n' + get_metric_str(testlabel, testpred_posterior))
+
         cv_label += testlabel
         cv_pred += testpred
+        cv_pred_posterior += testpred_posterior
+
     dict_to_save['y_label'] = cv_label
     dict_to_save['y_pred'] = cv_pred
     dict_to_save['y_iupac'] = cv_iupac
     pickle.dump(dict_to_save, pickle_file)
     pickle_file.close()
     logging.info('*' * 50)
-    logging.info('Overall performance')
-    logging.info('\n' + classification_report(cv_label, cv_pred))
-    logging.info('Overall f1 score is {}'.format(f1_score(cv_label, cv_pred)))
+    logging.info('Overall Performence Metrics\n' + get_metric_str(cv_label, cv_pred))
+    logging.info('Overall Performence Metrics  (Use Posterior)\n' + get_metric_str(cv_label, cv_pred_posterior))
+    logging.info('*' * 50)
 
+def get_metric_str(ground_truth, prediction):
+    metrics_str = ''
+    metrics_str += 'F1 Score: {:.3f}\n'.format(f1_score(ground_truth, prediction))
+    metrics_str += 'Accuracy Score: {:.3f}\n'.format(accuracy_score(ground_truth, prediction))
+    metrics_str += 'Precision Score: {:.3f}\n'.format(precision_score(ground_truth, prediction))
+    metrics_str += 'Recall Score: {:.3f}\n'.format(recall_score(ground_truth, prediction))
+    metrics_str += classification_report(ground_truth, prediction)
+    return metrics_str
 
 if __name__ == '__main__':
     
