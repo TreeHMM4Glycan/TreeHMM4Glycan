@@ -6,7 +6,7 @@ import argparse
 import pickle
 import time
 import os
-from typing import List
+from typing import Dict, List
 import pandas as pd
 from sklearn.model_selection import KFold
 from treehmm4glycan import create_forest_inputs, get_iupcas, get_glycans
@@ -62,32 +62,46 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
     return binding_train, binding_test, nonbinding_train, nonbinding_test
 
 
-def create_glycan_from_str(iupac_text):
+def create_glycan_from_str(iupac_text: str, single_end: bool) -> Glycan:
+    """
+    Method return an glycan based on input iupac names
+    Args:
+        iupac_text (str): iupac snfg string
+        single_end (bool): boolean indicate if use single end on the tree
+
+    Returns:
+        Glycan: returned glycan
+    """    
     iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-    return Glycan(iupac)
-    
-def prepare_data(training_data):
+    return Glycan(iupac, single_end)
+
+
+def prepare_data(training_data:List[int], single_end:bool):
+    """[summary]
+
+    Args:
+        training_data (Dict[int,str]): [description]
+        single_end (bool): [description]
+
+    Returns:
+        [type]: [description]
+    """    
     glycans_train = {}
     for i in range(len(training_data)):
-        glycans_train[i] = create_glycan_from_str(training_data[i])
+        glycans_train[i] = create_glycan_from_str(training_data[i], single_end)
 
     adj_matrix, mono_emissions, link_emissions = create_forest_inputs(
         glycans_train)
     parse_matrix_adj_matrix = csr_matrix(adj_matrix)
     return parse_matrix_adj_matrix, mono_emissions, link_emissions
 
-def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_iter_2=None, delta=1e-5,
-                   random_seed=None):
+
+def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_iter=3, num_epoch=1, delta=1e-5,
+                   random_seed=None, save_file = None):
     """Train GlyNet using n-fold cross-validation.
     """
-    print('Training with hyper parameters:')
-    print('use edge: {}, n_folds: {}, n_states: {}, max_iter_pos: {}, max_iter_neg: {}, delta: {}, random seed: {}'.
-          format(use_edge, n_folds, n_states, max_iter_1, max_iter_2, delta, random_seed))
-
-    if max_iter_2 is None:
-        max_iter_2 = max_iter_1
-
-    pickle_file = open(args.save + '-model.pkl', 'wb')
+    logging.info('Training with hyper parameters:\nUse edge: {}\nUse single Node: {}\nNum folds: {}\nNum States: {}\nMax Iter: {}\nNum Epioch: {}\nDelta: {}\nRandom seed: {}'.
+                 format(use_edge, single_end, n_folds, n_states, max_iter, num_epoch, delta, random_seed))
 
     dict_to_save = {}
     cv_label = []
@@ -98,7 +112,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     # Get total possible number of emissions
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    _, mono_emissions, link_emissions = get_glycans(iupacs)
+    _, mono_emissions, link_emissions = get_glycans(iupacs, single_end)
 
     if use_edge:
         emissions = [mono_emissions, link_emissions]
@@ -107,29 +121,37 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     states = [str(i) for i in range(1, n_states + 1)]
 
     # Prepare data
+    # TODO it works, but we should pass glycan around not iupac and read it over and over 
     data, col_names = get_data()
     target_protein = 'AAL (100 ug/ml)'
     binding_train, binding_test, nonbinding_train, nonbinding_test = n_fold(data, col_names, target_protein,
                                                                             num_folds=n_folds, seed=random_seed)
-    
+
+    # prepare data
+    bind_emissions = []
+    nonbind_emissions = []
+    binding_hmms = []
+    nonbinding_hmms = []
+    bind_parse_matrices = []
+    nonbind_parse_matrices = []
+
     for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
                                                                                          nonbinding_train,
                                                                                          nonbinding_test)):
-        logging.info('*' * 50)
-        logging.info('Training and testing in fold #{}'.format(fold_iter))
-        # compute by chance prob for each class
-        by_chance_bind_prob = len(bind_train) / \
-            (len(bind_train) + len(nonbind_train))
-        logging.info('By Chance Bind Prob: {:.3f}'.format(by_chance_bind_prob))
-
+        
         # prepare glycans dictionary
         bind_parse_matrix, bind_mono_emission, bind_link_emission = prepare_data(
-            bind_train)
+            bind_train, single_end)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(
-            nonbind_train)
+            nonbind_train, single_end)
 
         binding_hmm = initHMM.initHMM(states, emissions)
         nonbinding_hmm = initHMM.initHMM(states, emissions)
+
+        binding_hmms.append(binding_hmm)
+        nonbinding_hmms.append(nonbinding_hmm)
+        bind_parse_matrices.append(bind_parse_matrix)
+        nonbind_parse_matrices.append(nonbind_parse_matrix)
 
         if use_edge:
             bind_emission = [bind_mono_emission, bind_link_emission]
@@ -138,80 +160,102 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
             bind_emission = [bind_mono_emission]
             nonbind_emission = [nonbind_mono_emission]
 
-        # training new models
-        logging.info('*' * 8 + ' Training tree for binding cases ' + '*' * 9)
-        bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
-                                                  maxIterations=max_iter_1, delta=delta)
-        logging.info(
-            '*' * 6 + ' Training tree for non-binding cases ' + '*' * 7)
-        nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
-                                                     maxIterations=max_iter_2, delta=delta)
+        bind_emissions.append(bind_emission)
+        nonbind_emissions.append(nonbind_emission)
 
-        # Finished training, reinitialized models with trained params
-        binding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=bind_param['hmm']['state_transition_probabilities'],
-                                              emission_probabilities=bind_param['hmm']['emission_probabilities'])
-        nonbinding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=nonbind_param['hmm']['state_transition_probabilities'],
-                                                 emission_probabilities=nonbind_param['hmm']['emission_probabilities'])
+    # training for each epoch
+    for epoch in range(0, num_epoch):
+        for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
+                                                                                             nonbinding_train,
+                                                                                             nonbinding_test)):
+            logging.info('*' * 50)
+            logging.info(
+                'Training and testing in Epcoh #{} fold #{}'.format(epoch, fold_iter))
+            # compute by chance prob for each class
+            by_chance_bind_prob = len(bind_train) / \
+                (len(bind_train) + len(nonbind_train))
+            logging.info('By Chance Bind Prob: {:.3f}'.format(
+                by_chance_bind_prob))
 
-        dict_to_save['bind_mode_{}'.format(fold_iter)] = binding_hmm_trained
-        dict_to_save['nonbind_mode_{}'.format(
-            fold_iter)] = nonbinding_hmm_trained
+            # training new models
+            logging.info(
+                '*' * 8 + ' Training tree for binding cases ' + '*' * 9)
+            bind_param = baumWelch.hmm_train_and_test(binding_hmms[fold_iter], bind_parse_matrices[fold_iter], bind_emissions[fold_iter],
+                                                      maxIterations=max_iter, delta=delta)
+            logging.info(
+                '*' * 6 + ' Training tree for non-binding cases ' + '*' * 7)
+            nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmms[fold_iter], nonbind_parse_matrices[fold_iter], nonbind_emissions[fold_iter],
+                                                         maxIterations=max_iter, delta=delta)
 
-        # compute training metrics
-        train_preds, train_preds_posterior, bind_train_ll, non_bind_train_ll = batch_predict(
-            bind_train, nonbind_train, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
-        train_labels = [1] * len(bind_train) + [0] * len(nonbind_train)
-         
-        logging.info('Fold #{} Training Performence Metrics\nBind Training LL: {:.3f} \nNon Bind Training LL: {:.3f} \n'.format(fold_iter,bind_train_ll, non_bind_train_ll))
-        logging.info('Fold #{} Training Performence Metrics\n'.format(fold_iter) +
-                    get_metric_str(train_labels, train_preds))
-        logging.info('Fold #{} Training  Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
-                    get_metric_str(train_labels, train_preds_posterior))
+            # Finished training, reinitialized models with trained params
+            binding_hmms[fold_iter] = initHMM.initHMM(states, emissions, state_transition_probabilities=bind_param['hmm']['state_transition_probabilities'],
+                                                      emission_probabilities=bind_param['hmm']['emission_probabilities'])
+            nonbinding_hmms[fold_iter] = initHMM.initHMM(states, emissions, state_transition_probabilities=nonbind_param['hmm']['state_transition_probabilities'],
+                                                         emission_probabilities=nonbind_param['hmm']['emission_probabilities'])
 
-        # compute testing metrics
-        test_preds, test_preds_posterior, _, _ = batch_predict(
-            bind_test, nonbind_test, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
-        test_labels = [1] * len(bind_test) + [0] * len(nonbind_test)
-        cv_label += test_labels
-        cv_pred += test_preds
-        cv_pred_posterior += test_preds_posterior
+            dict_to_save['bind_mode_{}_{}'.format(
+                epoch, fold_iter)] = binding_hmms[fold_iter]
+            dict_to_save['nonbind_mode_{}_{}'.format(
+                epoch, fold_iter)] = nonbinding_hmms[fold_iter]
+
+            # compute training metrics
+            train_preds, train_preds_posterior, bind_train_ll, non_bind_train_ll = batch_predict(
+                bind_train, nonbind_train, cv_iupac, single_end, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
+            train_labels = [1] * len(bind_train) + [0] * len(nonbind_train)
+
+            logging.info('Epcoh #{} Fold #{} Training Performence Metrics\nBind Training LL: {:.3f} \nNon Bind Training LL: {:.3f} \n'.format(epoch,
+                                                                                                                                              fold_iter, bind_train_ll, non_bind_train_ll))
+            logging.info('Epcoh #{} Fold #{} Training Performence Metrics\n'.format(epoch, fold_iter) +
+                         get_metric_str(train_labels, train_preds))
+            logging.info('Epcoh #{} Fold #{} Training  Performence Metrics  (Use Posterior)\n'.format(epoch, fold_iter) +
+                         get_metric_str(train_labels, train_preds_posterior))
+
+            # compute testing metrics
+            test_preds, test_preds_posterior, _, _ = batch_predict(
+                bind_test, nonbind_test, cv_iupac, single_end, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
+            test_labels = [1] * len(bind_test) + [0] * len(nonbind_test)
+            cv_label += test_labels
+            cv_pred += test_preds
+            cv_pred_posterior += test_preds_posterior
+
+            logging.info('Fold #{} Testing Performence Metrics\n'.format(fold_iter) +
+                         get_metric_str(test_labels, test_preds))
+            logging.info('Fold #{} Testing Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
+                         get_metric_str(test_labels, test_preds_posterior))
+
+        dict_to_save['Epoch_{}_y_label'.format(epoch)] = cv_label
+        dict_to_save['Epoch_{}_y_pred'.format(epoch)] = cv_pred
+        dict_to_save['Epoch_{}_y_iupac'.format(epoch)] = cv_iupac
         
-        logging.info('Fold #{} Testing Performence Metrics\n'.format(fold_iter) +
-                    get_metric_str(test_labels, test_preds))
-        logging.info('Fold #{} Testing Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
-                    get_metric_str(test_labels, test_preds_posterior))
+        logging.info('*' * 50)
+        logging.info('Overall Performence Metrics\n' +
+                     get_metric_str(cv_label, cv_pred))
+        logging.info('Overall Performence Metrics  (Use Posterior)\n' +
+                     get_metric_str(cv_label, cv_pred_posterior))
+        logging.info('*' * 50)
     
-    dict_to_save['y_label'] = cv_label
-    dict_to_save['y_pred'] = cv_pred
-    dict_to_save['y_iupac'] = cv_iupac
-    pickle.dump(dict_to_save, pickle_file)
-    pickle_file.close()
-    logging.info('*' * 50)
-    logging.info('Overall Performence Metrics\n' +
-                 get_metric_str(cv_label, cv_pred))
-    logging.info('Overall Performence Metrics  (Use Posterior)\n' +
-                 get_metric_str(cv_label, cv_pred_posterior))
-    logging.info('*' * 50)
+    if save_file is not None:
+        with open(save_file+ '-model.pkl', 'wb') as pickle_file:
+            pickle.dump(dict_to_save, pickle_file)
 
+def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupac: List[str], single_end: bool, use_edge: bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
 
-def batch_predict(bind_test_set:List[str], nonbind_test_set:List[str], cv_iupac:List[str], use_edge:bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
-    
     test_pred = []
     test_pred_posterior = []
-    
+
     log_by_chance_bind_prob = math.log(by_chance_bind_prob)
     log_by_chance_nobind_prob = math.log(1 - by_chance_bind_prob)
-    
+
     bind_ll = 0
     non_bind_ll = 0
     test_set = bind_test_set + nonbind_test_set
-    
+
     num_cases = len(test_set)
-    
+
     for i in range(num_cases):
         iupac_text = test_set[i]
         cv_iupac.append(iupac_text)
-        glycan_test = create_glycan_from_str(iupac_text)
+        glycan_test = create_glycan_from_str(iupac_text, single_end)
 
         # get test data features
         glycan_adj_matrix = glycan_test.get_adj_matrix()
@@ -234,30 +278,36 @@ def batch_predict(bind_test_set:List[str], nonbind_test_set:List[str], cv_iupac:
             nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
 
         # update lls:
-        case_bind_ll = logsumexp(bind_fwd_probs.iloc[:, -1])
-        case_none_bind_ll = logsumexp(nonbind_fwd_probs.iloc[:, -1])
+        case_bind_ll_per_end = []
+        case_none_bind_ll_per_end= []
+        for end_idx in glycan_test.get_end_nodes_indices():
+            case_bind_ll_per_end.append(logsumexp(bind_fwd_probs.iloc[:, end_idx]))
+            case_none_bind_ll_per_end.append(logsumexp(nonbind_fwd_probs.iloc[:, end_idx]))
+        
+        case_bind_ll = logsumexp(case_bind_ll_per_end)
+        case_non_bind_ll = logsumexp(case_none_bind_ll_per_end)
         
         # this is one for training evalution
         if i < len(bind_test_set):
             bind_ll += case_bind_ll
         else:
-            non_bind_ll += case_none_bind_ll
-        
+            non_bind_ll += case_non_bind_ll
+
         # not use posterior
-        if case_bind_ll >= case_none_bind_ll:
+        if case_bind_ll >= case_non_bind_ll:
             test_pred.append(1)
         else:
             test_pred.append(0)
 
         # use posterior
-        if case_bind_ll + log_by_chance_bind_prob >= case_none_bind_ll + log_by_chance_nobind_prob:
+        if case_bind_ll + log_by_chance_bind_prob >= case_non_bind_ll + log_by_chance_nobind_prob:
             test_pred_posterior.append(1)
         else:
             test_pred_posterior.append(0)
 
-    return test_pred, test_pred_posterior, bind_ll/len(bind_test_set) , non_bind_ll/len(nonbind_test_set)
+    return test_pred, test_pred_posterior, bind_ll/len(bind_test_set), non_bind_ll/len(nonbind_test_set)
 
-        
+
 def get_metric_str(ground_truth, prediction):
     metrics_str = ''
     metrics_str += 'F1 Score: {:.3f}\n'.format(
@@ -278,13 +328,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('Glycan TreeHMM')
     parser.add_argument('--use_edge', default=False, action='store_true',
                         help='whether use link information as part of the features')
-    parser.add_argument('--n_folds', type=int, default=5,
+    parser.add_argument('--use_multi_end', default=False, action='store_true',
+                        help='whether use single end for glycan')
+    parser.add_argument('--n_folds', type=int, default = 5,
                         help='number of folds for cross-validation')
-    parser.add_argument('--max_iter_1', type=int, default=1,
-                        help='maximum number of epochs for BW to train the positive class')
-    parser.add_argument('--max_iter_2', type=int, default=None,
-                        help='maximum number of epochs for BW to train the negative class, same as positive if None')
-    parser.add_argument('--n_states', type=int, default=5,
+    parser.add_argument('--max_iter', type=int, default = 3,
+                        help='maximum number of training iteration per epoch')
+    parser.add_argument('--num_epoch', type=int, default = 3,
+                        help='number of epoch')
+    parser.add_argument('--n_states', type=int, default = 2,
                         help='number of hidden states')
     parser.add_argument('--delta', type=float, default=1e-5,
                         help='stop training when difference is less than delta')
@@ -306,5 +358,5 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(fh)
 
     logging.info('args = %s', args)
-    train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter_1=args.max_iter_1, max_iter_2=args.max_iter_2,
-                   n_states=args.n_states, delta=args.delta, random_seed=args.seed)
+    train_and_test(use_edge=args.use_edge, single_end = not args.use_multi_end, n_folds=args.n_folds, max_iter=args.max_iter, num_epoch=args.num_epoch,
+                   n_states=args.n_states, delta=args.delta, random_seed=args.seed, save_file = args.save)

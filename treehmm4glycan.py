@@ -32,7 +32,7 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
     return iupacs
 
 # method to get a dict of glycans form input iupac snfg
-def get_glycans(iupacs:Dict[int, str] , start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
+def get_glycans(iupacs:Dict[int, str] , single_end = False, start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
     gylcans_dict = {}
     monos = []
     links = []
@@ -43,7 +43,7 @@ def get_glycans(iupacs:Dict[int, str] , start = None, end = None) -> Tuple[Dict[
         if end is not None and id > end:
             continue 
         inpuac_text = iupacs[id]
-        gylcan = Glycan(inpuac_text)
+        gylcan = Glycan(inpuac_text, single_end)
         
         if gylcan.get_num_nosaccharides() > 2:
             gylcans_dict[id] = gylcan
