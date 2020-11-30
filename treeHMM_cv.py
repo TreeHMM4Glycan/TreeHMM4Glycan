@@ -6,6 +6,7 @@ import argparse
 import pickle
 import time
 import os
+from typing import List
 import pandas as pd
 from sklearn.model_selection import KFold
 from treehmm4glycan import create_forest_inputs, get_iupcas, get_glycans
@@ -61,20 +62,19 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
     return binding_train, binding_test, nonbinding_train, nonbinding_test
 
 
+def create_glycan_from_str(iupac_text):
+    iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
+    return Glycan(iupac)
+    
 def prepare_data(training_data):
     glycans_train = {}
-
     for i in range(len(training_data)):
-        iupac_text = training_data[i]
-        iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-        glycans_train[i] = Glycan(iupac)
+        glycans_train[i] = create_glycan_from_str(training_data[i])
 
     adj_matrix, mono_emissions, link_emissions = create_forest_inputs(
         glycans_train)
     parse_matrix_adj_matrix = csr_matrix(adj_matrix)
     return parse_matrix_adj_matrix, mono_emissions, link_emissions
-    #nonbinding_hmm = initHMM.initHMM(states, emissions, random_init_state_transition_probabilities=True,random_init_emission_probabilities=True)
-
 
 def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_iter_2=None, delta=1e-5,
                    random_seed=None):
@@ -121,8 +121,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         by_chance_bind_prob = len(bind_train) / \
             (len(bind_train) + len(nonbind_train))
         logging.info('By Chance Bind Prob: {:.3f}'.format(by_chance_bind_prob))
-        log_by_chance_bind_prob = math.log(by_chance_bind_prob)
-        log_by_chance_nobind_prob = math.log(1 - by_chance_bind_prob)
+
         # prepare glycans dictionary
         bind_parse_matrix, bind_mono_emission, bind_link_emission = prepare_data(
             bind_train)
@@ -160,57 +159,30 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
         dict_to_save['nonbind_mode_{}'.format(
             fold_iter)] = nonbinding_hmm_trained
 
-        testset = bind_test + nonbind_test
-        testlabel = [1] * len(bind_test) + [0] * len(nonbind_test)
-        testpred = []
-        testpred_posterior = []
-        for i in range(len(testset)):
-            iupac_text = testset[i]
-            cv_iupac.append(iupac_text)
-            iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-            glycan_test = Glycan(iupac)
-
-            # get test data features
-            glycan_adj_matrix = glycan_test.get_adj_matrix()
-            glycan_sparse_matrix = csr_matrix(glycan_adj_matrix)
-            glycan_mono_emission = glycan_test.get_filtered_monosaccharide_emssions()
-            glycan_link_emission = glycan_test.get_filtered_linkage_emssions()
-
-            if use_edge:
-                glycan_emission = [glycan_mono_emission, glycan_link_emission]
-            else:
-                glycan_emission = [glycan_mono_emission]
-
-            # calculate the likelihood
-            fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(
-                glycan_sparse_matrix)
-
-            bind_fwd_probs = forward.forward(
-                binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-            nonbind_fwd_probs = forward.forward(
-                nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-
-            # not use posterior
-            if logsumexp(bind_fwd_probs.iloc[:, -1]) >= logsumexp(nonbind_fwd_probs.iloc[:, -1]):
-                testpred.append(1)
-            else:
-                testpred.append(0)
-
-            # use posterior
-            if logsumexp(bind_fwd_probs.iloc[:, -1]) + log_by_chance_bind_prob >= logsumexp(nonbind_fwd_probs.iloc[:, -1]) + log_by_chance_nobind_prob:
-                testpred_posterior.append(1)
-            else:
-                testpred_posterior.append(0)
-
-        logging.info('Fold #{} Performence Metrics\n'.format(fold_iter) +
-                     get_metric_str(testlabel, testpred))
-        logging.info('Fold #{} Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
-                     get_metric_str(testlabel, testpred_posterior))
-
-        cv_label += testlabel
-        cv_pred += testpred
-        cv_pred_posterior += testpred_posterior
-
+        # compute training metrics
+  
+        train_set = bind_train + nonbind_train
+        train_labels = [1] * len(bind_train) + [0] * len(nonbind_train)
+        train_preds,train_preds_posterior, bind_train_ll,non_bind_train_ll = batch_predict(train_set, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
+        
+        logging.info('Fold #{} Training Performence Metrics\nBind Training LL: {:.3f} \nNon Bind Training LL: {:.3f} \n'.format(fold_iter,bind_train_ll, non_bind_train_ll))
+        logging.info('Fold #{} Training Performence Metrics\n'.format(fold_iter) +
+                    get_metric_str(train_labels, train_preds))
+        logging.info('Fold #{} Training  Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
+                    get_metric_str(train_labels, train_preds_posterior))
+    
+        test_set = bind_test + nonbind_test
+        test_labels = [1] * len(bind_test) + [0] * len(nonbind_test)
+        test_preds,test_preds_posterior,_,_ = batch_predict(test_set, cv_iupac, use_edge, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob)
+        cv_label += test_labels
+        cv_pred += test_preds
+        cv_pred_posterior += test_preds_posterior
+        
+        logging.info('Fold #{} Testing Performence Metrics\n'.format(fold_iter) +
+                    get_metric_str(test_labels, test_preds))
+        logging.info('Fold #{} Testing Performence Metrics  (Use Posterior)\n'.format(fold_iter) +
+                    get_metric_str(test_labels, test_preds_posterior))
+    
     dict_to_save['y_label'] = cv_label
     dict_to_save['y_pred'] = cv_pred
     dict_to_save['y_iupac'] = cv_iupac
@@ -224,6 +196,64 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter_1=50, max_it
     logging.info('*' * 50)
 
 
+def batch_predict(test_set:List[str], cv_iupac:List[str], use_edge:bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
+    
+    test_pred = []
+    test_pred_posterior = []
+    
+    log_by_chance_bind_prob = math.log(by_chance_bind_prob)
+    log_by_chance_nobind_prob = math.log(1 - by_chance_bind_prob)
+    
+    bind_ll = 0
+    non_bind_ll = 0
+    num_cases = len(test_set)
+    
+    for i in range(num_cases):
+        iupac_text = test_set[i]
+        cv_iupac.append(iupac_text)
+        glycan_test = create_glycan_from_str(iupac_text)
+
+        # get test data features
+        glycan_adj_matrix = glycan_test.get_adj_matrix()
+        glycan_sparse_matrix = csr_matrix(glycan_adj_matrix)
+        glycan_mono_emission = glycan_test.get_filtered_monosaccharide_emssions()
+        glycan_link_emission = glycan_test.get_filtered_linkage_emssions()
+
+        if use_edge:
+            glycan_emission = [glycan_mono_emission, glycan_link_emission]
+        else:
+            glycan_emission = [glycan_mono_emission]
+
+        # calculate the likelihood
+        fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(
+            glycan_sparse_matrix)
+
+        bind_fwd_probs = forward.forward(
+            binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+        nonbind_fwd_probs = forward.forward(
+            nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+
+        # update lls:
+        case_bind_ll = logsumexp(bind_fwd_probs.iloc[:, -1])
+        case_none_bind_ll = logsumexp(nonbind_fwd_probs.iloc[:, -1])
+        bind_ll += case_bind_ll
+        non_bind_ll += case_none_bind_ll
+        
+        # not use posterior
+        if case_bind_ll >= case_none_bind_ll:
+            test_pred.append(1)
+        else:
+            test_pred.append(0)
+
+        # use posterior
+        if case_bind_ll + log_by_chance_bind_prob >= case_none_bind_ll + log_by_chance_nobind_prob:
+            test_pred_posterior.append(1)
+        else:
+            test_pred_posterior.append(0)
+
+    return test_pred, test_pred_posterior, bind_ll/num_cases , non_bind_ll/num_cases
+
+        
 def get_metric_str(ground_truth, prediction):
     metrics_str = ''
     metrics_str += 'F1 Score: {:.3f}\n'.format(
