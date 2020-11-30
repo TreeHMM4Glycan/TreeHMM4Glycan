@@ -1,3 +1,4 @@
+import math
 import re
 import logging
 import sys
@@ -105,6 +106,11 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
                                                                                          nonbinding_test)):
         logging.info('*' * 50)
         logging.info('Training and testing in fold #{}'.format(fold_iter))
+        # compute by chance prob for each class
+        by_chance_bind_prob = len(bind_train) / (len(bind_train) + len(nonbind_train))
+        logging.info('By Chance Bind Prob: {}'.format(by_chance_bind_prob))
+        log_by_chance_bind_prob = math.log(by_chance_bind_prob) 
+        log_by_chance_nobind_prob = math.log(1 - by_chance_bind_prob) 
         # prepare glycans dictionary
         bind_parse_matrix ,bind_mono_emission, bind_link_emission = prepare_data(bind_train)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(nonbind_train)
@@ -122,10 +128,10 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             nonbind_emission = [nonbind_mono_emission]
         logging.info('*Training tree for binding cases*')
         bind_param = baumWelch.hmm_train_and_test(binding_hmm, bind_parse_matrix, bind_emission,
-                                                  maxIterations=max_iter, delta=delta)
+                                                  maxIterations = max_iter, delta=delta)
         logging.info('*Training tree for non-binding cases*')
         nonbind_param = baumWelch.hmm_train_and_test(nonbinding_hmm, nonbind_parse_matrix, nonbind_emission,
-                                                     maxIterations=max_iter, delta=delta)
+                                                     maxIterations = max_iter, delta=delta)
 
         # Finished training, reinitialized models with trained params
         binding_hmm_trained = initHMM.initHMM(states, emissions, state_transition_probabilities=bind_param['hmm']['state_transition_probabilities'],
@@ -162,7 +168,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=50, delta=1e
             bind_fwd_probs = forward.forward(binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
             nonbind_fwd_probs = forward.forward(nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
 
-            if logsumexp(bind_fwd_probs.iloc[:, -1]) >= logsumexp(nonbind_fwd_probs.iloc[:, -1]):
+            if logsumexp(bind_fwd_probs.iloc[:, -1]) + log_by_chance_bind_prob >= logsumexp(nonbind_fwd_probs.iloc[:, -1]) + log_by_chance_nobind_prob:
                 testpred.append(1)
             else:
                 testpred.append(0)
