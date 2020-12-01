@@ -1,4 +1,5 @@
 import math
+from math import inf
 import re
 import logging
 import sys
@@ -6,7 +7,7 @@ import argparse
 import pickle
 import time
 import os
-from typing import Dict, List
+from typing import List
 import pandas as pd
 from sklearn.model_selection import KFold
 from treehmm4glycan import create_forest_inputs, get_iupcas, get_glycans
@@ -62,21 +63,66 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
     return binding_train, binding_test, nonbinding_train, nonbinding_test
 
 
-def create_glycan_from_str(iupac_text: str, single_end: bool) -> Glycan:
+
+def forward_tree_ll(hmm, adjacent_matrix, emission_observation, fwd_tree_sequence):
+    """
+    Args:
+        hmm: It is a dictionary given as output by initHMM.py file
+        emission_observation: emission_observation is a list of list consisting "k" lists for "k"
+            features, each vector being a character series of discrete emission
+            values at different nodes serially sorted by node number
+        forward_tree_sequence: It is a list denoting the order of nodes in which
+            the tree should be traversed in forward direction(from roots to
+            leaves).
+
+    Returns:
+        forward_probs: A dataframe of size (N * D) denoting the forward
+        probabilites at each node of the tree, where "N" is possible no. of
+        states and "D" is the total number of nodes in the tree
+    """    
+    forward_probabilities = forward.forward(hmm, csr_matrix(adjacent_matrix), emission_observation, fwd_tree_sequence)
+
+    # let us travesl this tree via Floyd–Warshall
+    # node_id, segment start log prob
+    node_stack = [[0, 0]]
+
+    forward_ll = 0
+    
+    while len(node_stack) > 0: 
+        #print(node_stack)
+        current_node_data = node_stack.pop()
+        node_id, segment_start_ll = current_node_data
+        
+        # segment start at branch and end at other branch 
+        if not sum(adjacent_matrix[node_id]) == 1 :
+            node_log_prob = logsumexp(forward_probabilities.iloc[:, node_id])
+            # log_segment_prob is the segment end node ll - segement start ll
+            log_segment_prob =  node_log_prob - segment_start_ll
+            # add ll of this segment
+            forward_ll += log_segment_prob
+            segment_start_ll = node_log_prob
+        
+        for child_id, edge in enumerate(adjacent_matrix[node_id]):
+            if edge:
+                node_stack.append([child_id, segment_start_ll])
+    
+    return forward_ll
+
+
+def create_glycan_from_str(iupac_text: str) -> Glycan:
     """
     Method return an glycan based on input iupac names
     Args:
         iupac_text (str): iupac snfg string
-        single_end (bool): boolean indicate if use single end on the tree
-
+  
     Returns:
         Glycan: returned glycan
     """    
     iupac = re.split(r"\([^\)]*$", iupac_text, 1)[0]
-    return Glycan(iupac, single_end)
+    return Glycan(iupac)
 
 
-def prepare_data(training_data:List[int], single_end:bool):
+def prepare_data(training_data:List[int]):
     """[summary]
 
     Args:
@@ -88,7 +134,7 @@ def prepare_data(training_data:List[int], single_end:bool):
     """    
     glycans_train = {}
     for i in range(len(training_data)):
-        glycans_train[i] = create_glycan_from_str(training_data[i], single_end)
+        glycans_train[i] = create_glycan_from_str(training_data[i])
 
     adj_matrix, mono_emissions, link_emissions = create_forest_inputs(
         glycans_train)
@@ -96,23 +142,19 @@ def prepare_data(training_data:List[int], single_end:bool):
     return parse_matrix_adj_matrix, mono_emissions, link_emissions
 
 
-def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_iter=3, num_epoch=1, delta=1e-5,
+def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=3, num_epoch=1, delta=1e-5,
                    random_seed=None, save_file = None):
     """Train GlyNet using n-fold cross-validation.
     """
-    logging.info('Training with hyper parameters:\nUse edge: {}\nUse single Node: {}\nNum folds: {}\nNum States: {}\nMax Iter: {}\nNum Epioch: {}\nDelta: {}\nRandom seed: {}'.
-                 format(use_edge, single_end, n_folds, n_states, max_iter, num_epoch, delta, random_seed))
+    logging.info('Training with hyper parameters:\nUse edge: {}\nNum Folds: {}\nNum States: {}\nMax Iter: {}\nNum Epioch: {}\nDelta: {}\nRandom seed: {}'.
+                 format(use_edge, n_folds, n_states, max_iter, num_epoch, delta, random_seed))
 
     dict_to_save = {}
-    cv_label = []
-    cv_pred = []
-    cv_pred_posterior = []
-    cv_iupac = []
-
+    
     # Get total possible number of emissions
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
-    _, mono_emissions, link_emissions = get_glycans(iupacs, single_end)
+    _, mono_emissions, link_emissions = get_glycans(iupacs)
 
     if use_edge:
         emissions = [mono_emissions, link_emissions]
@@ -141,9 +183,9 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
         
         # prepare glycans dictionary
         bind_parse_matrix, bind_mono_emission, bind_link_emission = prepare_data(
-            bind_train, single_end)
+            bind_train)
         nonbind_parse_matrix, nonbind_mono_emission, nonbind_link_emission = prepare_data(
-            nonbind_train, single_end)
+            nonbind_train)
 
         binding_hmm = initHMM.initHMM(states, emissions)
         nonbinding_hmm = initHMM.initHMM(states, emissions)
@@ -165,6 +207,12 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
 
     # training for each epoch
     for epoch in range(0, num_epoch):
+        
+        cv_label = []
+        cv_pred = []
+        cv_pred_posterior = []
+        cv_iupac = []
+    
         for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
                                                                                              nonbinding_train,
                                                                                              nonbinding_test)):
@@ -200,7 +248,7 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
 
             # compute training metrics
             train_preds, train_preds_posterior, bind_train_ll, non_bind_train_ll = batch_predict(
-                bind_train, nonbind_train, cv_iupac, single_end, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
+                bind_train, nonbind_train, cv_iupac, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
             train_labels = [1] * len(bind_train) + [0] * len(nonbind_train)
 
             logging.info('Epcoh #{} Fold #{} Training Performence Metrics\nBind Training LL: {:.3f} \nNon Bind Training LL: {:.3f} \n'.format(epoch,
@@ -212,7 +260,7 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
 
             # compute testing metrics
             test_preds, test_preds_posterior, _, _ = batch_predict(
-                bind_test, nonbind_test, cv_iupac, single_end, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
+                bind_test, nonbind_test, cv_iupac, use_edge, binding_hmms[fold_iter], nonbinding_hmms[fold_iter], by_chance_bind_prob)
             test_labels = [1] * len(bind_test) + [0] * len(nonbind_test)
             cv_label += test_labels
             cv_pred += test_preds
@@ -225,12 +273,13 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
 
         dict_to_save['Epoch_{}_y_label'.format(epoch)] = cv_label
         dict_to_save['Epoch_{}_y_pred'.format(epoch)] = cv_pred
+        dict_to_save['Epoch_{}_y_pred_posterior'.format(epoch)] = cv_pred_posterior
         dict_to_save['Epoch_{}_y_iupac'.format(epoch)] = cv_iupac
         
         logging.info('*' * 50)
-        logging.info('Overall Performence Metrics\n' +
+        logging.info('Epoch #{} Overall Performence Metrics\n'.format(epoch) +
                      get_metric_str(cv_label, cv_pred))
-        logging.info('Overall Performence Metrics  (Use Posterior)\n' +
+        logging.info('Epoch #{} Overall Performence Metrics (Use Posterior)\n'.format(epoch) +
                      get_metric_str(cv_label, cv_pred_posterior))
         logging.info('*' * 50)
     
@@ -238,7 +287,7 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
         with open(save_file+ '-model.pkl', 'wb') as pickle_file:
             pickle.dump(dict_to_save, pickle_file)
 
-def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupac: List[str], single_end: bool, use_edge: bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
+def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupac: List[str], use_edge: bool, binding_hmm_trained, nonbinding_hmm_trained, by_chance_bind_prob):
 
     test_pred = []
     test_pred_posterior = []
@@ -255,7 +304,7 @@ def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupa
     for i in range(num_cases):
         iupac_text = test_set[i]
         cv_iupac.append(iupac_text)
-        glycan_test = create_glycan_from_str(iupac_text, single_end)
+        glycan_test = create_glycan_from_str(iupac_text)
 
         # get test data features
         glycan_adj_matrix = glycan_test.get_adj_matrix()
@@ -268,24 +317,28 @@ def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupa
         else:
             glycan_emission = [glycan_mono_emission]
 
+        
         # calculate the likelihood
         fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(
-            glycan_sparse_matrix)
+             glycan_sparse_matrix)
 
-        bind_fwd_probs = forward.forward(
-            binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-        nonbind_fwd_probs = forward.forward(
-            nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-
-        # update lls:
-        case_bind_ll_per_end = []
-        case_none_bind_ll_per_end= []
-        for end_idx in glycan_test.get_end_nodes_indices():
-            case_bind_ll_per_end.append(logsumexp(bind_fwd_probs.iloc[:, end_idx]))
-            case_none_bind_ll_per_end.append(logsumexp(nonbind_fwd_probs.iloc[:, end_idx]))
+        case_bind_ll = forward_tree_ll(binding_hmm_trained, glycan_adj_matrix, glycan_emission, fwd_tree_sequence)
+        case_non_bind_ll = forward_tree_ll(nonbinding_hmm_trained, glycan_adj_matrix, glycan_emission, fwd_tree_sequence)
         
-        case_bind_ll = logsumexp(case_bind_ll_per_end)
-        case_non_bind_ll = logsumexp(case_none_bind_ll_per_end)
+        # bind_fwd_probs = forward.forward(
+        #     binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+        # nonbind_fwd_probs = forward.forward(
+        #     nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+
+        # # update lls:
+        # case_bind_ll_per_end = []
+        # case_none_bind_ll_per_end= []
+        # for end_idx in glycan_test.get_end_nodes_indices():
+        #     case_bind_ll_per_end.append(logsumexp(bind_fwd_probs.iloc[:, end_idx]))
+        #     case_none_bind_ll_per_end.append(logsumexp(nonbind_fwd_probs.iloc[:, end_idx]))
+        
+        # case_bind_ll = logsumexp(case_bind_ll_per_end)
+        # case_non_bind_ll = logsumexp(case_none_bind_ll_per_end)
         
         # this is one for training evalution
         if i < len(bind_test_set):
@@ -328,13 +381,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('Glycan TreeHMM')
     parser.add_argument('--use_edge', default=False, action='store_true',
                         help='whether use link information as part of the features')
-    parser.add_argument('--use_multi_end', default=False, action='store_true',
-                        help='whether use single end for glycan')
     parser.add_argument('--n_folds', type=int, default = 5,
                         help='number of folds for cross-validation')
     parser.add_argument('--max_iter', type=int, default = 3,
                         help='maximum number of training iteration per epoch')
-    parser.add_argument('--num_epoch', type=int, default = 3,
+    parser.add_argument('--num_epoch', type=int, default = 5,
                         help='number of epoch')
     parser.add_argument('--n_states', type=int, default = 2,
                         help='number of hidden states')
@@ -358,5 +409,5 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(fh)
 
     logging.info('args = %s', args)
-    train_and_test(use_edge=args.use_edge, single_end = not args.use_multi_end, n_folds=args.n_folds, max_iter=args.max_iter, num_epoch=args.num_epoch,
+    train_and_test(use_edge=args.use_edge, n_folds=args.n_folds, max_iter=args.max_iter, num_epoch=args.num_epoch,
                    n_states=args.n_states, delta=args.delta, random_seed=args.seed, save_file = args.save)
