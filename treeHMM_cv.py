@@ -228,9 +228,9 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
         dict_to_save['Epoch_{}_y_iupac'.format(epoch)] = cv_iupac
         
         logging.info('*' * 50)
-        logging.info('Overall Performence Metrics\n' +
+        logging.info('Epoch #{} Overall Performence Metrics\n'.format(epoch) +
                      get_metric_str(cv_label, cv_pred))
-        logging.info('Overall Performence Metrics  (Use Posterior)\n' +
+        logging.info('Epoch #{} Overall Performence Metrics (Use Posterior)\n'.format(epoch) +
                      get_metric_str(cv_label, cv_pred_posterior))
         logging.info('*' * 50)
     
