@@ -26,13 +26,11 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
             id = int(row[0])
             # remove right most part'(a1-sp14'
             iupac = re.split(r"\([^\)]*$", row[1], 1)[0]
-            count = int(row[2])
-            if count > 0:
-                iupacs[id] = iupac
+            iupacs[id] = iupac
     return iupacs
 
 # method to get a dict of glycans form input iupac snfg
-def get_glycans(iupacs:Dict[int, str] , single_end = False, start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
+def get_glycans(iupacs:Dict[int, str], start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
     gylcans_dict = {}
     monos = []
     links = []
@@ -43,14 +41,13 @@ def get_glycans(iupacs:Dict[int, str] , single_end = False, start = None, end = 
         if end is not None and id > end:
             continue 
         inpuac_text = iupacs[id]
-        gylcan = Glycan(inpuac_text, single_end)
+        gylcan = Glycan(inpuac_text)
         
-        if gylcan.get_num_nosaccharides() > 2:
-            gylcans_dict[id] = gylcan
-            monos += gylcan.get_filtered_monosaccharide_emssions()
-            links += gylcan.get_filtered_linkage_emssions()
+        #if gylcan.get_num_nosaccharides() > 2:
+        gylcans_dict[id] = gylcan
+        monos += gylcan.get_filtered_monosaccharide_emssions()
+        links += gylcan.get_filtered_linkage_emssions()
         
-
     mono_emissions = list(set(monos))
     link_emissions = list(set(links))
 
@@ -67,6 +64,7 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
     adj_matrices = []
     joint_monosaccharide_emission_observations = []
     joint_linkage_emission_observations = []
+
     for id in glycans_dict:
         glyan = glycans_dict[id]
         # update list of adj_matrices we are going to join along the diagonal
@@ -74,6 +72,7 @@ def create_forest_inputs(glycans_dict:Dict[int, Glycan]) -> Tuple[np.ndarray, np
         # update joint_monosaccharide_emission_observations and joint_linkage_emission_observations
         joint_monosaccharide_emission_observations = joint_monosaccharide_emission_observations + glyan.get_filtered_monosaccharide_emssions()
         joint_linkage_emission_observations = joint_linkage_emission_observations + glyan.get_filtered_linkage_emssions()
+
     # join adj_martrix along diagonal
     joint_adj_matrix = block_diag(*adj_matrices)
     return joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations
@@ -174,9 +173,26 @@ if __name__ == "__main__":
     # read iupac and get gylcans
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
- 
-    create_and_train_treehmm(num_states, iupacs, max_iterations = 5)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 5)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 10)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 20)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 30)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 40)
+    
+    gylcans, possible_monosaccharide_emissions, possible_linkage_emissions = get_glycans(iupacs)
+    joint_adj_matrix, joint_monosaccharide_emission_observations, joint_linkage_emission_observations = create_forest_inputs(gylcans)
+
+    #print(possible_monosaccharide_emissions)
+    monosaccharide_emission_observations_counts = {}
+    for item in possible_monosaccharide_emissions:
+        monosaccharide_emission_observations_counts[item] = 0
+    for item in joint_monosaccharide_emission_observations:
+        monosaccharide_emission_observations_counts[item] += 1
+    print(monosaccharide_emission_observations_counts)
+
+    possible_linkage_emissions_counts = {}
+    for item in possible_linkage_emissions:
+        possible_linkage_emissions_counts[item] = 0
+    for item in joint_linkage_emission_observations:
+        possible_linkage_emissions_counts[item] += 1
+    print(possible_linkage_emissions_counts)

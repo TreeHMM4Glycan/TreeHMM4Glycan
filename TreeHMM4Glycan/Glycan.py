@@ -56,12 +56,12 @@ class Glycan(object):
             (?P<base_type>([a-zA-Z]{3}[0-9]?[a-zA-Z]{0,3}))
             (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-[0-9]+\))?$''', re.VERBOSE)
 
-    def __init__(self, iupac_text:str, single_end = True) -> None:
+    def __init__(self, iupac_text:str) -> None:
         self._nodes:List[Node] = []
         self._adj_matrix:np.ndarray = None
         self._adj_list:Dict[int, List[int]] = {} # adj list is dict
         self._end_indices = []
-        self.glycan_from_iupac(iupac_text, single_end)
+        self.glycan_from_iupac(iupac_text)
         
 
     # methods add an end node to the tree
@@ -159,7 +159,7 @@ class Glycan(object):
         self._update_adj_list_after_add_node(parent_id, next_node_id)
 
 
-    def glycan_from_iupac(self, iupac_text:str, single_end:bool = True):
+    def glycan_from_iupac(self, iupac_text:str):
         #iupac_text = re.sub(r"\((\d*|\?)->?$", "", iupac_text)
         #new_branch_open = re.compile(r"(\]-?)$")
         root = Node(0, -1, remaning_text = iupac_text)
@@ -213,11 +213,11 @@ class Glycan(object):
                 # create branch out node and added as a child of current node
                 self._glycan_from_iupac_add_node(current_node, branch_out_text, node_stack, True)
         
-        if single_end:
+        #if single_end:
             # add end node and void arc
-            self._add_end_node(self._nodes[0])
-        else:
-            self._add_end_nodes(self._nodes[0])
+            # self._add_end_node(self._nodes[0])
+        #else:
+        self._add_end_nodes(self._nodes[0])
 
     def get_num_nosaccharides(self):
         return len(self._nodes)
@@ -227,3 +227,4 @@ if __name__ == "__main__":
     glycan = Glycan(test_input)
     print(glycan.get_filtered_monosaccharide_emssions())
     print(glycan.get_monosaccharide_emssions())
+    print(glycan.get_adj_matrix()[0])
