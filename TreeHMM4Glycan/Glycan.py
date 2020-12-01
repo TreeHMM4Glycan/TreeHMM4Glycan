@@ -227,3 +227,4 @@ if __name__ == "__main__":
     glycan = Glycan(test_input)
     print(glycan.get_filtered_monosaccharide_emssions())
     print(glycan.get_monosaccharide_emssions())
+    print(glycan.get_adj_matrix()[0])

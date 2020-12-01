@@ -1,4 +1,5 @@
 import math
+from math import inf
 import re
 import logging
 import sys
@@ -60,6 +61,52 @@ def n_fold(data, col_names, protein, num_folds, seed=None):
                                 for i in nonbinding_test_idx.tolist()])
 
     return binding_train, binding_test, nonbinding_train, nonbinding_test
+
+
+
+def forward_tree_ll(hmm, adjacent_matrix, emission_observation, fwd_tree_sequence):
+    """
+    Args:
+        hmm: It is a dictionary given as output by initHMM.py file
+        emission_observation: emission_observation is a list of list consisting "k" lists for "k"
+            features, each vector being a character series of discrete emission
+            values at different nodes serially sorted by node number
+        forward_tree_sequence: It is a list denoting the order of nodes in which
+            the tree should be traversed in forward direction(from roots to
+            leaves).
+
+    Returns:
+        forward_probs: A dataframe of size (N * D) denoting the forward
+        probabilites at each node of the tree, where "N" is possible no. of
+        states and "D" is the total number of nodes in the tree
+    """    
+    forward_probabilities = forward.forward(hmm, csr_matrix(adjacent_matrix), emission_observation, fwd_tree_sequence)
+
+    # let us travesl this tree via Floyd–Warshall
+    # node_id, segment start log prob
+    node_stack = [[0, 0]]
+
+    forward_ll = 0
+    
+    while len(node_stack) > 0: 
+        #print(node_stack)
+        current_node_data = node_stack.pop()
+        node_id, segment_start_ll = current_node_data
+        
+        # segment start at branch and end at other branch 
+        if not sum(adjacent_matrix[node_id]) == 1 :
+            node_log_prob = logsumexp(forward_probabilities.iloc[:, node_id])
+            # log_segment_prob is the segment end node ll - segement start ll
+            log_segment_prob =  node_log_prob - segment_start_ll
+            # add ll of this segment
+            forward_ll += log_segment_prob
+            segment_start_ll = node_log_prob
+        
+        for child_id, edge in enumerate(adjacent_matrix[node_id]):
+            if edge:
+                node_stack.append([child_id, segment_start_ll])
+    
+    return forward_ll
 
 
 def create_glycan_from_str(iupac_text: str) -> Glycan:
@@ -269,24 +316,28 @@ def batch_predict(bind_test_set: List[str], nonbind_test_set: List[str], cv_iupa
         else:
             glycan_emission = [glycan_mono_emission]
 
+        
         # calculate the likelihood
         fwd_tree_sequence = fwd_seq_gen.forward_sequence_generator(
-            glycan_sparse_matrix)
+             glycan_sparse_matrix)
 
-        bind_fwd_probs = forward.forward(
-            binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-        nonbind_fwd_probs = forward.forward(
-            nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
-
-        # update lls:
-        case_bind_ll_per_end = []
-        case_none_bind_ll_per_end= []
-        for end_idx in glycan_test.get_end_nodes_indices():
-            case_bind_ll_per_end.append(logsumexp(bind_fwd_probs.iloc[:, end_idx]))
-            case_none_bind_ll_per_end.append(logsumexp(nonbind_fwd_probs.iloc[:, end_idx]))
+        case_bind_ll = forward_tree_ll(binding_hmm_trained, glycan_adj_matrix, glycan_emission, fwd_tree_sequence)
+        case_non_bind_ll = forward_tree_ll(nonbinding_hmm_trained, glycan_adj_matrix, glycan_emission, fwd_tree_sequence)
         
-        case_bind_ll = logsumexp(case_bind_ll_per_end)
-        case_non_bind_ll = logsumexp(case_none_bind_ll_per_end)
+        # bind_fwd_probs = forward.forward(
+        #     binding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+        # nonbind_fwd_probs = forward.forward(
+        #     nonbinding_hmm_trained, glycan_sparse_matrix, glycan_emission, fwd_tree_sequence)
+
+        # # update lls:
+        # case_bind_ll_per_end = []
+        # case_none_bind_ll_per_end= []
+        # for end_idx in glycan_test.get_end_nodes_indices():
+        #     case_bind_ll_per_end.append(logsumexp(bind_fwd_probs.iloc[:, end_idx]))
+        #     case_none_bind_ll_per_end.append(logsumexp(nonbind_fwd_probs.iloc[:, end_idx]))
+        
+        # case_bind_ll = logsumexp(case_bind_ll_per_end)
+        # case_non_bind_ll = logsumexp(case_none_bind_ll_per_end)
         
         # this is one for training evalution
         if i < len(bind_test_set):
@@ -331,9 +382,9 @@ if __name__ == '__main__':
                         help='whether use link information as part of the features')
     parser.add_argument('--n_folds', type=int, default = 5,
                         help='number of folds for cross-validation')
-    parser.add_argument('--max_iter', type=int, default = 3,
+    parser.add_argument('--max_iter', type=int, default = 1,
                         help='maximum number of training iteration per epoch')
-    parser.add_argument('--num_epoch', type=int, default = 3,
+    parser.add_argument('--num_epoch', type=int, default = 1,
                         help='number of epoch')
     parser.add_argument('--n_states', type=int, default = 2,
                         help='number of hidden states')
