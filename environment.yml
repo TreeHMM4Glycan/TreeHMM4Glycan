@@ -8,6 +8,8 @@ dependencies:
   - setuptools
   - scipy
   - scikit-learn
+  - matplotlib
+  - jupyter
   - pip
   - pip:
     - "--editable=git+https://github.com/TreeHMM4Glycan/TreeHMM#egg=tree_hmm"

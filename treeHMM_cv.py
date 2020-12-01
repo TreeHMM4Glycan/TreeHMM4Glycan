@@ -273,6 +273,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=3, num_epoch
 
         dict_to_save['Epoch_{}_y_label'.format(epoch)] = cv_label
         dict_to_save['Epoch_{}_y_pred'.format(epoch)] = cv_pred
+        dict_to_save['Epoch_{}_y_pred_posterior'.format(epoch)] = cv_pred_posterior
         dict_to_save['Epoch_{}_y_iupac'.format(epoch)] = cv_iupac
         
         logging.info('*' * 50)
