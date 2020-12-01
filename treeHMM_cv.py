@@ -6,7 +6,7 @@ import argparse
 import pickle
 import time
 import os
-from typing import Dict, List
+from typing import List
 import pandas as pd
 from sklearn.model_selection import KFold
 from treehmm4glycan import create_forest_inputs, get_iupcas, get_glycans
@@ -100,7 +100,7 @@ def train_and_test(use_edge=False, single_end=True, n_folds=10, n_states=5, max_
                    random_seed=None, save_file = None):
     """Train GlyNet using n-fold cross-validation.
     """
-    logging.info('Training with hyper parameters:\nUse edge: {}\nUse single Node: {}\nNum folds: {}\nNum States: {}\nMax Iter: {}\nNum Epioch: {}\nDelta: {}\nRandom seed: {}'.
+    logging.info('Training with hyper parameters:\nUse edge: {}\nUse Single End Node: {}\nNum folds: {}\nNum States: {}\nMax Iter: {}\nNum Epioch: {}\nDelta: {}\nRandom seed: {}'.
                  format(use_edge, single_end, n_folds, n_states, max_iter, num_epoch, delta, random_seed))
 
     dict_to_save = {}
