@@ -32,7 +32,7 @@ def get_iupcas(iupac_name_file:str) -> Dict[int, str]:
     return iupacs
 
 # method to get a dict of glycans form input iupac snfg
-def get_glycans(iupacs:Dict[int, str] , single_end = False, start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
+def get_glycans(iupacs:Dict[int, str], start = None, end = None) -> Tuple[Dict[int, Glycan], List[str], List[str]]:
     gylcans_dict = {}
     monos = []
     links = []
@@ -43,7 +43,7 @@ def get_glycans(iupacs:Dict[int, str] , single_end = False, start = None, end = 
         if end is not None and id > end:
             continue 
         inpuac_text = iupacs[id]
-        gylcan = Glycan(inpuac_text, single_end)
+        gylcan = Glycan(inpuac_text)
         
         if gylcan.get_num_nosaccharides() > 2:
             gylcans_dict[id] = gylcan
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
  
-    create_and_train_treehmm(num_states, iupacs, max_iterations = 5)
+    #create_and_train_treehmm(num_states, iupacs, max_iterations = 5)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 10)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 20)
     #create_and_train_treehmm(num_states, iupacs, max_iterations = 30)
