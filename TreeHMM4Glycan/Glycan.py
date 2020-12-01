@@ -56,11 +56,13 @@ class Glycan(object):
             (?P<base_type>([a-zA-Z]{3}[0-9]?[a-zA-Z]{0,3}))
             (?P<linkage>-?\((?P<anomer>[ab]?)[0-9]+-[0-9]+\))?$''', re.VERBOSE)
 
-    def __init__(self, iupac_text:str) -> None:
+    def __init__(self, iupac_text:str, single_end = True) -> None:
         self._nodes:List[Node] = []
         self._adj_matrix:np.ndarray = None
         self._adj_list:Dict[int, List[int]] = {} # adj list is dict
-        self.glycan_from_iupac(iupac_text)
+        self._end_indices = []
+        self.glycan_from_iupac(iupac_text, single_end)
+        
 
     # methods add an end node to the tree
     # end of each branch are linked to the same end node
@@ -71,24 +73,26 @@ class Glycan(object):
         # and we can have more then one parent for end node
         end_node = Node(end_node_id, -1, monosaccharide_type= 'End', linkage_type= 'End-Linkage')
         self._nodes.append(end_node)
-        self._add_end_nodes_recursive(root, end_node)
+        self._add_end_node_recursive(root, end_node)
+        self._end_indices.append(end_node_id)
 
-    def _add_end_nodes_recursive (self, node:Node, end_node:Node):
+    def _add_end_node_recursive (self, node:Node, end_node:Node):
         if len(node.get_children()) == 0:
             node.add_child(end_node)
             self._update_adj_list_after_add_node(node.get_id(), end_node.get_id())
         else:
             for child in node.get_children():
-                self._add_end_nodes_recursive(child, end_node)
+                self._add_end_node_recursive(child, end_node)
 
     # methods add an end node to each end
     def _add_end_nodes(self, node:Node):
         if len(node.get_children()) == 0:
-            new_node_id = len(self._nodes)
-            end_node = Node(new_node_id, node.get_id(), monosaccharide_type= 'End', linkage_type= 'End-Linkage')
+            end_node_id = len(self._nodes)
+            end_node = Node(end_node_id, node.get_id(), monosaccharide_type= 'End', linkage_type= 'End-Linkage')
             node.add_child(end_node)
             self._nodes.append(end_node)
-            self._update_adj_list_after_add_node(node.get_id(), new_node_id)
+            self._end_indices.append(end_node_id)
+            self._update_adj_list_after_add_node(node.get_id(), end_node_id)
         else:
             for child in node.get_children():
                 self._add_end_nodes(child)
@@ -133,6 +137,9 @@ class Glycan(object):
 
         return adj_matrix
     
+    def get_end_nodes_indices(self) -> List[int]:
+        return self._end_indices
+    
     def _update_adj_list_after_add_node(self, parent_id, next_node_idx):
         if parent_id not in self._adj_list:
             self._adj_list[parent_id] = []
@@ -152,7 +159,7 @@ class Glycan(object):
         self._update_adj_list_after_add_node(parent_id, next_node_id)
 
 
-    def glycan_from_iupac(self, iupac_text:str):
+    def glycan_from_iupac(self, iupac_text:str, single_end:bool = True):
         #iupac_text = re.sub(r"\((\d*|\?)->?$", "", iupac_text)
         #new_branch_open = re.compile(r"(\]-?)$")
         root = Node(0, -1, remaning_text = iupac_text)
@@ -205,8 +212,12 @@ class Glycan(object):
             for branch_out_text in branch_out_texts:
                 # create branch out node and added as a child of current node
                 self._glycan_from_iupac_add_node(current_node, branch_out_text, node_stack, True)
-        # add end node and void arc
-        self._add_end_node(self._nodes[0])
+        
+        if single_end:
+            # add end node and void arc
+            self._add_end_node(self._nodes[0])
+        else:
+            self._add_end_nodes(self._nodes[0])
 
     def get_num_nosaccharides(self):
         return len(self._nodes)
