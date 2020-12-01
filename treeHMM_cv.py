@@ -103,11 +103,7 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=3, num_epoch
                  format(use_edge, n_folds, n_states, max_iter, num_epoch, delta, random_seed))
 
     dict_to_save = {}
-    cv_label = []
-    cv_pred = []
-    cv_pred_posterior = []
-    cv_iupac = []
-
+    
     # Get total possible number of emissions
     iupac_name_file = './Data/IUPAC.csv'
     iupacs = get_iupcas(iupac_name_file)
@@ -164,6 +160,12 @@ def train_and_test(use_edge=False, n_folds=10, n_states=5, max_iter=3, num_epoch
 
     # training for each epoch
     for epoch in range(0, num_epoch):
+        
+        cv_label = []
+        cv_pred = []
+        cv_pred_posterior = []
+        cv_iupac = []
+    
         for fold_iter, (bind_train, bind_test, nonbind_train, nonbind_test) in enumerate(zip(binding_train, binding_test,
                                                                                              nonbinding_train,
                                                                                              nonbinding_test)):
