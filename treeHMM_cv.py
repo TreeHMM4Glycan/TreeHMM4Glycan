@@ -328,7 +328,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('Glycan TreeHMM')
     parser.add_argument('--use_edge', default=False, action='store_true',
                         help='whether use link information as part of the features')
-    parser.add_argument('--use_multi_end', default=False, action='store_true',
+    parser.add_argument('--use_single', default=False, action='store_true',
                         help='whether use single end for glycan')
     parser.add_argument('--n_folds', type=int, default = 5,
                         help='number of folds for cross-validation')
@@ -358,5 +358,5 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(fh)
 
     logging.info('args = %s', args)
-    train_and_test(use_edge=args.use_edge, single_end = not args.use_multi_end, n_folds=args.n_folds, max_iter=args.max_iter, num_epoch=args.num_epoch,
+    train_and_test(use_edge=args.use_edge, single_end = args.use_single, n_folds=args.n_folds, max_iter=args.max_iter, num_epoch=args.num_epoch,
                    n_states=args.n_states, delta=args.delta, random_seed=args.seed, save_file = args.save)
