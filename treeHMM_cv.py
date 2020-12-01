@@ -382,9 +382,9 @@ if __name__ == '__main__':
                         help='whether use link information as part of the features')
     parser.add_argument('--n_folds', type=int, default = 5,
                         help='number of folds for cross-validation')
-    parser.add_argument('--max_iter', type=int, default = 1,
+    parser.add_argument('--max_iter', type=int, default = 3,
                         help='maximum number of training iteration per epoch')
-    parser.add_argument('--num_epoch', type=int, default = 1,
+    parser.add_argument('--num_epoch', type=int, default = 5,
                         help='number of epoch')
     parser.add_argument('--n_states', type=int, default = 2,
                         help='number of hidden states')
