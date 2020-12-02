@@ -1,35 +1,33 @@
-2020-11-30 23:39:55,872 args = Namespace(delta=1e-05, max_iter=3, n_folds=5, n_states=2, num_epoch=5, save='./Results/eval-states_2_folds_5-20201130-233955', seed=0, use_edge=False)
-2020-11-30 23:39:55,872 Training with hyper parameters:
-Use edge: False
+2020-12-01 02:44:50,386 args = Namespace(delta=1e-05, max_iter=3, n_folds=5, n_states=2, num_epoch=5, save='./Results/eval-states_2_folds_5-20201201-024450', seed=0, use_edge=False)
+2020-12-01 02:44:50,386 Training with hyper parameters:
+Use Edge: False
 Num Folds: 5
 Num States: 2
 Max Iter: 3
-Num Epioch: 5
+Num Epoch: 5
 Delta: 1e-05
 Random seed: 0
-2020-11-30 23:39:56,364 **************************************************
-2020-11-30 23:39:56,364 Training and testing in Epcoh #0 fold #0
-2020-11-30 23:39:56,364 By Chance Bind Prob: 0.317
-2020-11-30 23:39:56,364 ******** Training tree for binding cases *********
-2020-11-30 23:39:56,364 Iteration: 0
-2020-11-30 23:40:00,953 Delta:0.420806 Time: 4.588640 seconds
-2020-11-30 23:40:00,953 Iteration: 1
-2020-11-30 23:40:05,502 Delta:0.100807 Time: 4.548906 seconds
-2020-11-30 23:40:05,502 Iteration: 2
-2020-11-30 23:40:10,058 Delta:0.134630 Time: 4.556247 seconds
-2020-11-30 23:40:10,059 ****** Training tree for non-binding cases *******
-2020-11-30 23:40:10,059 Iteration: 0
-2020-11-30 23:40:16,141 Delta:0.399342 Time: 6.081607 seconds
-2020-11-30 23:40:16,141 Iteration: 1
-2020-11-30 23:40:22,200 Delta:0.136476 Time: 6.058996 seconds
-2020-11-30 23:40:22,200 Iteration: 2
-2020-11-30 23:40:28,289 Delta:0.161087 Time: 6.088864 seconds
-2020-11-30 23:40:35,433 Epcoh #0 Fold #0 Training Performence Metrics
+2020-12-01 02:44:51,170 **************************************************
+2020-12-01 02:44:51,170 Training and testing in Epcoh #0 fold #0
+2020-12-01 02:44:51,170 By Chance Bind Prob: 0.317
+2020-12-01 02:44:51,170 ******** Training tree for binding cases *********
+2020-12-01 02:44:51,170 Iteration: 0
+2020-12-01 02:44:58,880 Delta:0.420806 Time: 7.709640 seconds
+2020-12-01 02:44:58,880 Iteration: 1
+2020-12-01 02:45:06,475 Delta:0.100807 Time: 7.594765 seconds
+2020-12-01 02:45:06,475 Iteration: 2
+2020-12-01 02:45:14,030 Delta:0.134630 Time: 7.554668 seconds
+2020-12-01 02:45:14,030 ****** Training tree for non-binding cases *******
+2020-12-01 02:45:14,031 Iteration: 0
+2020-12-01 02:45:24,212 Delta:0.399342 Time: 10.181354 seconds
+2020-12-01 02:45:24,212 Iteration: 1
+2020-12-01 02:45:34,424 Delta:0.136476 Time: 10.211928 seconds
+2020-12-01 02:45:34,425 Iteration: 2
+2020-12-01 02:45:44,610 Delta:0.161087 Time: 10.185100 seconds
+2020-12-01 02:45:56,424 
+Epcoh #0 Fold #0 Training Performence Metrics
 Bind Training LL: -15.068 
-Non Bind Training LL: -9.395 
-
-2020-11-30 23:40:35,438 Epcoh #0 Fold #0 Training Performence Metrics
-F1 Score: 0.698
+Non Bind Training LL: -9.395F1 Score: 0.698
 Accuracy Score: 0.758
 Precision Score: 0.578
 Recall Score: 0.882
@@ -42,7 +40,8 @@ Recall Score: 0.882
    macro avg       0.75      0.79      0.75       479
 weighted avg       0.82      0.76      0.77       479
 
-2020-11-30 23:40:35,443 Epcoh #0 Fold #0 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:45:56,433 
+Epcoh #0 Fold #0 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.818
 Accuracy Score: 0.885
 Precision Score: 0.821
@@ -56,7 +55,7 @@ Recall Score: 0.816
    macro avg       0.87      0.87      0.87       479
 weighted avg       0.88      0.89      0.89       479
 
-2020-11-30 23:40:37,353 Fold #0 Testing Performence Metrics
+2020-12-01 02:45:59,587 Fold #0 Testing Performence Metrics
 F1 Score: 0.713
 Accuracy Score: 0.760
 Precision Score: 0.581
@@ -70,7 +69,7 @@ Recall Score: 0.923
    macro avg       0.76      0.80      0.75       121
 weighted avg       0.83      0.76      0.77       121
 
-2020-11-30 23:40:37,357 Fold #0 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:45:59,594 Fold #0 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.875
 Accuracy Score: 0.917
 Precision Score: 0.854
@@ -84,29 +83,27 @@ Recall Score: 0.897
    macro avg       0.90      0.91      0.91       121
 weighted avg       0.92      0.92      0.92       121
 
-2020-11-30 23:40:37,357 **************************************************
-2020-11-30 23:40:37,357 Training and testing in Epcoh #0 fold #1
-2020-11-30 23:40:37,357 By Chance Bind Prob: 0.319
-2020-11-30 23:40:37,357 ******** Training tree for binding cases *********
-2020-11-30 23:40:37,357 Iteration: 0
-2020-11-30 23:40:41,940 Delta:0.420329 Time: 4.582809 seconds
-2020-11-30 23:40:41,940 Iteration: 1
-2020-11-30 23:40:46,493 Delta:0.101900 Time: 4.553291 seconds
-2020-11-30 23:40:46,494 Iteration: 2
-2020-11-30 23:40:51,048 Delta:0.134676 Time: 4.554028 seconds
-2020-11-30 23:40:51,048 ****** Training tree for non-binding cases *******
-2020-11-30 23:40:51,048 Iteration: 0
-2020-11-30 23:40:57,130 Delta:0.399780 Time: 6.081558 seconds
-2020-11-30 23:40:57,130 Iteration: 1
-2020-11-30 23:41:03,198 Delta:0.130384 Time: 6.067643 seconds
-2020-11-30 23:41:03,198 Iteration: 2
-2020-11-30 23:41:09,262 Delta:0.157192 Time: 6.064098 seconds
-2020-11-30 23:41:16,438 Epcoh #0 Fold #1 Training Performence Metrics
+2020-12-01 02:45:59,595 **************************************************
+2020-12-01 02:45:59,595 Training and testing in Epcoh #0 fold #1
+2020-12-01 02:45:59,595 By Chance Bind Prob: 0.319
+2020-12-01 02:45:59,595 ******** Training tree for binding cases *********
+2020-12-01 02:45:59,595 Iteration: 0
+2020-12-01 02:46:07,270 Delta:0.420329 Time: 7.674675 seconds
+2020-12-01 02:46:07,270 Iteration: 1
+2020-12-01 02:46:14,915 Delta:0.101900 Time: 7.645341 seconds
+2020-12-01 02:46:14,916 Iteration: 2
+2020-12-01 02:46:22,639 Delta:0.134676 Time: 7.723145 seconds
+2020-12-01 02:46:22,639 ****** Training tree for non-binding cases *******
+2020-12-01 02:46:22,640 Iteration: 0
+2020-12-01 02:46:32,967 Delta:0.399780 Time: 10.327060 seconds
+2020-12-01 02:46:32,967 Iteration: 1
+2020-12-01 02:46:43,255 Delta:0.130384 Time: 10.287542 seconds
+2020-12-01 02:46:43,255 Iteration: 2
+2020-12-01 02:46:53,441 Delta:0.157192 Time: 10.185831 seconds
+2020-12-01 02:47:05,230 
+Epcoh #0 Fold #1 Training Performence Metrics
 Bind Training LL: -15.130 
-Non Bind Training LL: -9.343 
-
-2020-11-30 23:41:16,443 Epcoh #0 Fold #1 Training Performence Metrics
-F1 Score: 0.706
+Non Bind Training LL: -9.343F1 Score: 0.706
 Accuracy Score: 0.765
 Precision Score: 0.586
 Recall Score: 0.889
@@ -119,7 +116,8 @@ Recall Score: 0.889
    macro avg       0.76      0.80      0.75       480
 weighted avg       0.82      0.76      0.77       480
 
-2020-11-30 23:41:16,448 Epcoh #0 Fold #1 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:47:05,239 
+Epcoh #0 Fold #1 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.838
 Accuracy Score: 0.898
 Precision Score: 0.847
@@ -133,7 +131,7 @@ Recall Score: 0.830
    macro avg       0.88      0.88      0.88       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:41:18,304 Fold #1 Testing Performence Metrics
+2020-12-01 02:47:08,359 Fold #1 Testing Performence Metrics
 F1 Score: 0.710
 Accuracy Score: 0.775
 Precision Score: 0.600
@@ -147,7 +145,7 @@ Recall Score: 0.868
    macro avg       0.76      0.80      0.76       120
 weighted avg       0.82      0.78      0.78       120
 
-2020-11-30 23:41:18,308 Fold #1 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:47:08,366 Fold #1 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.821
 Accuracy Score: 0.883
 Precision Score: 0.800
@@ -161,29 +159,27 @@ Recall Score: 0.842
    macro avg       0.86      0.87      0.87       120
 weighted avg       0.89      0.88      0.88       120
 
-2020-11-30 23:41:18,308 **************************************************
-2020-11-30 23:41:18,308 Training and testing in Epcoh #0 fold #2
-2020-11-30 23:41:18,308 By Chance Bind Prob: 0.319
-2020-11-30 23:41:18,308 ******** Training tree for binding cases *********
-2020-11-30 23:41:18,308 Iteration: 0
-2020-11-30 23:41:23,228 Delta:0.426250 Time: 4.919618 seconds
-2020-11-30 23:41:23,228 Iteration: 1
-2020-11-30 23:41:28,102 Delta:0.101361 Time: 4.874127 seconds
-2020-11-30 23:41:28,102 Iteration: 2
-2020-11-30 23:41:32,961 Delta:0.138000 Time: 4.858348 seconds
-2020-11-30 23:41:32,961 ****** Training tree for non-binding cases *******
-2020-11-30 23:41:32,961 Iteration: 0
-2020-11-30 23:41:39,127 Delta:0.394681 Time: 6.165808 seconds
-2020-11-30 23:41:39,127 Iteration: 1
-2020-11-30 23:41:45,318 Delta:0.131077 Time: 6.190436 seconds
-2020-11-30 23:41:45,318 Iteration: 2
-2020-11-30 23:41:51,512 Delta:0.157953 Time: 6.193486 seconds
-2020-11-30 23:41:58,870 Epcoh #0 Fold #2 Training Performence Metrics
+2020-12-01 02:47:08,366 **************************************************
+2020-12-01 02:47:08,366 Training and testing in Epcoh #0 fold #2
+2020-12-01 02:47:08,366 By Chance Bind Prob: 0.319
+2020-12-01 02:47:08,366 ******** Training tree for binding cases *********
+2020-12-01 02:47:08,367 Iteration: 0
+2020-12-01 02:47:16,679 Delta:0.426250 Time: 8.312261 seconds
+2020-12-01 02:47:16,679 Iteration: 1
+2020-12-01 02:47:24,951 Delta:0.101361 Time: 8.272104 seconds
+2020-12-01 02:47:24,952 Iteration: 2
+2020-12-01 02:47:33,149 Delta:0.138000 Time: 8.197113 seconds
+2020-12-01 02:47:33,149 ****** Training tree for non-binding cases *******
+2020-12-01 02:47:33,150 Iteration: 0
+2020-12-01 02:47:43,603 Delta:0.394681 Time: 10.453092 seconds
+2020-12-01 02:47:43,603 Iteration: 1
+2020-12-01 02:47:53,954 Delta:0.131077 Time: 10.350758 seconds
+2020-12-01 02:47:53,954 Iteration: 2
+2020-12-01 02:48:04,268 Delta:0.157953 Time: 10.314033 seconds
+2020-12-01 02:48:16,452 
+Epcoh #0 Fold #2 Training Performence Metrics
 Bind Training LL: -16.069 
-Non Bind Training LL: -9.555 
-
-2020-11-30 23:41:58,875 Epcoh #0 Fold #2 Training Performence Metrics
-F1 Score: 0.711
+Non Bind Training LL: -9.555F1 Score: 0.711
 Accuracy Score: 0.767
 Precision Score: 0.587
 Recall Score: 0.902
@@ -196,7 +192,8 @@ Recall Score: 0.902
    macro avg       0.76      0.80      0.76       480
 weighted avg       0.83      0.77      0.77       480
 
-2020-11-30 23:41:58,880 Epcoh #0 Fold #2 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:48:16,462 
+Epcoh #0 Fold #2 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.842
 Accuracy Score: 0.898
 Precision Score: 0.829
@@ -210,7 +207,7 @@ Recall Score: 0.856
    macro avg       0.88      0.89      0.88       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:42:00,554 Fold #2 Testing Performence Metrics
+2020-12-01 02:48:19,248 Fold #2 Testing Performence Metrics
 F1 Score: 0.640
 Accuracy Score: 0.700
 Precision Score: 0.516
@@ -224,7 +221,7 @@ Recall Score: 0.842
    macro avg       0.71      0.74      0.69       120
 weighted avg       0.78      0.70      0.71       120
 
-2020-11-30 23:42:00,558 Fold #2 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:48:19,255 Fold #2 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.778
 Accuracy Score: 0.867
 Precision Score: 0.824
@@ -238,29 +235,27 @@ Recall Score: 0.737
    macro avg       0.85      0.83      0.84       120
 weighted avg       0.86      0.87      0.86       120
 
-2020-11-30 23:42:00,558 **************************************************
-2020-11-30 23:42:00,558 Training and testing in Epcoh #0 fold #3
-2020-11-30 23:42:00,558 By Chance Bind Prob: 0.319
-2020-11-30 23:42:00,558 ******** Training tree for binding cases *********
-2020-11-30 23:42:00,558 Iteration: 0
-2020-11-30 23:42:05,432 Delta:0.427235 Time: 4.873401 seconds
-2020-11-30 23:42:05,432 Iteration: 1
-2020-11-30 23:42:10,274 Delta:0.104873 Time: 4.842371 seconds
-2020-11-30 23:42:10,275 Iteration: 2
-2020-11-30 23:42:15,118 Delta:0.138702 Time: 4.843787 seconds
-2020-11-30 23:42:15,119 ****** Training tree for non-binding cases *******
-2020-11-30 23:42:15,119 Iteration: 0
-2020-11-30 23:42:21,158 Delta:0.402259 Time: 6.038674 seconds
-2020-11-30 23:42:21,158 Iteration: 1
-2020-11-30 23:42:27,172 Delta:0.132307 Time: 6.014299 seconds
-2020-11-30 23:42:27,172 Iteration: 2
-2020-11-30 23:42:33,189 Delta:0.155890 Time: 6.017006 seconds
-2020-11-30 23:42:40,446 Epcoh #0 Fold #3 Training Performence Metrics
+2020-12-01 02:48:19,255 **************************************************
+2020-12-01 02:48:19,255 Training and testing in Epcoh #0 fold #3
+2020-12-01 02:48:19,255 By Chance Bind Prob: 0.319
+2020-12-01 02:48:19,255 ******** Training tree for binding cases *********
+2020-12-01 02:48:19,256 Iteration: 0
+2020-12-01 02:48:27,481 Delta:0.427235 Time: 8.224987 seconds
+2020-12-01 02:48:27,481 Iteration: 1
+2020-12-01 02:48:35,667 Delta:0.104873 Time: 8.185813 seconds
+2020-12-01 02:48:35,667 Iteration: 2
+2020-12-01 02:48:43,877 Delta:0.138702 Time: 8.209577 seconds
+2020-12-01 02:48:43,877 ****** Training tree for non-binding cases *******
+2020-12-01 02:48:43,878 Iteration: 0
+2020-12-01 02:48:54,046 Delta:0.402259 Time: 10.168577 seconds
+2020-12-01 02:48:54,047 Iteration: 1
+2020-12-01 02:49:04,089 Delta:0.132307 Time: 10.042516 seconds
+2020-12-01 02:49:04,089 Iteration: 2
+2020-12-01 02:49:14,183 Delta:0.155890 Time: 10.093615 seconds
+2020-12-01 02:49:26,278 
+Epcoh #0 Fold #3 Training Performence Metrics
 Bind Training LL: -15.929 
-Non Bind Training LL: -9.274 
-
-2020-11-30 23:42:40,451 Epcoh #0 Fold #3 Training Performence Metrics
-F1 Score: 0.686
+Non Bind Training LL: -9.274F1 Score: 0.686
 Accuracy Score: 0.731
 Precision Score: 0.547
 Recall Score: 0.922
@@ -273,7 +268,8 @@ Recall Score: 0.922
    macro avg       0.75      0.78      0.73       480
 weighted avg       0.82      0.73      0.74       480
 
-2020-11-30 23:42:40,456 Epcoh #0 Fold #3 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:49:26,287 
+Epcoh #0 Fold #3 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.828
 Accuracy Score: 0.890
 Precision Score: 0.821
@@ -287,7 +283,7 @@ Recall Score: 0.837
    macro avg       0.87      0.88      0.87       480
 weighted avg       0.89      0.89      0.89       480
 
-2020-11-30 23:42:42,213 Fold #3 Testing Performence Metrics
+2020-12-01 02:49:29,197 Fold #3 Testing Performence Metrics
 F1 Score: 0.695
 Accuracy Score: 0.758
 Precision Score: 0.579
@@ -301,7 +297,7 @@ Recall Score: 0.868
    macro avg       0.75      0.79      0.75       120
 weighted avg       0.81      0.76      0.77       120
 
-2020-11-30 23:42:42,217 Fold #3 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:49:29,204 Fold #3 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.842
 Accuracy Score: 0.900
 Precision Score: 0.842
@@ -315,29 +311,27 @@ Recall Score: 0.842
    macro avg       0.88      0.88      0.88       120
 weighted avg       0.90      0.90      0.90       120
 
-2020-11-30 23:42:42,217 **************************************************
-2020-11-30 23:42:42,217 Training and testing in Epcoh #0 fold #4
-2020-11-30 23:42:42,217 By Chance Bind Prob: 0.318
-2020-11-30 23:42:42,217 ******** Training tree for binding cases *********
-2020-11-30 23:42:42,218 Iteration: 0
-2020-11-30 23:42:46,732 Delta:0.417749 Time: 4.514799 seconds
-2020-11-30 23:42:46,733 Iteration: 1
-2020-11-30 23:42:51,230 Delta:0.103482 Time: 4.497139 seconds
-2020-11-30 23:42:51,230 Iteration: 2
-2020-11-30 23:42:55,771 Delta:0.137244 Time: 4.540765 seconds
-2020-11-30 23:42:55,771 ****** Training tree for non-binding cases *******
-2020-11-30 23:42:55,771 Iteration: 0
-2020-11-30 23:43:01,996 Delta:0.409452 Time: 6.224439 seconds
-2020-11-30 23:43:01,996 Iteration: 1
-2020-11-30 23:43:08,212 Delta:0.129763 Time: 6.216145 seconds
-2020-11-30 23:43:08,212 Iteration: 2
-2020-11-30 23:43:14,426 Delta:0.153724 Time: 6.214146 seconds
-2020-11-30 23:43:21,634 Epcoh #0 Fold #4 Training Performence Metrics
+2020-12-01 02:49:29,204 **************************************************
+2020-12-01 02:49:29,204 Training and testing in Epcoh #0 fold #4
+2020-12-01 02:49:29,204 By Chance Bind Prob: 0.318
+2020-12-01 02:49:29,204 ******** Training tree for binding cases *********
+2020-12-01 02:49:29,205 Iteration: 0
+2020-12-01 02:49:36,855 Delta:0.417749 Time: 7.650509 seconds
+2020-12-01 02:49:36,856 Iteration: 1
+2020-12-01 02:49:44,426 Delta:0.103482 Time: 7.570575 seconds
+2020-12-01 02:49:44,426 Iteration: 2
+2020-12-01 02:49:52,134 Delta:0.137244 Time: 7.707079 seconds
+2020-12-01 02:49:52,134 ****** Training tree for non-binding cases *******
+2020-12-01 02:49:52,135 Iteration: 0
+2020-12-01 02:50:02,543 Delta:0.409452 Time: 10.408470 seconds
+2020-12-01 02:50:02,543 Iteration: 1
+2020-12-01 02:50:12,892 Delta:0.129763 Time: 10.348585 seconds
+2020-12-01 02:50:12,892 Iteration: 2
+2020-12-01 02:50:23,306 Delta:0.153724 Time: 10.413759 seconds
+2020-12-01 02:50:35,216 
+Epcoh #0 Fold #4 Training Performence Metrics
 Bind Training LL: -14.967 
-Non Bind Training LL: -9.452 
-
-2020-11-30 23:43:21,639 Epcoh #0 Fold #4 Training Performence Metrics
-F1 Score: 0.719
+Non Bind Training LL: -9.452F1 Score: 0.719
 Accuracy Score: 0.786
 Precision Score: 0.617
 Recall Score: 0.863
@@ -350,7 +344,8 @@ Recall Score: 0.863
    macro avg       0.77      0.81      0.77       481
 weighted avg       0.82      0.79      0.79       481
 
-2020-11-30 23:43:21,644 Epcoh #0 Fold #4 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:50:35,225 
+Epcoh #0 Fold #4 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.837
 Accuracy Score: 0.898
 Precision Score: 0.851
@@ -364,7 +359,7 @@ Recall Score: 0.824
    macro avg       0.89      0.88      0.88       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:43:23,492 Fold #4 Testing Performence Metrics
+2020-12-01 02:50:38,275 Fold #4 Testing Performence Metrics
 F1 Score: 0.737
 Accuracy Score: 0.790
 Precision Score: 0.614
@@ -378,7 +373,7 @@ Recall Score: 0.921
    macro avg       0.78      0.82      0.78       119
 weighted avg       0.84      0.79      0.80       119
 
-2020-11-30 23:43:23,496 Fold #4 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:50:38,282 Fold #4 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.857
 Accuracy Score: 0.908
 Precision Score: 0.846
@@ -392,59 +387,43 @@ Recall Score: 0.868
    macro avg       0.89      0.90      0.89       119
 weighted avg       0.91      0.91      0.91       119
 
-2020-11-30 23:43:23,496 **************************************************
-2020-11-30 23:43:23,501 Epoch #0 Overall Performence Metrics
-F1 Score: 0.698
-Accuracy Score: 0.757
-Precision Score: 0.577
-Recall Score: 0.885
-              precision    recall  f1-score   support
+2020-12-01 02:50:38,282 **************************************************
+2020-12-01 02:50:38,282 
+Epoch #0 Overall Performence Metrics
+F1 Score: 0.699 std:0.032
+Accuracy Score: 0.757 std:0.031
+Precision Score: 0.578 std:0.034
+Recall Score: 0.885 std:0.032
 
-           0       0.93      0.70      0.80       409
-           1       0.58      0.88      0.70       191
+2020-12-01 02:50:38,283 
+Epoch #0 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.835 std:0.034
+Accuracy Score: 0.895 std:0.018
+Precision Score: 0.833 std:0.019
+Recall Score: 0.837 std:0.054
 
-    accuracy                           0.76       600
-   macro avg       0.75      0.79      0.75       600
-weighted avg       0.82      0.76      0.76       600
-
-2020-11-30 23:43:23,507 Epoch #0 Overall Performence Metrics (Use Posterior)
-F1 Score: 0.836
-Accuracy Score: 0.895
-Precision Score: 0.833
-Recall Score: 0.838
-              precision    recall  f1-score   support
-
-           0       0.92      0.92      0.92       409
-           1       0.83      0.84      0.84       191
-
-    accuracy                           0.90       600
-   macro avg       0.88      0.88      0.88       600
-weighted avg       0.90      0.90      0.90       600
-
-2020-11-30 23:43:23,507 **************************************************
-2020-11-30 23:43:23,507 **************************************************
-2020-11-30 23:43:23,507 Training and testing in Epcoh #1 fold #0
-2020-11-30 23:43:23,507 By Chance Bind Prob: 0.317
-2020-11-30 23:43:23,507 ******** Training tree for binding cases *********
-2020-11-30 23:43:23,507 Iteration: 0
-2020-11-30 23:43:28,036 Delta:0.167168 Time: 4.528830 seconds
-2020-11-30 23:43:28,036 Iteration: 1
-2020-11-30 23:43:32,546 Delta:0.161015 Time: 4.509593 seconds
-2020-11-30 23:43:32,546 Iteration: 2
-2020-11-30 23:43:37,080 Delta:0.108148 Time: 4.534216 seconds
-2020-11-30 23:43:37,081 ****** Training tree for non-binding cases *******
-2020-11-30 23:43:37,081 Iteration: 0
-2020-11-30 23:43:43,118 Delta:0.161845 Time: 6.037003 seconds
-2020-11-30 23:43:43,118 Iteration: 1
-2020-11-30 23:43:49,138 Delta:0.143892 Time: 6.019702 seconds
-2020-11-30 23:43:49,138 Iteration: 2
-2020-11-30 23:43:55,186 Delta:0.125821 Time: 6.048407 seconds
-2020-11-30 23:44:02,300 Epcoh #1 Fold #0 Training Performence Metrics
+2020-12-01 02:50:38,283 **************************************************
+2020-12-01 02:50:38,283 **************************************************
+2020-12-01 02:50:38,283 Training and testing in Epcoh #1 fold #0
+2020-12-01 02:50:38,283 By Chance Bind Prob: 0.317
+2020-12-01 02:50:38,283 ******** Training tree for binding cases *********
+2020-12-01 02:50:38,283 Iteration: 0
+2020-12-01 02:50:45,946 Delta:0.167168 Time: 7.663049 seconds
+2020-12-01 02:50:45,947 Iteration: 1
+2020-12-01 02:50:53,622 Delta:0.161015 Time: 7.675436 seconds
+2020-12-01 02:50:53,622 Iteration: 2
+2020-12-01 02:51:01,347 Delta:0.108148 Time: 7.724894 seconds
+2020-12-01 02:51:01,348 ****** Training tree for non-binding cases *******
+2020-12-01 02:51:01,348 Iteration: 0
+2020-12-01 02:51:11,599 Delta:0.161845 Time: 10.250329 seconds
+2020-12-01 02:51:11,599 Iteration: 1
+2020-12-01 02:51:21,837 Delta:0.143892 Time: 10.238331 seconds
+2020-12-01 02:51:21,838 Iteration: 2
+2020-12-01 02:51:32,071 Delta:0.125821 Time: 10.233033 seconds
+2020-12-01 02:51:43,876 
+Epcoh #1 Fold #0 Training Performence Metrics
 Bind Training LL: -14.242 
-Non Bind Training LL: -9.029 
-
-2020-11-30 23:44:02,305 Epcoh #1 Fold #0 Training Performence Metrics
-F1 Score: 0.678
+Non Bind Training LL: -9.029F1 Score: 0.678
 Accuracy Score: 0.731
 Precision Score: 0.546
 Recall Score: 0.895
@@ -457,7 +436,8 @@ Recall Score: 0.895
    macro avg       0.74      0.77      0.72       479
 weighted avg       0.81      0.73      0.74       479
 
-2020-11-30 23:44:02,310 Epcoh #1 Fold #0 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:51:43,886 
+Epcoh #1 Fold #0 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.821
 Accuracy Score: 0.885
 Precision Score: 0.813
@@ -471,7 +451,7 @@ Recall Score: 0.829
    macro avg       0.87      0.87      0.87       479
 weighted avg       0.89      0.89      0.89       479
 
-2020-11-30 23:44:04,218 Fold #0 Testing Performence Metrics
+2020-12-01 02:51:47,073 Fold #0 Testing Performence Metrics
 F1 Score: 0.679
 Accuracy Score: 0.711
 Precision Score: 0.529
@@ -485,7 +465,7 @@ Recall Score: 0.949
    macro avg       0.74      0.77      0.71       121
 weighted avg       0.82      0.71      0.72       121
 
-2020-11-30 23:44:04,221 Fold #0 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:51:47,080 Fold #0 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.864
 Accuracy Score: 0.909
 Precision Score: 0.833
@@ -499,29 +479,27 @@ Recall Score: 0.897
    macro avg       0.89      0.91      0.90       121
 weighted avg       0.91      0.91      0.91       121
 
-2020-11-30 23:44:04,221 **************************************************
-2020-11-30 23:44:04,221 Training and testing in Epcoh #1 fold #1
-2020-11-30 23:44:04,221 By Chance Bind Prob: 0.319
-2020-11-30 23:44:04,222 ******** Training tree for binding cases *********
-2020-11-30 23:44:04,222 Iteration: 0
-2020-11-30 23:44:08,806 Delta:0.167204 Time: 4.584274 seconds
-2020-11-30 23:44:08,806 Iteration: 1
-2020-11-30 23:44:13,388 Delta:0.162558 Time: 4.581918 seconds
-2020-11-30 23:44:13,388 Iteration: 2
-2020-11-30 23:44:17,981 Delta:0.110028 Time: 4.592207 seconds
-2020-11-30 23:44:17,981 ****** Training tree for non-binding cases *******
-2020-11-30 23:44:17,981 Iteration: 0
-2020-11-30 23:44:24,057 Delta:0.163697 Time: 6.075359 seconds
-2020-11-30 23:44:24,057 Iteration: 1
-2020-11-30 23:44:30,147 Delta:0.150094 Time: 6.090311 seconds
-2020-11-30 23:44:30,147 Iteration: 2
-2020-11-30 23:44:36,264 Delta:0.127970 Time: 6.116225 seconds
-2020-11-30 23:44:43,440 Epcoh #1 Fold #1 Training Performence Metrics
+2020-12-01 02:51:47,080 **************************************************
+2020-12-01 02:51:47,080 Training and testing in Epcoh #1 fold #1
+2020-12-01 02:51:47,081 By Chance Bind Prob: 0.319
+2020-12-01 02:51:47,081 ******** Training tree for binding cases *********
+2020-12-01 02:51:47,081 Iteration: 0
+2020-12-01 02:51:54,777 Delta:0.167204 Time: 7.696165 seconds
+2020-12-01 02:51:54,777 Iteration: 1
+2020-12-01 02:52:02,401 Delta:0.162558 Time: 7.623545 seconds
+2020-12-01 02:52:02,401 Iteration: 2
+2020-12-01 02:52:10,074 Delta:0.110028 Time: 7.672475 seconds
+2020-12-01 02:52:10,074 ****** Training tree for non-binding cases *******
+2020-12-01 02:52:10,075 Iteration: 0
+2020-12-01 02:52:20,344 Delta:0.163697 Time: 10.269282 seconds
+2020-12-01 02:52:20,344 Iteration: 1
+2020-12-01 02:52:30,673 Delta:0.150094 Time: 10.328851 seconds
+2020-12-01 02:52:30,673 Iteration: 2
+2020-12-01 02:52:40,965 Delta:0.127970 Time: 10.291401 seconds
+2020-12-01 02:52:52,710 
+Epcoh #1 Fold #1 Training Performence Metrics
 Bind Training LL: -14.308 
-Non Bind Training LL: -8.929 
-
-2020-11-30 23:44:43,446 Epcoh #1 Fold #1 Training Performence Metrics
-F1 Score: 0.714
+Non Bind Training LL: -8.929F1 Score: 0.714
 Accuracy Score: 0.767
 Precision Score: 0.586
 Recall Score: 0.915
@@ -534,7 +512,8 @@ Recall Score: 0.915
    macro avg       0.77      0.81      0.76       480
 weighted avg       0.83      0.77      0.77       480
 
-2020-11-30 23:44:43,451 Epcoh #1 Fold #1 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:52:52,719 
+Epcoh #1 Fold #1 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.833
 Accuracy Score: 0.894
 Precision Score: 0.836
@@ -548,7 +527,7 @@ Recall Score: 0.830
    macro avg       0.88      0.88      0.88       480
 weighted avg       0.89      0.89      0.89       480
 
-2020-11-30 23:44:45,316 Fold #1 Testing Performence Metrics
+2020-12-01 02:52:55,764 Fold #1 Testing Performence Metrics
 F1 Score: 0.731
 Accuracy Score: 0.792
 Precision Score: 0.618
@@ -562,7 +541,7 @@ Recall Score: 0.895
    macro avg       0.78      0.82      0.78       120
 weighted avg       0.84      0.79      0.80       120
 
-2020-11-30 23:44:45,320 Fold #1 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:52:55,771 Fold #1 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.821
 Accuracy Score: 0.883
 Precision Score: 0.800
@@ -576,29 +555,27 @@ Recall Score: 0.842
    macro avg       0.86      0.87      0.87       120
 weighted avg       0.89      0.88      0.88       120
 
-2020-11-30 23:44:45,320 **************************************************
-2020-11-30 23:44:45,320 Training and testing in Epcoh #1 fold #2
-2020-11-30 23:44:45,320 By Chance Bind Prob: 0.319
-2020-11-30 23:44:45,320 ******** Training tree for binding cases *********
-2020-11-30 23:44:45,320 Iteration: 0
-2020-11-30 23:44:50,232 Delta:0.171591 Time: 4.911225 seconds
-2020-11-30 23:44:50,232 Iteration: 1
-2020-11-30 23:44:55,093 Delta:0.163195 Time: 4.860956 seconds
-2020-11-30 23:44:55,093 Iteration: 2
-2020-11-30 23:44:59,988 Delta:0.107389 Time: 4.895306 seconds
-2020-11-30 23:44:59,989 ****** Training tree for non-binding cases *******
-2020-11-30 23:44:59,989 Iteration: 0
-2020-11-30 23:45:06,120 Delta:0.163036 Time: 6.131247 seconds
-2020-11-30 23:45:06,120 Iteration: 1
-2020-11-30 23:45:12,293 Delta:0.147750 Time: 6.172253 seconds
-2020-11-30 23:45:12,293 Iteration: 2
-2020-11-30 23:45:18,441 Delta:0.127454 Time: 6.148052 seconds
-2020-11-30 23:45:25,769 Epcoh #1 Fold #2 Training Performence Metrics
+2020-12-01 02:52:55,771 **************************************************
+2020-12-01 02:52:55,771 Training and testing in Epcoh #1 fold #2
+2020-12-01 02:52:55,771 By Chance Bind Prob: 0.319
+2020-12-01 02:52:55,771 ******** Training tree for binding cases *********
+2020-12-01 02:52:55,771 Iteration: 0
+2020-12-01 02:53:03,971 Delta:0.171591 Time: 8.199686 seconds
+2020-12-01 02:53:03,971 Iteration: 1
+2020-12-01 02:53:12,270 Delta:0.163195 Time: 8.298826 seconds
+2020-12-01 02:53:12,271 Iteration: 2
+2020-12-01 02:53:20,545 Delta:0.107389 Time: 8.274101 seconds
+2020-12-01 02:53:20,545 ****** Training tree for non-binding cases *******
+2020-12-01 02:53:20,546 Iteration: 0
+2020-12-01 02:53:30,947 Delta:0.163036 Time: 10.401496 seconds
+2020-12-01 02:53:30,947 Iteration: 1
+2020-12-01 02:53:41,349 Delta:0.147750 Time: 10.401468 seconds
+2020-12-01 02:53:41,349 Iteration: 2
+2020-12-01 02:53:51,645 Delta:0.127454 Time: 10.296292 seconds
+2020-12-01 02:54:03,769 
+Epcoh #1 Fold #2 Training Performence Metrics
 Bind Training LL: -15.183 
-Non Bind Training LL: -9.148 
-
-2020-11-30 23:45:25,774 Epcoh #1 Fold #2 Training Performence Metrics
-F1 Score: 0.702
+Non Bind Training LL: -9.148F1 Score: 0.702
 Accuracy Score: 0.752
 Precision Score: 0.569
 Recall Score: 0.915
@@ -611,7 +588,8 @@ Recall Score: 0.915
    macro avg       0.76      0.80      0.74       480
 weighted avg       0.82      0.75      0.76       480
 
-2020-11-30 23:45:25,779 Epcoh #1 Fold #2 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:54:03,779 
+Epcoh #1 Fold #2 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.847
 Accuracy Score: 0.900
 Precision Score: 0.826
@@ -625,7 +603,7 @@ Recall Score: 0.869
    macro avg       0.88      0.89      0.89       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:45:27,444 Fold #2 Testing Performence Metrics
+2020-12-01 02:54:06,548 Fold #2 Testing Performence Metrics
 F1 Score: 0.634
 Accuracy Score: 0.692
 Precision Score: 0.508
@@ -639,7 +617,7 @@ Recall Score: 0.842
    macro avg       0.70      0.73      0.68       120
 weighted avg       0.77      0.69      0.70       120
 
-2020-11-30 23:45:27,448 Fold #2 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:54:06,555 Fold #2 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.757
 Accuracy Score: 0.850
 Precision Score: 0.778
@@ -653,29 +631,27 @@ Recall Score: 0.737
    macro avg       0.83      0.82      0.82       120
 weighted avg       0.85      0.85      0.85       120
 
-2020-11-30 23:45:27,448 **************************************************
-2020-11-30 23:45:27,448 Training and testing in Epcoh #1 fold #3
-2020-11-30 23:45:27,448 By Chance Bind Prob: 0.319
-2020-11-30 23:45:27,448 ******** Training tree for binding cases *********
-2020-11-30 23:45:27,448 Iteration: 0
-2020-11-30 23:45:32,296 Delta:0.170302 Time: 4.848436 seconds
-2020-11-30 23:45:32,297 Iteration: 1
-2020-11-30 23:45:37,144 Delta:0.163890 Time: 4.847401 seconds
-2020-11-30 23:45:37,144 Iteration: 2
-2020-11-30 23:45:41,992 Delta:0.111127 Time: 4.848007 seconds
-2020-11-30 23:45:41,993 ****** Training tree for non-binding cases *******
-2020-11-30 23:45:41,993 Iteration: 0
-2020-11-30 23:45:47,981 Delta:0.159615 Time: 5.988016 seconds
-2020-11-30 23:45:47,981 Iteration: 1
-2020-11-30 23:45:54,008 Delta:0.144840 Time: 6.026572 seconds
-2020-11-30 23:45:54,008 Iteration: 2
-2020-11-30 23:46:00,013 Delta:0.123821 Time: 6.005600 seconds
-2020-11-30 23:46:07,303 Epcoh #1 Fold #3 Training Performence Metrics
+2020-12-01 02:54:06,555 **************************************************
+2020-12-01 02:54:06,555 Training and testing in Epcoh #1 fold #3
+2020-12-01 02:54:06,555 By Chance Bind Prob: 0.319
+2020-12-01 02:54:06,555 ******** Training tree for binding cases *********
+2020-12-01 02:54:06,556 Iteration: 0
+2020-12-01 02:54:14,785 Delta:0.170302 Time: 8.229115 seconds
+2020-12-01 02:54:14,785 Iteration: 1
+2020-12-01 02:54:22,972 Delta:0.163890 Time: 8.187404 seconds
+2020-12-01 02:54:22,973 Iteration: 2
+2020-12-01 02:54:31,196 Delta:0.111127 Time: 8.223121 seconds
+2020-12-01 02:54:31,196 ****** Training tree for non-binding cases *******
+2020-12-01 02:54:31,197 Iteration: 0
+2020-12-01 02:54:41,304 Delta:0.159615 Time: 10.107336 seconds
+2020-12-01 02:54:41,304 Iteration: 1
+2020-12-01 02:54:51,349 Delta:0.144840 Time: 10.044922 seconds
+2020-12-01 02:54:51,350 Iteration: 2
+2020-12-01 02:55:01,445 Delta:0.123821 Time: 10.094943 seconds
+2020-12-01 02:55:13,520 
+Epcoh #1 Fold #3 Training Performence Metrics
 Bind Training LL: -15.048 
-Non Bind Training LL: -8.896 
-
-2020-11-30 23:46:07,308 Epcoh #1 Fold #3 Training Performence Metrics
-F1 Score: 0.668
+Non Bind Training LL: -8.896F1 Score: 0.668
 Accuracy Score: 0.708
 Precision Score: 0.524
 Recall Score: 0.922
@@ -688,7 +664,8 @@ Recall Score: 0.922
    macro avg       0.73      0.77      0.70       480
 weighted avg       0.81      0.71      0.72       480
 
-2020-11-30 23:46:07,313 Epcoh #1 Fold #3 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:55:13,529 
+Epcoh #1 Fold #3 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.822
 Accuracy Score: 0.883
 Precision Score: 0.801
@@ -702,7 +679,7 @@ Recall Score: 0.843
    macro avg       0.86      0.87      0.87       480
 weighted avg       0.89      0.88      0.88       480
 
-2020-11-30 23:46:09,075 Fold #3 Testing Performence Metrics
+2020-12-01 02:55:16,426 Fold #3 Testing Performence Metrics
 F1 Score: 0.660
 Accuracy Score: 0.717
 Precision Score: 0.532
@@ -716,7 +693,7 @@ Recall Score: 0.868
    macro avg       0.72      0.76      0.71       120
 weighted avg       0.79      0.72      0.73       120
 
-2020-11-30 23:46:09,078 Fold #3 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:55:16,433 Fold #3 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.857
 Accuracy Score: 0.908
 Precision Score: 0.846
@@ -730,29 +707,27 @@ Recall Score: 0.868
    macro avg       0.89      0.90      0.89       120
 weighted avg       0.91      0.91      0.91       120
 
-2020-11-30 23:46:09,078 **************************************************
-2020-11-30 23:46:09,078 Training and testing in Epcoh #1 fold #4
-2020-11-30 23:46:09,078 By Chance Bind Prob: 0.318
-2020-11-30 23:46:09,078 ******** Training tree for binding cases *********
-2020-11-30 23:46:09,079 Iteration: 0
-2020-11-30 23:46:13,609 Delta:0.168247 Time: 4.530541 seconds
-2020-11-30 23:46:13,609 Iteration: 1
-2020-11-30 23:46:18,124 Delta:0.158906 Time: 4.514475 seconds
-2020-11-30 23:46:18,124 Iteration: 2
-2020-11-30 23:46:22,627 Delta:0.104271 Time: 4.502623 seconds
-2020-11-30 23:46:22,627 ****** Training tree for non-binding cases *******
-2020-11-30 23:46:22,627 Iteration: 0
-2020-11-30 23:46:28,804 Delta:0.157591 Time: 6.176240 seconds
-2020-11-30 23:46:28,804 Iteration: 1
-2020-11-30 23:46:35,007 Delta:0.141795 Time: 6.202981 seconds
-2020-11-30 23:46:35,007 Iteration: 2
-2020-11-30 23:46:41,185 Delta:0.124297 Time: 6.177501 seconds
-2020-11-30 23:46:48,370 Epcoh #1 Fold #4 Training Performence Metrics
+2020-12-01 02:55:16,433 **************************************************
+2020-12-01 02:55:16,433 Training and testing in Epcoh #1 fold #4
+2020-12-01 02:55:16,434 By Chance Bind Prob: 0.318
+2020-12-01 02:55:16,434 ******** Training tree for binding cases *********
+2020-12-01 02:55:16,434 Iteration: 0
+2020-12-01 02:55:24,083 Delta:0.168247 Time: 7.649334 seconds
+2020-12-01 02:55:24,084 Iteration: 1
+2020-12-01 02:55:31,687 Delta:0.158906 Time: 7.603113 seconds
+2020-12-01 02:55:31,687 Iteration: 2
+2020-12-01 02:55:39,316 Delta:0.104271 Time: 7.628723 seconds
+2020-12-01 02:55:39,316 ****** Training tree for non-binding cases *******
+2020-12-01 02:55:39,317 Iteration: 0
+2020-12-01 02:55:49,730 Delta:0.157591 Time: 10.412985 seconds
+2020-12-01 02:55:49,730 Iteration: 1
+2020-12-01 02:56:00,098 Delta:0.141795 Time: 10.367879 seconds
+2020-12-01 02:56:00,098 Iteration: 2
+2020-12-01 02:56:10,508 Delta:0.124297 Time: 10.409603 seconds
+2020-12-01 02:56:22,450 
+Epcoh #1 Fold #4 Training Performence Metrics
 Bind Training LL: -14.158 
-Non Bind Training LL: -9.133 
-
-2020-11-30 23:46:48,375 Epcoh #1 Fold #4 Training Performence Metrics
-F1 Score: 0.735
+Non Bind Training LL: -9.133F1 Score: 0.735
 Accuracy Score: 0.796
 Precision Score: 0.627
 Recall Score: 0.889
@@ -765,7 +740,8 @@ Recall Score: 0.889
    macro avg       0.78      0.82      0.78       481
 weighted avg       0.84      0.80      0.80       481
 
-2020-11-30 23:46:48,380 Epcoh #1 Fold #4 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:56:22,460 
+Epcoh #1 Fold #4 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.849
 Accuracy Score: 0.904
 Precision Score: 0.854
@@ -779,7 +755,7 @@ Recall Score: 0.843
    macro avg       0.89      0.89      0.89       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:46:50,210 Fold #4 Testing Performence Metrics
+2020-12-01 02:56:25,516 Fold #4 Testing Performence Metrics
 F1 Score: 0.779
 Accuracy Score: 0.824
 Precision Score: 0.649
@@ -793,7 +769,7 @@ Recall Score: 0.974
    macro avg       0.82      0.86      0.82       119
 weighted avg       0.88      0.82      0.83       119
 
-2020-11-30 23:46:50,214 Fold #4 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:56:25,523 Fold #4 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.886
 Accuracy Score: 0.924
 Precision Score: 0.854
@@ -807,59 +783,43 @@ Recall Score: 0.921
    macro avg       0.91      0.92      0.91       119
 weighted avg       0.93      0.92      0.93       119
 
-2020-11-30 23:46:50,214 **************************************************
-2020-11-30 23:46:50,220 Epoch #1 Overall Performence Metrics
-F1 Score: 0.695
-Accuracy Score: 0.747
-Precision Score: 0.564
-Recall Score: 0.906
-              precision    recall  f1-score   support
+2020-12-01 02:56:25,523 **************************************************
+2020-12-01 02:56:25,524 
+Epoch #1 Overall Performence Metrics
+F1 Score: 0.697 std:0.052
+Accuracy Score: 0.747 std:0.051
+Precision Score: 0.567 std:0.056
+Recall Score: 0.906 std:0.049
 
-           0       0.94      0.67      0.78       409
-           1       0.56      0.91      0.69       191
+2020-12-01 02:56:25,524 
+Epoch #1 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.837 std:0.045
+Accuracy Score: 0.895 std:0.026
+Precision Score: 0.822 std:0.029
+Recall Score: 0.853 std:0.064
 
-    accuracy                           0.75       600
-   macro avg       0.75      0.79      0.74       600
-weighted avg       0.82      0.75      0.76       600
-
-2020-11-30 23:46:50,225 Epoch #1 Overall Performence Metrics (Use Posterior)
-F1 Score: 0.838
-Accuracy Score: 0.895
-Precision Score: 0.823
-Recall Score: 0.853
-              precision    recall  f1-score   support
-
-           0       0.93      0.91      0.92       409
-           1       0.82      0.85      0.84       191
-
-    accuracy                           0.90       600
-   macro avg       0.88      0.88      0.88       600
-weighted avg       0.90      0.90      0.90       600
-
-2020-11-30 23:46:50,225 **************************************************
-2020-11-30 23:46:50,225 **************************************************
-2020-11-30 23:46:50,225 Training and testing in Epcoh #2 fold #0
-2020-11-30 23:46:50,225 By Chance Bind Prob: 0.317
-2020-11-30 23:46:50,225 ******** Training tree for binding cases *********
-2020-11-30 23:46:50,226 Iteration: 0
-2020-11-30 23:46:54,755 Delta:0.058169 Time: 4.529455 seconds
-2020-11-30 23:46:54,755 Iteration: 1
-2020-11-30 23:46:59,283 Delta:0.029929 Time: 4.527352 seconds
-2020-11-30 23:46:59,283 Iteration: 2
-2020-11-30 23:47:03,794 Delta:0.015238 Time: 4.511350 seconds
-2020-11-30 23:47:03,795 ****** Training tree for non-binding cases *******
-2020-11-30 23:47:03,795 Iteration: 0
-2020-11-30 23:47:09,810 Delta:0.097866 Time: 6.014981 seconds
-2020-11-30 23:47:09,810 Iteration: 1
-2020-11-30 23:47:15,841 Delta:0.057427 Time: 6.030928 seconds
-2020-11-30 23:47:15,841 Iteration: 2
-2020-11-30 23:47:21,849 Delta:0.029148 Time: 6.008101 seconds
-2020-11-30 23:47:28,958 Epcoh #2 Fold #0 Training Performence Metrics
+2020-12-01 02:56:25,524 **************************************************
+2020-12-01 02:56:25,524 **************************************************
+2020-12-01 02:56:25,524 Training and testing in Epcoh #2 fold #0
+2020-12-01 02:56:25,524 By Chance Bind Prob: 0.317
+2020-12-01 02:56:25,524 ******** Training tree for binding cases *********
+2020-12-01 02:56:25,525 Iteration: 0
+2020-12-01 02:56:33,203 Delta:0.058169 Time: 7.677777 seconds
+2020-12-01 02:56:33,203 Iteration: 1
+2020-12-01 02:56:40,865 Delta:0.029929 Time: 7.662219 seconds
+2020-12-01 02:56:40,865 Iteration: 2
+2020-12-01 02:56:48,516 Delta:0.015238 Time: 7.650796 seconds
+2020-12-01 02:56:48,517 ****** Training tree for non-binding cases *******
+2020-12-01 02:56:48,517 Iteration: 0
+2020-12-01 02:56:58,636 Delta:0.097866 Time: 10.118723 seconds
+2020-12-01 02:56:58,636 Iteration: 1
+2020-12-01 02:57:08,739 Delta:0.057427 Time: 10.102905 seconds
+2020-12-01 02:57:08,739 Iteration: 2
+2020-12-01 02:57:18,942 Delta:0.029148 Time: 10.202779 seconds
+2020-12-01 02:57:30,779 
+Epcoh #2 Fold #0 Training Performence Metrics
 Bind Training LL: -14.174 
-Non Bind Training LL: -8.787 
-
-2020-11-30 23:47:28,963 Epcoh #2 Fold #0 Training Performence Metrics
-F1 Score: 0.742
+Non Bind Training LL: -8.787F1 Score: 0.742
 Accuracy Score: 0.808
 Precision Score: 0.647
 Recall Score: 0.868
@@ -872,7 +832,8 @@ Recall Score: 0.868
    macro avg       0.79      0.82      0.79       479
 weighted avg       0.84      0.81      0.81       479
 
-2020-11-30 23:47:28,968 Epcoh #2 Fold #0 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:57:30,788 
+Epcoh #2 Fold #0 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.827
 Accuracy Score: 0.891
 Precision Score: 0.838
@@ -886,7 +847,7 @@ Recall Score: 0.816
    macro avg       0.88      0.87      0.87       479
 weighted avg       0.89      0.89      0.89       479
 
-2020-11-30 23:47:30,880 Fold #0 Testing Performence Metrics
+2020-12-01 02:57:33,964 Fold #0 Testing Performence Metrics
 F1 Score: 0.769
 Accuracy Score: 0.826
 Precision Score: 0.673
@@ -900,7 +861,7 @@ Recall Score: 0.897
    macro avg       0.81      0.85      0.82       121
 weighted avg       0.86      0.83      0.83       121
 
-2020-11-30 23:47:30,884 Fold #0 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:57:33,971 Fold #0 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.897
 Accuracy Score: 0.934
 Precision Score: 0.897
@@ -914,29 +875,27 @@ Recall Score: 0.897
    macro avg       0.92      0.92      0.92       121
 weighted avg       0.93      0.93      0.93       121
 
-2020-11-30 23:47:30,884 **************************************************
-2020-11-30 23:47:30,884 Training and testing in Epcoh #2 fold #1
-2020-11-30 23:47:30,884 By Chance Bind Prob: 0.319
-2020-11-30 23:47:30,884 ******** Training tree for binding cases *********
-2020-11-30 23:47:30,884 Iteration: 0
-2020-11-30 23:47:35,454 Delta:0.058782 Time: 4.569221 seconds
-2020-11-30 23:47:35,454 Iteration: 1
-2020-11-30 23:47:40,034 Delta:0.029932 Time: 4.579747 seconds
-2020-11-30 23:47:40,034 Iteration: 2
-2020-11-30 23:47:44,605 Delta:0.015335 Time: 4.571601 seconds
-2020-11-30 23:47:44,606 ****** Training tree for non-binding cases *******
-2020-11-30 23:47:44,606 Iteration: 0
-2020-11-30 23:47:50,680 Delta:0.092042 Time: 6.073729 seconds
-2020-11-30 23:47:50,680 Iteration: 1
-2020-11-30 23:47:56,780 Delta:0.051727 Time: 6.099949 seconds
-2020-11-30 23:47:56,780 Iteration: 2
-2020-11-30 23:48:02,842 Delta:0.025979 Time: 6.061833 seconds
-2020-11-30 23:48:10,019 Epcoh #2 Fold #1 Training Performence Metrics
+2020-12-01 02:57:33,971 **************************************************
+2020-12-01 02:57:33,971 Training and testing in Epcoh #2 fold #1
+2020-12-01 02:57:33,971 By Chance Bind Prob: 0.319
+2020-12-01 02:57:33,971 ******** Training tree for binding cases *********
+2020-12-01 02:57:33,972 Iteration: 0
+2020-12-01 02:57:41,723 Delta:0.058782 Time: 7.751473 seconds
+2020-12-01 02:57:41,723 Iteration: 1
+2020-12-01 02:57:49,499 Delta:0.029932 Time: 7.775852 seconds
+2020-12-01 02:57:49,499 Iteration: 2
+2020-12-01 02:57:57,258 Delta:0.015335 Time: 7.758701 seconds
+2020-12-01 02:57:57,259 ****** Training tree for non-binding cases *******
+2020-12-01 02:57:57,259 Iteration: 0
+2020-12-01 02:58:07,549 Delta:0.092042 Time: 10.289607 seconds
+2020-12-01 02:58:07,549 Iteration: 1
+2020-12-01 02:58:17,864 Delta:0.051727 Time: 10.314919 seconds
+2020-12-01 02:58:17,864 Iteration: 2
+2020-12-01 02:58:28,153 Delta:0.025979 Time: 10.289067 seconds
+2020-12-01 02:58:40,025 
+Epcoh #2 Fold #1 Training Performence Metrics
 Bind Training LL: -14.240 
-Non Bind Training LL: -8.720 
-
-2020-11-30 23:48:10,024 Epcoh #2 Fold #1 Training Performence Metrics
-F1 Score: 0.761
+Non Bind Training LL: -8.720F1 Score: 0.761
 Accuracy Score: 0.823
 Precision Score: 0.668
 Recall Score: 0.882
@@ -949,7 +908,8 @@ Recall Score: 0.882
    macro avg       0.80      0.84      0.81       480
 weighted avg       0.85      0.82      0.83       480
 
-2020-11-30 23:48:10,029 Epcoh #2 Fold #1 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:58:40,035 
+Epcoh #2 Fold #1 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.844
 Accuracy Score: 0.902
 Precision Score: 0.858
@@ -963,7 +923,7 @@ Recall Score: 0.830
    macro avg       0.89      0.88      0.89       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:48:11,892 Fold #1 Testing Performence Metrics
+2020-12-01 02:58:43,132 Fold #1 Testing Performence Metrics
 F1 Score: 0.733
 Accuracy Score: 0.800
 Precision Score: 0.635
@@ -977,7 +937,7 @@ Recall Score: 0.868
    macro avg       0.78      0.82      0.79       120
 weighted avg       0.83      0.80      0.81       120
 
-2020-11-30 23:48:11,895 Fold #1 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:58:43,139 Fold #1 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.831
 Accuracy Score: 0.892
 Precision Score: 0.821
@@ -991,29 +951,27 @@ Recall Score: 0.842
    macro avg       0.87      0.88      0.88       120
 weighted avg       0.89      0.89      0.89       120
 
-2020-11-30 23:48:11,895 **************************************************
-2020-11-30 23:48:11,895 Training and testing in Epcoh #2 fold #2
-2020-11-30 23:48:11,896 By Chance Bind Prob: 0.319
-2020-11-30 23:48:11,896 ******** Training tree for binding cases *********
-2020-11-30 23:48:11,896 Iteration: 0
-2020-11-30 23:48:16,766 Delta:0.056794 Time: 4.870281 seconds
-2020-11-30 23:48:16,766 Iteration: 1
-2020-11-30 23:48:21,670 Delta:0.029150 Time: 4.903368 seconds
-2020-11-30 23:48:21,670 Iteration: 2
-2020-11-30 23:48:26,543 Delta:0.014884 Time: 4.872720 seconds
-2020-11-30 23:48:26,543 ****** Training tree for non-binding cases *******
-2020-11-30 23:48:26,543 Iteration: 0
-2020-11-30 23:48:32,711 Delta:0.094685 Time: 6.167740 seconds
-2020-11-30 23:48:32,711 Iteration: 1
-2020-11-30 23:48:38,906 Delta:0.054105 Time: 6.194478 seconds
-2020-11-30 23:48:38,906 Iteration: 2
-2020-11-30 23:48:45,064 Delta:0.026975 Time: 6.157937 seconds
-2020-11-30 23:48:52,412 Epcoh #2 Fold #2 Training Performence Metrics
+2020-12-01 02:58:43,139 **************************************************
+2020-12-01 02:58:43,139 Training and testing in Epcoh #2 fold #2
+2020-12-01 02:58:43,139 By Chance Bind Prob: 0.319
+2020-12-01 02:58:43,139 ******** Training tree for binding cases *********
+2020-12-01 02:58:43,139 Iteration: 0
+2020-12-01 02:58:51,324 Delta:0.056794 Time: 8.184817 seconds
+2020-12-01 02:58:51,325 Iteration: 1
+2020-12-01 02:58:59,500 Delta:0.029150 Time: 8.175698 seconds
+2020-12-01 02:58:59,501 Iteration: 2
+2020-12-01 02:59:07,720 Delta:0.014884 Time: 8.219894 seconds
+2020-12-01 02:59:07,721 ****** Training tree for non-binding cases *******
+2020-12-01 02:59:07,721 Iteration: 0
+2020-12-01 02:59:18,205 Delta:0.094685 Time: 10.483554 seconds
+2020-12-01 02:59:18,205 Iteration: 1
+2020-12-01 02:59:28,634 Delta:0.054105 Time: 10.428422 seconds
+2020-12-01 02:59:28,634 Iteration: 2
+2020-12-01 02:59:39,037 Delta:0.026975 Time: 10.402771 seconds
+2020-12-01 02:59:51,132 
+Epcoh #2 Fold #2 Training Performence Metrics
 Bind Training LL: -15.114 
-Non Bind Training LL: -8.912 
-
-2020-11-30 23:48:52,417 Epcoh #2 Fold #2 Training Performence Metrics
-F1 Score: 0.765
+Non Bind Training LL: -8.912F1 Score: 0.765
 Accuracy Score: 0.825
 Precision Score: 0.668
 Recall Score: 0.895
@@ -1026,7 +984,8 @@ Recall Score: 0.895
    macro avg       0.81      0.84      0.81       480
 weighted avg       0.85      0.82      0.83       480
 
-2020-11-30 23:48:52,422 Epcoh #2 Fold #2 Training  Performence Metrics  (Use Posterior)
+2020-12-01 02:59:51,141 
+Epcoh #2 Fold #2 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.853
 Accuracy Score: 0.906
 Precision Score: 0.851
@@ -1040,7 +999,7 @@ Recall Score: 0.856
    macro avg       0.89      0.89      0.89       480
 weighted avg       0.91      0.91      0.91       480
 
-2020-11-30 23:48:54,098 Fold #2 Testing Performence Metrics
+2020-12-01 02:59:53,872 Fold #2 Testing Performence Metrics
 F1 Score: 0.659
 Accuracy Score: 0.742
 Precision Score: 0.566
@@ -1054,7 +1013,7 @@ Recall Score: 0.789
    macro avg       0.72      0.75      0.73       120
 weighted avg       0.78      0.74      0.75       120
 
-2020-11-30 23:48:54,102 Fold #2 Testing Performence Metrics  (Use Posterior)
+2020-12-01 02:59:53,879 Fold #2 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.778
 Accuracy Score: 0.867
 Precision Score: 0.824
@@ -1068,29 +1027,27 @@ Recall Score: 0.737
    macro avg       0.85      0.83      0.84       120
 weighted avg       0.86      0.87      0.86       120
 
-2020-11-30 23:48:54,102 **************************************************
-2020-11-30 23:48:54,102 Training and testing in Epcoh #2 fold #3
-2020-11-30 23:48:54,102 By Chance Bind Prob: 0.319
-2020-11-30 23:48:54,102 ******** Training tree for binding cases *********
-2020-11-30 23:48:54,102 Iteration: 0
-2020-11-30 23:48:58,980 Delta:0.060027 Time: 4.877574 seconds
-2020-11-30 23:48:58,980 Iteration: 1
-2020-11-30 23:49:03,825 Delta:0.030930 Time: 4.845039 seconds
-2020-11-30 23:49:03,825 Iteration: 2
-2020-11-30 23:49:08,683 Delta:0.015687 Time: 4.857291 seconds
-2020-11-30 23:49:08,683 ****** Training tree for non-binding cases *******
-2020-11-30 23:49:08,683 Iteration: 0
-2020-11-30 23:49:14,720 Delta:0.090574 Time: 6.036876 seconds
-2020-11-30 23:49:14,720 Iteration: 1
-2020-11-30 23:49:20,732 Delta:0.052519 Time: 6.011591 seconds
-2020-11-30 23:49:20,732 Iteration: 2
-2020-11-30 23:49:26,735 Delta:0.027700 Time: 6.002637 seconds
-2020-11-30 23:49:34,018 Epcoh #2 Fold #3 Training Performence Metrics
+2020-12-01 02:59:53,879 **************************************************
+2020-12-01 02:59:53,879 Training and testing in Epcoh #2 fold #3
+2020-12-01 02:59:53,880 By Chance Bind Prob: 0.319
+2020-12-01 02:59:53,880 ******** Training tree for binding cases *********
+2020-12-01 02:59:53,880 Iteration: 0
+2020-12-01 03:00:02,040 Delta:0.060027 Time: 8.160157 seconds
+2020-12-01 03:00:02,040 Iteration: 1
+2020-12-01 03:00:10,262 Delta:0.030930 Time: 8.221139 seconds
+2020-12-01 03:00:10,262 Iteration: 2
+2020-12-01 03:00:18,506 Delta:0.015687 Time: 8.243983 seconds
+2020-12-01 03:00:18,506 ****** Training tree for non-binding cases *******
+2020-12-01 03:00:18,507 Iteration: 0
+2020-12-01 03:00:28,700 Delta:0.090574 Time: 10.192867 seconds
+2020-12-01 03:00:28,700 Iteration: 1
+2020-12-01 03:00:38,831 Delta:0.052519 Time: 10.130908 seconds
+2020-12-01 03:00:38,831 Iteration: 2
+2020-12-01 03:00:48,886 Delta:0.027700 Time: 10.055158 seconds
+2020-12-01 03:01:00,881 
+Epcoh #2 Fold #3 Training Performence Metrics
 Bind Training LL: -14.973 
-Non Bind Training LL: -8.703 
-
-2020-11-30 23:49:34,023 Epcoh #2 Fold #3 Training Performence Metrics
-F1 Score: 0.750
+Non Bind Training LL: -8.703F1 Score: 0.750
 Accuracy Score: 0.808
 Precision Score: 0.642
 Recall Score: 0.902
@@ -1103,7 +1060,8 @@ Recall Score: 0.902
    macro avg       0.79      0.83      0.80       480
 weighted avg       0.85      0.81      0.81       480
 
-2020-11-30 23:49:34,028 Epcoh #2 Fold #3 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:01:00,890 
+Epcoh #2 Fold #3 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.842
 Accuracy Score: 0.900
 Precision Score: 0.848
@@ -1117,7 +1075,7 @@ Recall Score: 0.837
    macro avg       0.89      0.88      0.88       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:49:35,783 Fold #3 Testing Performence Metrics
+2020-12-01 03:01:03,831 Fold #3 Testing Performence Metrics
 F1 Score: 0.786
 Accuracy Score: 0.850
 Precision Score: 0.717
@@ -1131,7 +1089,7 @@ Recall Score: 0.868
    macro avg       0.82      0.85      0.84       120
 weighted avg       0.86      0.85      0.85       120
 
-2020-11-30 23:49:35,787 Fold #3 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:01:03,838 Fold #3 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.838
 Accuracy Score: 0.900
 Precision Score: 0.861
@@ -1145,29 +1103,27 @@ Recall Score: 0.816
    macro avg       0.89      0.88      0.88       120
 weighted avg       0.90      0.90      0.90       120
 
-2020-11-30 23:49:35,787 **************************************************
-2020-11-30 23:49:35,787 Training and testing in Epcoh #2 fold #4
-2020-11-30 23:49:35,787 By Chance Bind Prob: 0.318
-2020-11-30 23:49:35,787 ******** Training tree for binding cases *********
-2020-11-30 23:49:35,787 Iteration: 0
-2020-11-30 23:49:40,314 Delta:0.054933 Time: 4.526913 seconds
-2020-11-30 23:49:40,314 Iteration: 1
-2020-11-30 23:49:44,819 Delta:0.027981 Time: 4.504767 seconds
-2020-11-30 23:49:44,819 Iteration: 2
-2020-11-30 23:49:49,343 Delta:0.015370 Time: 4.523142 seconds
-2020-11-30 23:49:49,343 ****** Training tree for non-binding cases *******
-2020-11-30 23:49:49,343 Iteration: 0
-2020-11-30 23:49:55,564 Delta:0.107387 Time: 6.220506 seconds
-2020-11-30 23:49:55,564 Iteration: 1
-2020-11-30 23:50:01,744 Delta:0.069841 Time: 6.179660 seconds
-2020-11-30 23:50:01,744 Iteration: 2
-2020-11-30 23:50:07,923 Delta:0.035558 Time: 6.178714 seconds
-2020-11-30 23:50:15,131 Epcoh #2 Fold #4 Training Performence Metrics
+2020-12-01 03:01:03,838 **************************************************
+2020-12-01 03:01:03,838 Training and testing in Epcoh #2 fold #4
+2020-12-01 03:01:03,838 By Chance Bind Prob: 0.318
+2020-12-01 03:01:03,838 ******** Training tree for binding cases *********
+2020-12-01 03:01:03,839 Iteration: 0
+2020-12-01 03:01:11,563 Delta:0.054933 Time: 7.724274 seconds
+2020-12-01 03:01:11,563 Iteration: 1
+2020-12-01 03:01:19,209 Delta:0.027981 Time: 7.645373 seconds
+2020-12-01 03:01:19,209 Iteration: 2
+2020-12-01 03:01:26,795 Delta:0.015370 Time: 7.585943 seconds
+2020-12-01 03:01:26,795 ****** Training tree for non-binding cases *******
+2020-12-01 03:01:26,796 Iteration: 0
+2020-12-01 03:01:37,296 Delta:0.107387 Time: 10.500471 seconds
+2020-12-01 03:01:37,297 Iteration: 1
+2020-12-01 03:01:47,646 Delta:0.069841 Time: 10.349234 seconds
+2020-12-01 03:01:47,646 Iteration: 2
+2020-12-01 03:01:57,970 Delta:0.035558 Time: 10.323410 seconds
+2020-12-01 03:02:09,885 
+Epcoh #2 Fold #4 Training Performence Metrics
 Bind Training LL: -14.091 
-Non Bind Training LL: -8.803 
-
-2020-11-30 23:50:15,136 Epcoh #2 Fold #4 Training Performence Metrics
-F1 Score: 0.841
+Non Bind Training LL: -8.803F1 Score: 0.841
 Accuracy Score: 0.898
 Precision Score: 0.833
 Recall Score: 0.850
@@ -1180,7 +1136,8 @@ Recall Score: 0.850
    macro avg       0.88      0.89      0.88       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:50:15,141 Epcoh #2 Fold #4 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:02:09,894 
+Epcoh #2 Fold #4 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.837
 Accuracy Score: 0.898
 Precision Score: 0.851
@@ -1194,7 +1151,7 @@ Recall Score: 0.824
    macro avg       0.89      0.88      0.88       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:50:16,978 Fold #4 Testing Performence Metrics
+2020-12-01 03:02:12,940 Fold #4 Testing Performence Metrics
 F1 Score: 0.840
 Accuracy Score: 0.891
 Precision Score: 0.791
@@ -1208,7 +1165,7 @@ Recall Score: 0.895
    macro avg       0.87      0.89      0.88       119
 weighted avg       0.90      0.89      0.89       119
 
-2020-11-30 23:50:16,981 Fold #4 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:02:12,947 Fold #4 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.857
 Accuracy Score: 0.908
 Precision Score: 0.846
@@ -1222,59 +1179,43 @@ Recall Score: 0.868
    macro avg       0.89      0.90      0.89       119
 weighted avg       0.91      0.91      0.91       119
 
-2020-11-30 23:50:16,981 **************************************************
-2020-11-30 23:50:16,987 Epoch #2 Overall Performence Metrics
-F1 Score: 0.755
-Accuracy Score: 0.822
-Precision Score: 0.671
-Recall Score: 0.864
-              precision    recall  f1-score   support
+2020-12-01 03:02:12,947 **************************************************
+2020-12-01 03:02:12,947 
+Epoch #2 Overall Performence Metrics
+F1 Score: 0.757 std:0.060
+Accuracy Score: 0.822 std:0.050
+Precision Score: 0.676 std:0.076
+Recall Score: 0.864 std:0.039
 
-           0       0.93      0.80      0.86       409
-           1       0.67      0.86      0.76       191
+2020-12-01 03:02:12,947 
+Epoch #2 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.840 std:0.039
+Accuracy Score: 0.900 std:0.022
+Precision Score: 0.850 std:0.028
+Recall Score: 0.832 std:0.055
 
-    accuracy                           0.82       600
-   macro avg       0.80      0.83      0.81       600
-weighted avg       0.85      0.82      0.83       600
-
-2020-11-30 23:50:16,992 Epoch #2 Overall Performence Metrics (Use Posterior)
-F1 Score: 0.841
-Accuracy Score: 0.900
-Precision Score: 0.850
-Recall Score: 0.832
-              precision    recall  f1-score   support
-
-           0       0.92      0.93      0.93       409
-           1       0.85      0.83      0.84       191
-
-    accuracy                           0.90       600
-   macro avg       0.89      0.88      0.88       600
-weighted avg       0.90      0.90      0.90       600
-
-2020-11-30 23:50:16,992 **************************************************
-2020-11-30 23:50:16,992 **************************************************
-2020-11-30 23:50:16,992 Training and testing in Epcoh #3 fold #0
-2020-11-30 23:50:16,992 By Chance Bind Prob: 0.317
-2020-11-30 23:50:16,992 ******** Training tree for binding cases *********
-2020-11-30 23:50:16,993 Iteration: 0
-2020-11-30 23:50:21,541 Delta:0.008255 Time: 4.548661 seconds
-2020-11-30 23:50:21,542 Iteration: 1
-2020-11-30 23:50:26,070 Delta:0.005880 Time: 4.528850 seconds
-2020-11-30 23:50:26,071 Iteration: 2
-2020-11-30 23:50:30,580 Delta:0.005638 Time: 4.508945 seconds
-2020-11-30 23:50:30,580 ****** Training tree for non-binding cases *******
-2020-11-30 23:50:30,580 Iteration: 0
-2020-11-30 23:50:36,637 Delta:0.014651 Time: 6.057232 seconds
-2020-11-30 23:50:36,638 Iteration: 1
-2020-11-30 23:50:42,657 Delta:0.007883 Time: 6.019707 seconds
-2020-11-30 23:50:42,657 Iteration: 2
-2020-11-30 23:50:48,682 Delta:0.004667 Time: 6.024924 seconds
-2020-11-30 23:50:55,803 Epcoh #3 Fold #0 Training Performence Metrics
+2020-12-01 03:02:12,947 **************************************************
+2020-12-01 03:02:12,948 **************************************************
+2020-12-01 03:02:12,948 Training and testing in Epcoh #3 fold #0
+2020-12-01 03:02:12,948 By Chance Bind Prob: 0.317
+2020-12-01 03:02:12,948 ******** Training tree for binding cases *********
+2020-12-01 03:02:12,948 Iteration: 0
+2020-12-01 03:02:20,659 Delta:0.008255 Time: 7.710592 seconds
+2020-12-01 03:02:20,659 Iteration: 1
+2020-12-01 03:02:28,357 Delta:0.005880 Time: 7.697893 seconds
+2020-12-01 03:02:28,357 Iteration: 2
+2020-12-01 03:02:35,984 Delta:0.005638 Time: 7.626381 seconds
+2020-12-01 03:02:35,984 ****** Training tree for non-binding cases *******
+2020-12-01 03:02:35,984 Iteration: 0
+2020-12-01 03:02:46,249 Delta:0.014651 Time: 10.264392 seconds
+2020-12-01 03:02:46,249 Iteration: 1
+2020-12-01 03:02:56,360 Delta:0.007883 Time: 10.110563 seconds
+2020-12-01 03:02:56,360 Iteration: 2
+2020-12-01 03:03:06,451 Delta:0.004667 Time: 10.091004 seconds
+2020-12-01 03:03:18,218 
+Epcoh #3 Fold #0 Training Performence Metrics
 Bind Training LL: -14.169 
-Non Bind Training LL: -8.773 
-
-2020-11-30 23:50:55,809 Epcoh #3 Fold #0 Training Performence Metrics
-F1 Score: 0.750
+Non Bind Training LL: -8.773F1 Score: 0.750
 Accuracy Score: 0.816
 Precision Score: 0.660
 Recall Score: 0.868
@@ -1287,7 +1228,8 @@ Recall Score: 0.868
    macro avg       0.79      0.83      0.80       479
 weighted avg       0.84      0.82      0.82       479
 
-2020-11-30 23:50:55,813 Epcoh #3 Fold #0 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:03:18,227 
+Epcoh #3 Fold #0 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.827
 Accuracy Score: 0.891
 Precision Score: 0.838
@@ -1301,7 +1243,7 @@ Recall Score: 0.816
    macro avg       0.88      0.87      0.87       479
 weighted avg       0.89      0.89      0.89       479
 
-2020-11-30 23:50:57,731 Fold #0 Testing Performence Metrics
+2020-12-01 03:03:21,419 Fold #0 Testing Performence Metrics
 F1 Score: 0.769
 Accuracy Score: 0.826
 Precision Score: 0.673
@@ -1315,7 +1257,7 @@ Recall Score: 0.897
    macro avg       0.81      0.85      0.82       121
 weighted avg       0.86      0.83      0.83       121
 
-2020-11-30 23:50:57,735 Fold #0 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:03:21,426 Fold #0 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.897
 Accuracy Score: 0.934
 Precision Score: 0.897
@@ -1329,29 +1271,27 @@ Recall Score: 0.897
    macro avg       0.92      0.92      0.92       121
 weighted avg       0.93      0.93      0.93       121
 
-2020-11-30 23:50:57,735 **************************************************
-2020-11-30 23:50:57,735 Training and testing in Epcoh #3 fold #1
-2020-11-30 23:50:57,735 By Chance Bind Prob: 0.319
-2020-11-30 23:50:57,735 ******** Training tree for binding cases *********
-2020-11-30 23:50:57,735 Iteration: 0
-2020-11-30 23:51:02,343 Delta:0.008841 Time: 4.607128 seconds
-2020-11-30 23:51:02,343 Iteration: 1
-2020-11-30 23:51:06,900 Delta:0.007058 Time: 4.557398 seconds
-2020-11-30 23:51:06,900 Iteration: 2
-2020-11-30 23:51:11,471 Delta:0.007205 Time: 4.570311 seconds
-2020-11-30 23:51:11,471 ****** Training tree for non-binding cases *******
-2020-11-30 23:51:11,471 Iteration: 0
-2020-11-30 23:51:17,562 Delta:0.012917 Time: 6.091143 seconds
-2020-11-30 23:51:17,563 Iteration: 1
-2020-11-30 23:51:23,627 Delta:0.006801 Time: 6.063840 seconds
-2020-11-30 23:51:23,627 Iteration: 2
-2020-11-30 23:51:29,690 Delta:0.003946 Time: 6.063228 seconds
-2020-11-30 23:51:36,834 Epcoh #3 Fold #1 Training Performence Metrics
+2020-12-01 03:03:21,426 **************************************************
+2020-12-01 03:03:21,426 Training and testing in Epcoh #3 fold #1
+2020-12-01 03:03:21,426 By Chance Bind Prob: 0.319
+2020-12-01 03:03:21,426 ******** Training tree for binding cases *********
+2020-12-01 03:03:21,426 Iteration: 0
+2020-12-01 03:03:29,242 Delta:0.008841 Time: 7.815426 seconds
+2020-12-01 03:03:29,242 Iteration: 1
+2020-12-01 03:03:37,002 Delta:0.007058 Time: 7.759817 seconds
+2020-12-01 03:03:37,002 Iteration: 2
+2020-12-01 03:03:44,665 Delta:0.007205 Time: 7.662795 seconds
+2020-12-01 03:03:44,666 ****** Training tree for non-binding cases *******
+2020-12-01 03:03:44,666 Iteration: 0
+2020-12-01 03:03:54,999 Delta:0.012917 Time: 10.332425 seconds
+2020-12-01 03:03:54,999 Iteration: 1
+2020-12-01 03:04:05,205 Delta:0.006801 Time: 10.205745 seconds
+2020-12-01 03:04:05,205 Iteration: 2
+2020-12-01 03:04:15,337 Delta:0.003946 Time: 10.132200 seconds
+2020-12-01 03:04:27,196 
+Epcoh #3 Fold #1 Training Performence Metrics
 Bind Training LL: -14.235 
-Non Bind Training LL: -8.709 
-
-2020-11-30 23:51:36,839 Epcoh #3 Fold #1 Training Performence Metrics
-F1 Score: 0.763
+Non Bind Training LL: -8.709F1 Score: 0.763
 Accuracy Score: 0.825
 Precision Score: 0.672
 Recall Score: 0.882
@@ -1364,7 +1304,8 @@ Recall Score: 0.882
    macro avg       0.80      0.84      0.81       480
 weighted avg       0.85      0.82      0.83       480
 
-2020-11-30 23:51:36,844 Epcoh #3 Fold #1 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:04:27,206 
+Epcoh #3 Fold #1 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.844
 Accuracy Score: 0.902
 Precision Score: 0.858
@@ -1378,7 +1319,7 @@ Recall Score: 0.830
    macro avg       0.89      0.88      0.89       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:51:38,705 Fold #1 Testing Performence Metrics
+2020-12-01 03:04:30,295 Fold #1 Testing Performence Metrics
 F1 Score: 0.733
 Accuracy Score: 0.800
 Precision Score: 0.635
@@ -1392,7 +1333,7 @@ Recall Score: 0.868
    macro avg       0.78      0.82      0.79       120
 weighted avg       0.83      0.80      0.81       120
 
-2020-11-30 23:51:38,709 Fold #1 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:04:30,302 Fold #1 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.831
 Accuracy Score: 0.892
 Precision Score: 0.821
@@ -1406,29 +1347,27 @@ Recall Score: 0.842
    macro avg       0.87      0.88      0.88       120
 weighted avg       0.89      0.89      0.89       120
 
-2020-11-30 23:51:38,709 **************************************************
-2020-11-30 23:51:38,709 Training and testing in Epcoh #3 fold #2
-2020-11-30 23:51:38,709 By Chance Bind Prob: 0.319
-2020-11-30 23:51:38,709 ******** Training tree for binding cases *********
-2020-11-30 23:51:38,709 Iteration: 0
-2020-11-30 23:51:43,615 Delta:0.008047 Time: 4.905589 seconds
-2020-11-30 23:51:43,615 Iteration: 1
-2020-11-30 23:51:48,498 Delta:0.005689 Time: 4.882801 seconds
-2020-11-30 23:51:48,498 Iteration: 2
-2020-11-30 23:51:53,373 Delta:0.005491 Time: 4.874933 seconds
-2020-11-30 23:51:53,373 ****** Training tree for non-binding cases *******
-2020-11-30 23:51:53,373 Iteration: 0
-2020-11-30 23:51:59,555 Delta:0.013073 Time: 6.181858 seconds
-2020-11-30 23:51:59,555 Iteration: 1
-2020-11-30 23:52:05,698 Delta:0.006561 Time: 6.142462 seconds
-2020-11-30 23:52:05,698 Iteration: 2
-2020-11-30 23:52:11,864 Delta:0.003601 Time: 6.166229 seconds
-2020-11-30 23:52:19,212 Epcoh #3 Fold #2 Training Performence Metrics
+2020-12-01 03:04:30,302 **************************************************
+2020-12-01 03:04:30,302 Training and testing in Epcoh #3 fold #2
+2020-12-01 03:04:30,302 By Chance Bind Prob: 0.319
+2020-12-01 03:04:30,302 ******** Training tree for binding cases *********
+2020-12-01 03:04:30,303 Iteration: 0
+2020-12-01 03:04:38,607 Delta:0.008047 Time: 8.304009 seconds
+2020-12-01 03:04:38,607 Iteration: 1
+2020-12-01 03:04:46,905 Delta:0.005689 Time: 8.297900 seconds
+2020-12-01 03:04:46,905 Iteration: 2
+2020-12-01 03:04:55,195 Delta:0.005491 Time: 8.290147 seconds
+2020-12-01 03:04:55,196 ****** Training tree for non-binding cases *******
+2020-12-01 03:04:55,196 Iteration: 0
+2020-12-01 03:05:05,699 Delta:0.013073 Time: 10.502358 seconds
+2020-12-01 03:05:05,699 Iteration: 1
+2020-12-01 03:05:16,114 Delta:0.006561 Time: 10.415507 seconds
+2020-12-01 03:05:16,115 Iteration: 2
+2020-12-01 03:05:26,561 Delta:0.003601 Time: 10.446155 seconds
+2020-12-01 03:05:38,814 
+Epcoh #3 Fold #2 Training Performence Metrics
 Bind Training LL: -15.109 
-Non Bind Training LL: -8.899 
-
-2020-11-30 23:52:19,217 Epcoh #3 Fold #2 Training Performence Metrics
-F1 Score: 0.765
+Non Bind Training LL: -8.899F1 Score: 0.765
 Accuracy Score: 0.825
 Precision Score: 0.668
 Recall Score: 0.895
@@ -1441,7 +1380,8 @@ Recall Score: 0.895
    macro avg       0.81      0.84      0.81       480
 weighted avg       0.85      0.82      0.83       480
 
-2020-11-30 23:52:19,222 Epcoh #3 Fold #2 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:05:38,824 
+Epcoh #3 Fold #2 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.856
 Accuracy Score: 0.908
 Precision Score: 0.856
@@ -1455,7 +1395,7 @@ Recall Score: 0.856
    macro avg       0.89      0.89      0.89       480
 weighted avg       0.91      0.91      0.91       480
 
-2020-11-30 23:52:20,893 Fold #2 Testing Performence Metrics
+2020-12-01 03:05:41,604 Fold #2 Testing Performence Metrics
 F1 Score: 0.667
 Accuracy Score: 0.750
 Precision Score: 0.577
@@ -1469,7 +1409,7 @@ Recall Score: 0.789
    macro avg       0.73      0.76      0.73       120
 weighted avg       0.79      0.75      0.76       120
 
-2020-11-30 23:52:20,897 Fold #2 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:05:41,611 Fold #2 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.778
 Accuracy Score: 0.867
 Precision Score: 0.824
@@ -1483,29 +1423,27 @@ Recall Score: 0.737
    macro avg       0.85      0.83      0.84       120
 weighted avg       0.86      0.87      0.86       120
 
-2020-11-30 23:52:20,897 **************************************************
-2020-11-30 23:52:20,897 Training and testing in Epcoh #3 fold #3
-2020-11-30 23:52:20,897 By Chance Bind Prob: 0.319
-2020-11-30 23:52:20,897 ******** Training tree for binding cases *********
-2020-11-30 23:52:20,897 Iteration: 0
-2020-11-30 23:52:25,756 Delta:0.008078 Time: 4.859370 seconds
-2020-11-30 23:52:25,757 Iteration: 1
-2020-11-30 23:52:30,591 Delta:0.004947 Time: 4.834435 seconds
-2020-11-30 23:52:30,591 Iteration: 2
-2020-11-30 23:52:35,450 Delta:0.004193 Time: 4.859004 seconds
-2020-11-30 23:52:35,451 ****** Training tree for non-binding cases *******
-2020-11-30 23:52:35,451 Iteration: 0
-2020-11-30 23:52:41,462 Delta:0.014850 Time: 6.011284 seconds
-2020-11-30 23:52:41,462 Iteration: 1
-2020-11-30 23:52:47,457 Delta:0.008693 Time: 5.994939 seconds
-2020-11-30 23:52:47,457 Iteration: 2
-2020-11-30 23:52:53,479 Delta:0.005559 Time: 6.021189 seconds
-2020-11-30 23:53:00,765 Epcoh #3 Fold #3 Training Performence Metrics
+2020-12-01 03:05:41,611 **************************************************
+2020-12-01 03:05:41,611 Training and testing in Epcoh #3 fold #3
+2020-12-01 03:05:41,611 By Chance Bind Prob: 0.319
+2020-12-01 03:05:41,611 ******** Training tree for binding cases *********
+2020-12-01 03:05:41,611 Iteration: 0
+2020-12-01 03:05:49,779 Delta:0.008078 Time: 8.167160 seconds
+2020-12-01 03:05:49,779 Iteration: 1
+2020-12-01 03:05:57,953 Delta:0.004947 Time: 8.174206 seconds
+2020-12-01 03:05:57,953 Iteration: 2
+2020-12-01 03:06:06,091 Delta:0.004193 Time: 8.137586 seconds
+2020-12-01 03:06:06,092 ****** Training tree for non-binding cases *******
+2020-12-01 03:06:06,092 Iteration: 0
+2020-12-01 03:06:16,156 Delta:0.014850 Time: 10.064458 seconds
+2020-12-01 03:06:16,157 Iteration: 1
+2020-12-01 03:06:26,307 Delta:0.008693 Time: 10.150314 seconds
+2020-12-01 03:06:26,307 Iteration: 2
+2020-12-01 03:06:36,515 Delta:0.005559 Time: 10.207790 seconds
+2020-12-01 03:06:48,557 
+Epcoh #3 Fold #3 Training Performence Metrics
 Bind Training LL: -14.971 
-Non Bind Training LL: -8.693 
-
-2020-11-30 23:53:00,770 Epcoh #3 Fold #3 Training Performence Metrics
-F1 Score: 0.750
+Non Bind Training LL: -8.693F1 Score: 0.750
 Accuracy Score: 0.808
 Precision Score: 0.642
 Recall Score: 0.902
@@ -1518,7 +1456,8 @@ Recall Score: 0.902
    macro avg       0.79      0.83      0.80       480
 weighted avg       0.85      0.81      0.81       480
 
-2020-11-30 23:53:00,775 Epcoh #3 Fold #3 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:06:48,566 
+Epcoh #3 Fold #3 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.842
 Accuracy Score: 0.900
 Precision Score: 0.848
@@ -1532,7 +1471,7 @@ Recall Score: 0.837
    macro avg       0.89      0.88      0.88       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:53:02,535 Fold #3 Testing Performence Metrics
+2020-12-01 03:06:51,481 Fold #3 Testing Performence Metrics
 F1 Score: 0.786
 Accuracy Score: 0.850
 Precision Score: 0.717
@@ -1546,7 +1485,7 @@ Recall Score: 0.868
    macro avg       0.82      0.85      0.84       120
 weighted avg       0.86      0.85      0.85       120
 
-2020-11-30 23:53:02,539 Fold #3 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:06:51,488 Fold #3 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.838
 Accuracy Score: 0.900
 Precision Score: 0.861
@@ -1560,29 +1499,27 @@ Recall Score: 0.816
    macro avg       0.89      0.88      0.88       120
 weighted avg       0.90      0.90      0.90       120
 
-2020-11-30 23:53:02,539 **************************************************
-2020-11-30 23:53:02,539 Training and testing in Epcoh #3 fold #4
-2020-11-30 23:53:02,539 By Chance Bind Prob: 0.318
-2020-11-30 23:53:02,539 ******** Training tree for binding cases *********
-2020-11-30 23:53:02,540 Iteration: 0
-2020-11-30 23:53:07,063 Delta:0.011105 Time: 4.523801 seconds
-2020-11-30 23:53:07,064 Iteration: 1
-2020-11-30 23:53:11,555 Delta:0.010695 Time: 4.491360 seconds
-2020-11-30 23:53:11,555 Iteration: 2
-2020-11-30 23:53:16,076 Delta:0.011321 Time: 4.520830 seconds
-2020-11-30 23:53:16,076 ****** Training tree for non-binding cases *******
-2020-11-30 23:53:16,077 Iteration: 0
-2020-11-30 23:53:22,279 Delta:0.016714 Time: 6.202301 seconds
-2020-11-30 23:53:22,279 Iteration: 1
-2020-11-30 23:53:28,446 Delta:0.007832 Time: 6.166565 seconds
-2020-11-30 23:53:28,446 Iteration: 2
-2020-11-30 23:53:34,638 Delta:0.003882 Time: 6.191672 seconds
-2020-11-30 23:53:41,875 Epcoh #3 Fold #4 Training Performence Metrics
+2020-12-01 03:06:51,488 **************************************************
+2020-12-01 03:06:51,488 Training and testing in Epcoh #3 fold #4
+2020-12-01 03:06:51,488 By Chance Bind Prob: 0.318
+2020-12-01 03:06:51,488 ******** Training tree for binding cases *********
+2020-12-01 03:06:51,489 Iteration: 0
+2020-12-01 03:06:59,033 Delta:0.011105 Time: 7.544081 seconds
+2020-12-01 03:06:59,033 Iteration: 1
+2020-12-01 03:07:06,574 Delta:0.010695 Time: 7.541295 seconds
+2020-12-01 03:07:06,574 Iteration: 2
+2020-12-01 03:07:14,184 Delta:0.011321 Time: 7.609415 seconds
+2020-12-01 03:07:14,185 ****** Training tree for non-binding cases *******
+2020-12-01 03:07:14,185 Iteration: 0
+2020-12-01 03:07:24,704 Delta:0.016714 Time: 10.518992 seconds
+2020-12-01 03:07:24,704 Iteration: 1
+2020-12-01 03:07:35,231 Delta:0.007832 Time: 10.526813 seconds
+2020-12-01 03:07:35,231 Iteration: 2
+2020-12-01 03:07:45,729 Delta:0.003882 Time: 10.497553 seconds
+2020-12-01 03:07:57,534 
+Epcoh #3 Fold #4 Training Performence Metrics
 Bind Training LL: -14.078 
-Non Bind Training LL: -8.782 
-
-2020-11-30 23:53:41,880 Epcoh #3 Fold #4 Training Performence Metrics
-F1 Score: 0.839
+Non Bind Training LL: -8.782F1 Score: 0.839
 Accuracy Score: 0.896
 Precision Score: 0.828
 Recall Score: 0.850
@@ -1595,7 +1532,8 @@ Recall Score: 0.850
    macro avg       0.88      0.88      0.88       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:53:41,885 Epcoh #3 Fold #4 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:07:57,544 
+Epcoh #3 Fold #4 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.837
 Accuracy Score: 0.898
 Precision Score: 0.851
@@ -1609,7 +1547,7 @@ Recall Score: 0.824
    macro avg       0.89      0.88      0.88       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:53:43,723 Fold #4 Testing Performence Metrics
+2020-12-01 03:08:00,554 Fold #4 Testing Performence Metrics
 F1 Score: 0.840
 Accuracy Score: 0.891
 Precision Score: 0.791
@@ -1623,7 +1561,7 @@ Recall Score: 0.895
    macro avg       0.87      0.89      0.88       119
 weighted avg       0.90      0.89      0.89       119
 
-2020-11-30 23:53:43,726 Fold #4 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:08:00,561 Fold #4 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.857
 Accuracy Score: 0.908
 Precision Score: 0.846
@@ -1637,59 +1575,43 @@ Recall Score: 0.868
    macro avg       0.89      0.90      0.89       119
 weighted avg       0.91      0.91      0.91       119
 
-2020-11-30 23:53:43,726 **************************************************
-2020-11-30 23:53:43,732 Epoch #3 Overall Performence Metrics
-F1 Score: 0.757
-Accuracy Score: 0.823
-Precision Score: 0.673
-Recall Score: 0.864
-              precision    recall  f1-score   support
+2020-12-01 03:08:00,561 **************************************************
+2020-12-01 03:08:00,562 
+Epoch #3 Overall Performence Metrics
+F1 Score: 0.759 std:0.057
+Accuracy Score: 0.823 std:0.047
+Precision Score: 0.679 std:0.073
+Recall Score: 0.864 std:0.039
 
-           0       0.93      0.80      0.86       409
-           1       0.67      0.86      0.76       191
+2020-12-01 03:08:00,562 
+Epoch #3 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.840 std:0.039
+Accuracy Score: 0.900 std:0.022
+Precision Score: 0.850 std:0.028
+Recall Score: 0.832 std:0.055
 
-    accuracy                           0.82       600
-   macro avg       0.80      0.83      0.81       600
-weighted avg       0.85      0.82      0.83       600
-
-2020-11-30 23:53:43,737 Epoch #3 Overall Performence Metrics (Use Posterior)
-F1 Score: 0.841
-Accuracy Score: 0.900
-Precision Score: 0.850
-Recall Score: 0.832
-              precision    recall  f1-score   support
-
-           0       0.92      0.93      0.93       409
-           1       0.85      0.83      0.84       191
-
-    accuracy                           0.90       600
-   macro avg       0.89      0.88      0.88       600
-weighted avg       0.90      0.90      0.90       600
-
-2020-11-30 23:53:43,737 **************************************************
-2020-11-30 23:53:43,737 **************************************************
-2020-11-30 23:53:43,737 Training and testing in Epcoh #4 fold #0
-2020-11-30 23:53:43,737 By Chance Bind Prob: 0.317
-2020-11-30 23:53:43,737 ******** Training tree for binding cases *********
-2020-11-30 23:53:43,738 Iteration: 0
-2020-11-30 23:53:48,270 Delta:0.006001 Time: 4.531907 seconds
-2020-11-30 23:53:48,270 Iteration: 1
-2020-11-30 23:53:52,785 Delta:0.006509 Time: 4.515570 seconds
-2020-11-30 23:53:52,786 Iteration: 2
-2020-11-30 23:53:57,319 Delta:0.007075 Time: 4.532944 seconds
-2020-11-30 23:53:57,319 ****** Training tree for non-binding cases *******
-2020-11-30 23:53:57,319 Iteration: 0
-2020-11-30 23:54:03,367 Delta:0.002886 Time: 6.047356 seconds
-2020-11-30 23:54:03,367 Iteration: 1
-2020-11-30 23:54:09,387 Delta:0.001790 Time: 6.019871 seconds
-2020-11-30 23:54:09,387 Iteration: 2
-2020-11-30 23:54:15,437 Delta:0.001102 Time: 6.050446 seconds
-2020-11-30 23:54:22,581 Epcoh #4 Fold #0 Training Performence Metrics
+2020-12-01 03:08:00,562 **************************************************
+2020-12-01 03:08:00,562 **************************************************
+2020-12-01 03:08:00,562 Training and testing in Epcoh #4 fold #0
+2020-12-01 03:08:00,562 By Chance Bind Prob: 0.317
+2020-12-01 03:08:00,562 ******** Training tree for binding cases *********
+2020-12-01 03:08:00,563 Iteration: 0
+2020-12-01 03:08:08,130 Delta:0.006001 Time: 7.566988 seconds
+2020-12-01 03:08:08,130 Iteration: 1
+2020-12-01 03:08:15,758 Delta:0.006509 Time: 7.628395 seconds
+2020-12-01 03:08:15,759 Iteration: 2
+2020-12-01 03:08:23,462 Delta:0.007075 Time: 7.703148 seconds
+2020-12-01 03:08:23,462 ****** Training tree for non-binding cases *******
+2020-12-01 03:08:23,463 Iteration: 0
+2020-12-01 03:08:33,694 Delta:0.002886 Time: 10.231134 seconds
+2020-12-01 03:08:33,694 Iteration: 1
+2020-12-01 03:08:43,874 Delta:0.001790 Time: 10.179311 seconds
+2020-12-01 03:08:43,874 Iteration: 2
+2020-12-01 03:08:54,081 Delta:0.001102 Time: 10.207341 seconds
+2020-12-01 03:09:05,749 
+Epcoh #4 Fold #0 Training Performence Metrics
 Bind Training LL: -14.164 
-Non Bind Training LL: -8.772 
-
-2020-11-30 23:54:22,586 Epcoh #4 Fold #0 Training Performence Metrics
-F1 Score: 0.752
+Non Bind Training LL: -8.772F1 Score: 0.752
 Accuracy Score: 0.818
 Precision Score: 0.663
 Recall Score: 0.868
@@ -1702,7 +1624,8 @@ Recall Score: 0.868
    macro avg       0.80      0.83      0.80       479
 weighted avg       0.84      0.82      0.82       479
 
-2020-11-30 23:54:22,591 Epcoh #4 Fold #0 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:09:05,758 
+Epcoh #4 Fold #0 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.827
 Accuracy Score: 0.891
 Precision Score: 0.838
@@ -1716,7 +1639,7 @@ Recall Score: 0.816
    macro avg       0.88      0.87      0.87       479
 weighted avg       0.89      0.89      0.89       479
 
-2020-11-30 23:54:24,510 Fold #0 Testing Performence Metrics
+2020-12-01 03:09:08,869 Fold #0 Testing Performence Metrics
 F1 Score: 0.778
 Accuracy Score: 0.835
 Precision Score: 0.686
@@ -1730,7 +1653,7 @@ Recall Score: 0.897
    macro avg       0.81      0.85      0.82       121
 weighted avg       0.86      0.83      0.84       121
 
-2020-11-30 23:54:24,513 Fold #0 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:09:08,876 Fold #0 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.897
 Accuracy Score: 0.934
 Precision Score: 0.897
@@ -1744,29 +1667,27 @@ Recall Score: 0.897
    macro avg       0.92      0.92      0.92       121
 weighted avg       0.93      0.93      0.93       121
 
-2020-11-30 23:54:24,514 **************************************************
-2020-11-30 23:54:24,514 Training and testing in Epcoh #4 fold #1
-2020-11-30 23:54:24,514 By Chance Bind Prob: 0.319
-2020-11-30 23:54:24,514 ******** Training tree for binding cases *********
-2020-11-30 23:54:24,514 Iteration: 0
-2020-11-30 23:54:29,090 Delta:0.007877 Time: 4.576032 seconds
-2020-11-30 23:54:29,090 Iteration: 1
-2020-11-30 23:54:33,657 Delta:0.008719 Time: 4.566191 seconds
-2020-11-30 23:54:33,657 Iteration: 2
-2020-11-30 23:54:38,244 Delta:0.009673 Time: 4.587354 seconds
-2020-11-30 23:54:38,245 ****** Training tree for non-binding cases *******
-2020-11-30 23:54:38,245 Iteration: 0
-2020-11-30 23:54:44,327 Delta:0.002419 Time: 6.082311 seconds
-2020-11-30 23:54:44,327 Iteration: 1
-2020-11-30 23:54:50,388 Delta:0.001496 Time: 6.060636 seconds
-2020-11-30 23:54:50,388 Iteration: 2
-2020-11-30 23:54:56,486 Delta:0.000918 Time: 6.097901 seconds
-2020-11-30 23:55:03,658 Epcoh #4 Fold #1 Training Performence Metrics
+2020-12-01 03:09:08,876 **************************************************
+2020-12-01 03:09:08,876 Training and testing in Epcoh #4 fold #1
+2020-12-01 03:09:08,876 By Chance Bind Prob: 0.319
+2020-12-01 03:09:08,876 ******** Training tree for binding cases *********
+2020-12-01 03:09:08,877 Iteration: 0
+2020-12-01 03:09:16,612 Delta:0.007877 Time: 7.735456 seconds
+2020-12-01 03:09:16,612 Iteration: 1
+2020-12-01 03:09:24,369 Delta:0.008719 Time: 7.756358 seconds
+2020-12-01 03:09:24,369 Iteration: 2
+2020-12-01 03:09:32,182 Delta:0.009673 Time: 7.812654 seconds
+2020-12-01 03:09:32,182 ****** Training tree for non-binding cases *******
+2020-12-01 03:09:32,182 Iteration: 0
+2020-12-01 03:09:42,412 Delta:0.002419 Time: 10.229226 seconds
+2020-12-01 03:09:42,412 Iteration: 1
+2020-12-01 03:09:52,705 Delta:0.001496 Time: 10.293093 seconds
+2020-12-01 03:09:52,705 Iteration: 2
+2020-12-01 03:10:02,946 Delta:0.000918 Time: 10.240783 seconds
+2020-12-01 03:10:14,664 
+Epcoh #4 Fold #1 Training Performence Metrics
 Bind Training LL: -14.228 
-Non Bind Training LL: -8.707 
-
-2020-11-30 23:55:03,663 Epcoh #4 Fold #1 Training Performence Metrics
-F1 Score: 0.764
+Non Bind Training LL: -8.707F1 Score: 0.764
 Accuracy Score: 0.827
 Precision Score: 0.677
 Recall Score: 0.876
@@ -1779,7 +1700,8 @@ Recall Score: 0.876
    macro avg       0.80      0.84      0.81       480
 weighted avg       0.85      0.83      0.83       480
 
-2020-11-30 23:55:03,668 Epcoh #4 Fold #1 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:10:14,673 
+Epcoh #4 Fold #1 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.844
 Accuracy Score: 0.902
 Precision Score: 0.858
@@ -1793,7 +1715,7 @@ Recall Score: 0.830
    macro avg       0.89      0.88      0.89       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:55:05,527 Fold #1 Testing Performence Metrics
+2020-12-01 03:10:17,716 Fold #1 Testing Performence Metrics
 F1 Score: 0.750
 Accuracy Score: 0.817
 Precision Score: 0.660
@@ -1807,7 +1729,7 @@ Recall Score: 0.868
    macro avg       0.79      0.83      0.80       120
 weighted avg       0.84      0.82      0.82       120
 
-2020-11-30 23:55:05,530 Fold #1 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:10:17,723 Fold #1 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.831
 Accuracy Score: 0.892
 Precision Score: 0.821
@@ -1821,29 +1743,27 @@ Recall Score: 0.842
    macro avg       0.87      0.88      0.88       120
 weighted avg       0.89      0.89      0.89       120
 
-2020-11-30 23:55:05,530 **************************************************
-2020-11-30 23:55:05,530 Training and testing in Epcoh #4 fold #2
-2020-11-30 23:55:05,530 By Chance Bind Prob: 0.319
-2020-11-30 23:55:05,530 ******** Training tree for binding cases *********
-2020-11-30 23:55:05,531 Iteration: 0
-2020-11-30 23:55:10,421 Delta:0.005967 Time: 4.890053 seconds
-2020-11-30 23:55:10,421 Iteration: 1
-2020-11-30 23:55:15,289 Delta:0.006654 Time: 4.867536 seconds
-2020-11-30 23:55:15,289 Iteration: 2
-2020-11-30 23:55:20,187 Delta:0.007462 Time: 4.898280 seconds
-2020-11-30 23:55:20,188 ****** Training tree for non-binding cases *******
-2020-11-30 23:55:20,188 Iteration: 0
-2020-11-30 23:55:26,357 Delta:0.002124 Time: 6.168765 seconds
-2020-11-30 23:55:26,357 Iteration: 1
-2020-11-30 23:55:32,525 Delta:0.001279 Time: 6.167787 seconds
-2020-11-30 23:55:32,525 Iteration: 2
-2020-11-30 23:55:38,711 Delta:0.000768 Time: 6.186176 seconds
-2020-11-30 23:55:46,094 Epcoh #4 Fold #2 Training Performence Metrics
+2020-12-01 03:10:17,723 **************************************************
+2020-12-01 03:10:17,723 Training and testing in Epcoh #4 fold #2
+2020-12-01 03:10:17,723 By Chance Bind Prob: 0.319
+2020-12-01 03:10:17,723 ******** Training tree for binding cases *********
+2020-12-01 03:10:17,723 Iteration: 0
+2020-12-01 03:10:26,029 Delta:0.005967 Time: 8.305451 seconds
+2020-12-01 03:10:26,029 Iteration: 1
+2020-12-01 03:10:34,303 Delta:0.006654 Time: 8.273349 seconds
+2020-12-01 03:10:34,303 Iteration: 2
+2020-12-01 03:10:42,620 Delta:0.007462 Time: 8.317116 seconds
+2020-12-01 03:10:42,620 ****** Training tree for non-binding cases *******
+2020-12-01 03:10:42,621 Iteration: 0
+2020-12-01 03:10:52,998 Delta:0.002124 Time: 10.377033 seconds
+2020-12-01 03:10:52,998 Iteration: 1
+2020-12-01 03:11:03,414 Delta:0.001279 Time: 10.415535 seconds
+2020-12-01 03:11:03,414 Iteration: 2
+2020-12-01 03:11:13,743 Delta:0.000768 Time: 10.328566 seconds
+2020-12-01 03:11:25,859 
+Epcoh #4 Fold #2 Training Performence Metrics
 Bind Training LL: -15.105 
-Non Bind Training LL: -8.898 
-
-2020-11-30 23:55:46,100 Epcoh #4 Fold #2 Training Performence Metrics
-F1 Score: 0.765
+Non Bind Training LL: -8.898F1 Score: 0.765
 Accuracy Score: 0.825
 Precision Score: 0.668
 Recall Score: 0.895
@@ -1856,7 +1776,8 @@ Recall Score: 0.895
    macro avg       0.81      0.84      0.81       480
 weighted avg       0.85      0.82      0.83       480
 
-2020-11-30 23:55:46,105 Epcoh #4 Fold #2 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:11:25,868 
+Epcoh #4 Fold #2 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.856
 Accuracy Score: 0.908
 Precision Score: 0.856
@@ -1870,7 +1791,7 @@ Recall Score: 0.856
    macro avg       0.89      0.89      0.89       480
 weighted avg       0.91      0.91      0.91       480
 
-2020-11-30 23:55:47,777 Fold #2 Testing Performence Metrics
+2020-12-01 03:11:28,651 Fold #2 Testing Performence Metrics
 F1 Score: 0.667
 Accuracy Score: 0.750
 Precision Score: 0.577
@@ -1884,7 +1805,7 @@ Recall Score: 0.789
    macro avg       0.73      0.76      0.73       120
 weighted avg       0.79      0.75      0.76       120
 
-2020-11-30 23:55:47,781 Fold #2 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:11:28,658 Fold #2 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.778
 Accuracy Score: 0.867
 Precision Score: 0.824
@@ -1898,29 +1819,27 @@ Recall Score: 0.737
    macro avg       0.85      0.83      0.84       120
 weighted avg       0.86      0.87      0.86       120
 
-2020-11-30 23:55:47,781 **************************************************
-2020-11-30 23:55:47,781 Training and testing in Epcoh #4 fold #3
-2020-11-30 23:55:47,781 By Chance Bind Prob: 0.319
-2020-11-30 23:55:47,781 ******** Training tree for binding cases *********
-2020-11-30 23:55:47,781 Iteration: 0
-2020-11-30 23:55:52,644 Delta:0.004235 Time: 4.862513 seconds
-2020-11-30 23:55:52,644 Iteration: 1
-2020-11-30 23:55:57,478 Delta:0.004435 Time: 4.833987 seconds
-2020-11-30 23:55:57,478 Iteration: 2
-2020-11-30 23:56:02,357 Delta:0.004650 Time: 4.878957 seconds
-2020-11-30 23:56:02,358 ****** Training tree for non-binding cases *******
-2020-11-30 23:56:02,358 Iteration: 0
-2020-11-30 23:56:08,374 Delta:0.003664 Time: 6.016476 seconds
-2020-11-30 23:56:08,375 Iteration: 1
-2020-11-30 23:56:14,420 Delta:0.002411 Time: 6.045732 seconds
-2020-11-30 23:56:14,420 Iteration: 2
-2020-11-30 23:56:20,452 Delta:0.001573 Time: 6.031652 seconds
-2020-11-30 23:56:27,743 Epcoh #4 Fold #3 Training Performence Metrics
+2020-12-01 03:11:28,658 **************************************************
+2020-12-01 03:11:28,658 Training and testing in Epcoh #4 fold #3
+2020-12-01 03:11:28,658 By Chance Bind Prob: 0.319
+2020-12-01 03:11:28,658 ******** Training tree for binding cases *********
+2020-12-01 03:11:28,659 Iteration: 0
+2020-12-01 03:11:36,919 Delta:0.004235 Time: 8.259578 seconds
+2020-12-01 03:11:36,919 Iteration: 1
+2020-12-01 03:11:45,150 Delta:0.004435 Time: 8.231120 seconds
+2020-12-01 03:11:45,150 Iteration: 2
+2020-12-01 03:11:53,393 Delta:0.004650 Time: 8.242368 seconds
+2020-12-01 03:11:53,393 ****** Training tree for non-binding cases *******
+2020-12-01 03:11:53,394 Iteration: 0
+2020-12-01 03:12:03,582 Delta:0.003664 Time: 10.188571 seconds
+2020-12-01 03:12:03,582 Iteration: 1
+2020-12-01 03:12:13,791 Delta:0.002411 Time: 10.208555 seconds
+2020-12-01 03:12:13,791 Iteration: 2
+2020-12-01 03:12:23,970 Delta:0.001573 Time: 10.179082 seconds
+2020-12-01 03:12:36,060 
+Epcoh #4 Fold #3 Training Performence Metrics
 Bind Training LL: -14.972 
-Non Bind Training LL: -8.692 
-
-2020-11-30 23:56:27,748 Epcoh #4 Fold #3 Training Performence Metrics
-F1 Score: 0.750
+Non Bind Training LL: -8.692F1 Score: 0.750
 Accuracy Score: 0.808
 Precision Score: 0.642
 Recall Score: 0.902
@@ -1933,7 +1852,8 @@ Recall Score: 0.902
    macro avg       0.79      0.83      0.80       480
 weighted avg       0.85      0.81      0.81       480
 
-2020-11-30 23:56:27,753 Epcoh #4 Fold #3 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:12:36,069 
+Epcoh #4 Fold #3 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.842
 Accuracy Score: 0.900
 Precision Score: 0.848
@@ -1947,7 +1867,7 @@ Recall Score: 0.837
    macro avg       0.89      0.88      0.88       480
 weighted avg       0.90      0.90      0.90       480
 
-2020-11-30 23:56:29,527 Fold #3 Testing Performence Metrics
+2020-12-01 03:12:39,011 Fold #3 Testing Performence Metrics
 F1 Score: 0.786
 Accuracy Score: 0.850
 Precision Score: 0.717
@@ -1961,7 +1881,7 @@ Recall Score: 0.868
    macro avg       0.82      0.85      0.84       120
 weighted avg       0.86      0.85      0.85       120
 
-2020-11-30 23:56:29,531 Fold #3 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:12:39,018 Fold #3 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.838
 Accuracy Score: 0.900
 Precision Score: 0.861
@@ -1975,29 +1895,27 @@ Recall Score: 0.816
    macro avg       0.89      0.88      0.88       120
 weighted avg       0.90      0.90      0.90       120
 
-2020-11-30 23:56:29,531 **************************************************
-2020-11-30 23:56:29,531 Training and testing in Epcoh #4 fold #4
-2020-11-30 23:56:29,531 By Chance Bind Prob: 0.318
-2020-11-30 23:56:29,531 ******** Training tree for binding cases *********
-2020-11-30 23:56:29,532 Iteration: 0
-2020-11-30 23:56:34,063 Delta:0.012115 Time: 4.531635 seconds
-2020-11-30 23:56:34,063 Iteration: 1
-2020-11-30 23:56:38,590 Delta:0.012890 Time: 4.526625 seconds
-2020-11-30 23:56:38,590 Iteration: 2
-2020-11-30 23:56:43,097 Delta:0.013589 Time: 4.507116 seconds
-2020-11-30 23:56:43,098 ****** Training tree for non-binding cases *******
-2020-11-30 23:56:43,098 Iteration: 0
-2020-11-30 23:56:49,306 Delta:0.002139 Time: 6.207687 seconds
-2020-11-30 23:56:49,306 Iteration: 1
-2020-11-30 23:56:55,530 Delta:0.001265 Time: 6.223774 seconds
-2020-11-30 23:56:55,530 Iteration: 2
-2020-11-30 23:57:01,728 Delta:0.000761 Time: 6.197459 seconds
-2020-11-30 23:57:08,962 Epcoh #4 Fold #4 Training Performence Metrics
+2020-12-01 03:12:39,018 **************************************************
+2020-12-01 03:12:39,018 Training and testing in Epcoh #4 fold #4
+2020-12-01 03:12:39,018 By Chance Bind Prob: 0.318
+2020-12-01 03:12:39,018 ******** Training tree for binding cases *********
+2020-12-01 03:12:39,018 Iteration: 0
+2020-12-01 03:12:46,645 Delta:0.012115 Time: 7.626193 seconds
+2020-12-01 03:12:46,645 Iteration: 1
+2020-12-01 03:12:54,318 Delta:0.012890 Time: 7.673270 seconds
+2020-12-01 03:12:54,318 Iteration: 2
+2020-12-01 03:13:01,870 Delta:0.013589 Time: 7.551970 seconds
+2020-12-01 03:13:01,871 ****** Training tree for non-binding cases *******
+2020-12-01 03:13:01,871 Iteration: 0
+2020-12-01 03:13:12,202 Delta:0.002139 Time: 10.330697 seconds
+2020-12-01 03:13:12,202 Iteration: 1
+2020-12-01 03:13:22,712 Delta:0.001265 Time: 10.509819 seconds
+2020-12-01 03:13:22,712 Iteration: 2
+2020-12-01 03:13:33,170 Delta:0.000761 Time: 10.457299 seconds
+2020-12-01 03:13:45,115 
+Epcoh #4 Fold #4 Training Performence Metrics
 Bind Training LL: -14.064 
-Non Bind Training LL: -8.781 
-
-2020-11-30 23:57:08,967 Epcoh #4 Fold #4 Training Performence Metrics
-F1 Score: 0.844
+Non Bind Training LL: -8.781F1 Score: 0.844
 Accuracy Score: 0.900
 Precision Score: 0.839
 Recall Score: 0.850
@@ -2010,7 +1928,8 @@ Recall Score: 0.850
    macro avg       0.88      0.89      0.89       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:57:08,972 Epcoh #4 Fold #4 Training  Performence Metrics  (Use Posterior)
+2020-12-01 03:13:45,124 
+Epcoh #4 Fold #4 Training  Performence Metrics  (Use Posterior)
 F1 Score: 0.845
 Accuracy Score: 0.902
 Precision Score: 0.853
@@ -2024,7 +1943,7 @@ Recall Score: 0.837
    macro avg       0.89      0.88      0.89       481
 weighted avg       0.90      0.90      0.90       481
 
-2020-11-30 23:57:10,821 Fold #4 Testing Performence Metrics
+2020-12-01 03:13:48,195 Fold #4 Testing Performence Metrics
 F1 Score: 0.840
 Accuracy Score: 0.891
 Precision Score: 0.791
@@ -2038,7 +1957,7 @@ Recall Score: 0.895
    macro avg       0.87      0.89      0.88       119
 weighted avg       0.90      0.89      0.89       119
 
-2020-11-30 23:57:10,825 Fold #4 Testing Performence Metrics  (Use Posterior)
+2020-12-01 03:13:48,202 Fold #4 Testing Performence Metrics  (Use Posterior)
 F1 Score: 0.872
 Accuracy Score: 0.916
 Precision Score: 0.850
@@ -2052,33 +1971,19 @@ Recall Score: 0.895
    macro avg       0.90      0.91      0.90       119
 weighted avg       0.92      0.92      0.92       119
 
-2020-11-30 23:57:10,825 **************************************************
-2020-11-30 23:57:10,830 Epoch #4 Overall Performence Metrics
-F1 Score: 0.762
-Accuracy Score: 0.828
-Precision Score: 0.682
-Recall Score: 0.864
-              precision    recall  f1-score   support
+2020-12-01 03:13:48,202 **************************************************
+2020-12-01 03:13:48,202 
+Epoch #4 Overall Performence Metrics
+F1 Score: 0.764 std:0.057
+Accuracy Score: 0.828 std:0.046
+Precision Score: 0.686 std:0.070
+Recall Score: 0.864 std:0.039
 
-           0       0.93      0.81      0.87       409
-           1       0.68      0.86      0.76       191
+2020-12-01 03:13:48,203 
+Epoch #4 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.843 std:0.041
+Accuracy Score: 0.902 std:0.023
+Precision Score: 0.851 std:0.028
+Recall Score: 0.837 std:0.059
 
-    accuracy                           0.83       600
-   macro avg       0.80      0.84      0.81       600
-weighted avg       0.85      0.83      0.83       600
-
-2020-11-30 23:57:10,836 Epoch #4 Overall Performence Metrics (Use Posterior)
-F1 Score: 0.844
-Accuracy Score: 0.902
-Precision Score: 0.851
-Recall Score: 0.838
-              precision    recall  f1-score   support
-
-           0       0.92      0.93      0.93       409
-           1       0.85      0.84      0.84       191
-
-    accuracy                           0.90       600
-   macro avg       0.89      0.88      0.89       600
-weighted avg       0.90      0.90      0.90       600
-
-2020-11-30 23:57:10,836 **************************************************
+2020-12-01 03:13:48,203 **************************************************
