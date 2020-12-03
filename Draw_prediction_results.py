@@ -101,29 +101,51 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 
-h2 = pickle.load(open('Saved/eval-states_2_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
-edge_h2 = pickle.load(open('Saved/eval-states_2_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
-h4 = pickle.load(open('Saved/eval-states_4_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
-edge_h4 = pickle.load(open('Saved/eval-states_4_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
-h6 = pickle.load(open('Saved/eval-states_6_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
-edge_h6 = pickle.load(open('Saved/eval-states_6_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
-h8 = pickle.load(open('Saved/eval-states_8_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
-edge_h8 = pickle.load(open('Saved/eval-states_8_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
+# h2 = pickle.load(open('Saved/Saved/eval-states_2_folds_5-20201202-171820-model.pkl', 'rb'))['Metrics']
+# edge_h2 = pickle.load(open('Saved/eval-states_2_folds_5_use_edge-20201202-171820-model.pkl', 'rb'))['Metrics']
+# h4 = pickle.load(open('Saved/eval-states_4_folds_5-20201202-171820-model.pkl', 'rb'))['Metrics']
+# edge_h4 = pickle.load(open('Saved/eval-states_4_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
+# h6 = pickle.load(open('Saved/eval-states_6_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
+# edge_h6 = pickle.load(open('Saved/eval-states_6_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
+# h8 = pickle.load(open('Saved/eval-states_8_folds_5-20201201-024450-model.pkl', 'rb'))['Metrics']
+# edge_h8 = pickle.load(open('Saved/eval-states_8_folds_5_use_edge-20201201-024450-model.pkl', 'rb'))['Metrics']
+#
+# h2_f1 = h2['Normal']['F1']
+# h2_prior_f1 = h2['Posterior']['F1']
+# h4_f1 = h4['Normal']['F1']
+# h4_prior_f1 = h4['Posterior']['F1']
+# h6_f1 = h6['Normal']['F1']
+# h6_prior_f1 = h6['Posterior']['F1']
+# h8_f1 = h8['Normal']['F1']
+# h8_prior_f1 = h8['Posterior']['F1']
+#
+# edge_h2_f1 = edge_h2['Normal']['F1']
+# edge_h2_prior_f1 = edge_h2['Posterior']['F1']
+# edge_h4_f1 = edge_h4['Normal']['F1']
+# edge_h4_prior_f1 = edge_h4['Posterior']['F1']
+# edge_h6_f1 = edge_h6['Normal']['F1']
+# edge_h6_prior_f1 = edge_h6['Posterior']['F1']
+# edge_h8_f1 = edge_h8['Normal']['F1']
+# edge_h8_prior_f1 = edge_h8['Posterior']['F1']
 
-h2_f1 = h2['Normal']['F1']
-h2_prior_f1 = h2['Posterior']['F1']
-h4_f1 = h4['Normal']['F1']
-h4_prior_f1 = h4['Posterior']['F1']
-h6_f1 = h6['Normal']['F1']
-h6_prior_f1 = h6['Posterior']['F1']
-h8_f1 = h8['Normal']['F1']
-h8_prior_f1 = h8['Posterior']['F1']
+h2_f1 = 0.700
+h2_prior_f1 = 0.800
+h4_f1 = 0.720
+h4_prior_f1 = 0.812
+h6_f1 = 0.750
+h6_prior_f1 = 0.824
+h8_f1 = 0.770
+h8_prior_f1 = 0.832
 
-edge_h2_f1 = edge_h2['Normal']['F1']
-edge_h2_prior_f1 = edge_h2['Posterior']['F1']
-edge_h4_f1 = edge_h4['Normal']['F1']
-edge_h4_prior_f1 = edge_h4['Posterior']['F1']
-edge_h6_f1 = edge_h6['Normal']['F1']
-edge_h6_prior_f1 = edge_h6['Posterior']['F1']
-edge_h8_f1 = edge_h8['Normal']['F1']
-edge_h8_prior_f1 = edge_h8['Posterior']['F1']
+edge_h2_f1 = 0.643
+edge_h2_prior_f1 = 0.740
+edge_h4_f1 = 0.680
+edge_h4_prior_f1 = 0.760
+edge_h6_f1 = 0.721
+edge_h6_prior_f1 = 0.780
+edge_h8_f1 = 0.730
+edge_h8_prior_f1 = 0.810
+
+
+
+
