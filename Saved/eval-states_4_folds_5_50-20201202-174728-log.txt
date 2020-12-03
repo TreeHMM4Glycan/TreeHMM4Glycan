@@ -1,0 +1,879 @@
+2020-12-02 17:47:28,801 args = Namespace(delta=1e-05, max_iter=50, n_folds=5, n_states=4, num_epoch=1, save='./Results/eval-states_4_folds_5_50-20201202-174728', seed=0, use_edge=False)
+2020-12-02 17:47:28,802 Training with hyper parameters:
+Use Edge: False
+Num Folds: 5
+Num States: 4
+Max Iter: 50
+Num Epoch: 1
+Delta: 1e-05
+Random seed: 0
+2020-12-02 17:47:29,577 **************************************************
+2020-12-02 17:47:29,577 Training and testing in Epcoh #0 fold #0
+2020-12-02 17:47:29,577 By Chance Bind Prob: 0.317
+2020-12-02 17:47:29,577 ******** Training tree for binding cases *********
+2020-12-02 17:47:29,578 Iteration: 0
+2020-12-02 17:47:45,092 Delta:0.606824 Time: 15.514207 seconds
+2020-12-02 17:47:45,092 Iteration: 1
+2020-12-02 17:48:00,365 Delta:0.176347 Time: 15.272636 seconds
+2020-12-02 17:48:00,365 Iteration: 2
+2020-12-02 17:48:15,750 Delta:0.221812 Time: 15.384480 seconds
+2020-12-02 17:48:15,750 Iteration: 3
+2020-12-02 17:48:31,235 Delta:0.284857 Time: 15.485178 seconds
+2020-12-02 17:48:31,235 Iteration: 4
+2020-12-02 17:48:46,746 Delta:0.298622 Time: 15.510630 seconds
+2020-12-02 17:48:46,746 Iteration: 5
+2020-12-02 17:49:02,015 Delta:0.232851 Time: 15.268473 seconds
+2020-12-02 17:49:02,015 Iteration: 6
+2020-12-02 17:49:17,472 Delta:0.155193 Time: 15.457066 seconds
+2020-12-02 17:49:17,472 Iteration: 7
+2020-12-02 17:49:33,000 Delta:0.103929 Time: 15.527918 seconds
+2020-12-02 17:49:33,001 Iteration: 8
+2020-12-02 17:49:48,610 Delta:0.069532 Time: 15.608939 seconds
+2020-12-02 17:49:48,610 Iteration: 9
+2020-12-02 17:50:04,124 Delta:0.045159 Time: 15.514302 seconds
+2020-12-02 17:50:04,124 Iteration: 10
+2020-12-02 17:50:19,675 Delta:0.028395 Time: 15.550573 seconds
+2020-12-02 17:50:19,675 Iteration: 11
+2020-12-02 17:50:35,199 Delta:0.017398 Time: 15.523658 seconds
+2020-12-02 17:50:35,199 Iteration: 12
+2020-12-02 17:50:50,554 Delta:0.010464 Time: 15.354383 seconds
+2020-12-02 17:50:50,554 Iteration: 13
+2020-12-02 17:51:05,966 Delta:0.006217 Time: 15.411987 seconds
+2020-12-02 17:51:05,966 Iteration: 14
+2020-12-02 17:51:21,390 Delta:0.003664 Time: 15.424068 seconds
+2020-12-02 17:51:21,390 Iteration: 15
+2020-12-02 17:51:36,710 Delta:0.002150 Time: 15.319440 seconds
+2020-12-02 17:51:36,710 Iteration: 16
+2020-12-02 17:51:52,105 Delta:0.001258 Time: 15.394558 seconds
+2020-12-02 17:51:52,105 Iteration: 17
+2020-12-02 17:52:07,650 Delta:0.000734 Time: 15.544945 seconds
+2020-12-02 17:52:07,650 Iteration: 18
+2020-12-02 17:52:22,954 Delta:0.000429 Time: 15.303440 seconds
+2020-12-02 17:52:22,954 Iteration: 19
+2020-12-02 17:52:38,290 Delta:0.000250 Time: 15.336227 seconds
+2020-12-02 17:52:38,290 Iteration: 20
+2020-12-02 17:52:53,722 Delta:0.000146 Time: 15.431648 seconds
+2020-12-02 17:52:53,722 Iteration: 21
+2020-12-02 17:53:09,208 Delta:0.000085 Time: 15.485843 seconds
+2020-12-02 17:53:09,209 Iteration: 22
+2020-12-02 17:53:24,546 Delta:0.000049 Time: 15.337448 seconds
+2020-12-02 17:53:24,546 Iteration: 23
+2020-12-02 17:53:40,075 Delta:0.000029 Time: 15.528265 seconds
+2020-12-02 17:53:40,075 Iteration: 24
+2020-12-02 17:53:55,584 Delta:0.000017 Time: 15.508630 seconds
+2020-12-02 17:53:55,584 Iteration: 25
+2020-12-02 17:54:10,953 Delta:0.000010 Time: 15.369174 seconds
+2020-12-02 17:54:10,953 Convergence has reached
+2020-12-02 17:54:10,954 ****** Training tree for non-binding cases *******
+2020-12-02 17:54:10,954 Iteration: 0
+2020-12-02 17:54:30,963 Delta:0.583612 Time: 20.008838 seconds
+2020-12-02 17:54:30,963 Iteration: 1
+2020-12-02 17:54:51,050 Delta:0.257490 Time: 20.086334 seconds
+2020-12-02 17:54:51,050 Iteration: 2
+2020-12-02 17:55:11,076 Delta:0.307943 Time: 20.026593 seconds
+2020-12-02 17:55:11,077 Iteration: 3
+2020-12-02 17:55:31,014 Delta:0.317793 Time: 19.937184 seconds
+2020-12-02 17:55:31,014 Iteration: 4
+2020-12-02 17:55:51,180 Delta:0.257063 Time: 20.166268 seconds
+2020-12-02 17:55:51,181 Iteration: 5
+2020-12-02 17:56:11,456 Delta:0.173071 Time: 20.275358 seconds
+2020-12-02 17:56:11,456 Iteration: 6
+2020-12-02 17:56:31,546 Delta:0.107462 Time: 20.090029 seconds
+2020-12-02 17:56:31,547 Iteration: 7
+2020-12-02 17:56:51,707 Delta:0.080157 Time: 20.160363 seconds
+2020-12-02 17:56:51,707 Iteration: 8
+2020-12-02 17:57:11,705 Delta:0.112086 Time: 19.998111 seconds
+2020-12-02 17:57:11,706 Iteration: 9
+2020-12-02 17:57:31,712 Delta:0.117066 Time: 20.006837 seconds
+2020-12-02 17:57:31,713 Iteration: 10
+2020-12-02 17:57:51,774 Delta:0.090165 Time: 20.061008 seconds
+2020-12-02 17:57:51,774 Iteration: 11
+2020-12-02 17:58:11,803 Delta:0.054055 Time: 20.028960 seconds
+2020-12-02 17:58:11,803 Iteration: 12
+2020-12-02 17:58:31,933 Delta:0.027127 Time: 20.130018 seconds
+2020-12-02 17:58:31,933 Iteration: 13
+2020-12-02 17:58:51,778 Delta:0.012160 Time: 19.844580 seconds
+2020-12-02 17:58:51,778 Iteration: 14
+2020-12-02 17:59:11,921 Delta:0.005902 Time: 20.142260 seconds
+2020-12-02 17:59:11,921 Iteration: 15
+2020-12-02 17:59:31,941 Delta:0.003124 Time: 20.020420 seconds
+2020-12-02 17:59:31,941 Iteration: 16
+2020-12-02 17:59:51,843 Delta:0.001581 Time: 19.900944 seconds
+2020-12-02 17:59:51,843 Iteration: 17
+2020-12-02 18:00:11,986 Delta:0.000778 Time: 20.142859 seconds
+2020-12-02 18:00:11,986 Iteration: 18
+2020-12-02 18:00:31,984 Delta:0.000377 Time: 19.998359 seconds
+2020-12-02 18:00:31,984 Iteration: 19
+2020-12-02 18:00:52,079 Delta:0.000180 Time: 20.094265 seconds
+2020-12-02 18:00:52,079 Iteration: 20
+2020-12-02 18:01:12,151 Delta:0.000086 Time: 20.072341 seconds
+2020-12-02 18:01:12,152 Iteration: 21
+2020-12-02 18:01:32,072 Delta:0.000041 Time: 19.920263 seconds
+2020-12-02 18:01:32,072 Iteration: 22
+2020-12-02 18:01:52,139 Delta:0.000019 Time: 20.067084 seconds
+2020-12-02 18:01:52,139 Iteration: 23
+2020-12-02 18:02:12,312 Delta:0.000009 Time: 20.172811 seconds
+2020-12-02 18:02:12,312 Convergence has reached
+2020-12-02 18:02:34,163 
+Epcoh #0 Fold #0 Training Performence Metrics
+Bind Training LL: -14.087 
+Non Bind Training LL: -8.370F1 Score: 0.788
+Accuracy Score: 0.852
+Precision Score: 0.721
+Recall Score: 0.868
+              precision    recall  f1-score   support
+
+           0       0.93      0.84      0.89       327
+           1       0.72      0.87      0.79       152
+
+    accuracy                           0.85       479
+   macro avg       0.83      0.86      0.84       479
+weighted avg       0.87      0.85      0.85       479
+
+2020-12-02 18:02:34,172 
+Epcoh #0 Fold #0 Training  Performence Metrics  (Use Posterior)
+F1 Score: 0.796
+Accuracy Score: 0.877
+Precision Score: 0.839
+Recall Score: 0.757
+              precision    recall  f1-score   support
+
+           0       0.89      0.93      0.91       327
+           1       0.84      0.76      0.80       152
+
+    accuracy                           0.88       479
+   macro avg       0.87      0.84      0.85       479
+weighted avg       0.88      0.88      0.88       479
+
+2020-12-02 18:02:39,995 Fold #0 Testing Performence Metrics
+F1 Score: 0.795
+Accuracy Score: 0.851
+Precision Score: 0.714
+Recall Score: 0.897
+              precision    recall  f1-score   support
+
+           0       0.94      0.83      0.88        82
+           1       0.71      0.90      0.80        39
+
+    accuracy                           0.85       121
+   macro avg       0.83      0.86      0.84       121
+weighted avg       0.87      0.85      0.85       121
+
+2020-12-02 18:02:40,002 Fold #0 Testing Performence Metrics  (Use Posterior)
+F1 Score: 0.831
+Accuracy Score: 0.893
+Precision Score: 0.842
+Recall Score: 0.821
+              precision    recall  f1-score   support
+
+           0       0.92      0.93      0.92        82
+           1       0.84      0.82      0.83        39
+
+    accuracy                           0.89       121
+   macro avg       0.88      0.87      0.88       121
+weighted avg       0.89      0.89      0.89       121
+
+2020-12-02 18:02:40,002 **************************************************
+2020-12-02 18:02:40,003 Training and testing in Epcoh #0 fold #1
+2020-12-02 18:02:40,003 By Chance Bind Prob: 0.319
+2020-12-02 18:02:40,003 ******** Training tree for binding cases *********
+2020-12-02 18:02:40,003 Iteration: 0
+2020-12-02 18:02:55,704 Delta:0.603514 Time: 15.700856 seconds
+2020-12-02 18:02:55,704 Iteration: 1
+2020-12-02 18:03:11,375 Delta:0.176967 Time: 15.670218 seconds
+2020-12-02 18:03:11,375 Iteration: 2
+2020-12-02 18:03:26,819 Delta:0.219654 Time: 15.444452 seconds
+2020-12-02 18:03:26,820 Iteration: 3
+2020-12-02 18:03:42,325 Delta:0.280338 Time: 15.505178 seconds
+2020-12-02 18:03:42,325 Iteration: 4
+2020-12-02 18:03:57,965 Delta:0.297336 Time: 15.639800 seconds
+2020-12-02 18:03:57,965 Iteration: 5
+2020-12-02 18:04:13,461 Delta:0.234316 Time: 15.495531 seconds
+2020-12-02 18:04:13,461 Iteration: 6
+2020-12-02 18:04:28,950 Delta:0.152841 Time: 15.488490 seconds
+2020-12-02 18:04:28,950 Iteration: 7
+2020-12-02 18:04:44,549 Delta:0.098884 Time: 15.598794 seconds
+2020-12-02 18:04:44,549 Iteration: 8
+2020-12-02 18:05:00,009 Delta:0.064576 Time: 15.460233 seconds
+2020-12-02 18:05:00,009 Iteration: 9
+2020-12-02 18:05:15,633 Delta:0.041222 Time: 15.623511 seconds
+2020-12-02 18:05:15,633 Iteration: 10
+2020-12-02 18:05:31,206 Delta:0.025534 Time: 15.573241 seconds
+2020-12-02 18:05:31,207 Iteration: 11
+2020-12-02 18:05:46,710 Delta:0.015427 Time: 15.503160 seconds
+2020-12-02 18:05:46,710 Iteration: 12
+2020-12-02 18:06:02,195 Delta:0.009156 Time: 15.485293 seconds
+2020-12-02 18:06:02,195 Iteration: 13
+2020-12-02 18:06:17,862 Delta:0.005369 Time: 15.666429 seconds
+2020-12-02 18:06:17,862 Iteration: 14
+2020-12-02 18:06:33,449 Delta:0.003125 Time: 15.586812 seconds
+2020-12-02 18:06:33,449 Iteration: 15
+2020-12-02 18:06:48,811 Delta:0.001811 Time: 15.362003 seconds
+2020-12-02 18:06:48,811 Iteration: 16
+2020-12-02 18:07:04,386 Delta:0.001046 Time: 15.574809 seconds
+2020-12-02 18:07:04,387 Iteration: 17
+2020-12-02 18:07:20,065 Delta:0.000603 Time: 15.678543 seconds
+2020-12-02 18:07:20,065 Iteration: 18
+2020-12-02 18:07:35,643 Delta:0.000348 Time: 15.577706 seconds
+2020-12-02 18:07:35,643 Iteration: 19
+2020-12-02 18:07:50,993 Delta:0.000200 Time: 15.350039 seconds
+2020-12-02 18:07:50,994 Iteration: 20
+2020-12-02 18:08:06,657 Delta:0.000115 Time: 15.663538 seconds
+2020-12-02 18:08:06,657 Iteration: 21
+2020-12-02 18:08:22,328 Delta:0.000066 Time: 15.669996 seconds
+2020-12-02 18:08:22,328 Iteration: 22
+2020-12-02 18:08:38,045 Delta:0.000038 Time: 15.716851 seconds
+2020-12-02 18:08:38,045 Iteration: 23
+2020-12-02 18:08:53,706 Delta:0.000022 Time: 15.661185 seconds
+2020-12-02 18:08:53,706 Iteration: 24
+2020-12-02 18:09:09,374 Delta:0.000013 Time: 15.666992 seconds
+2020-12-02 18:09:09,374 Iteration: 25
+2020-12-02 18:09:25,099 Delta:0.000007 Time: 15.725246 seconds
+2020-12-02 18:09:25,099 Convergence has reached
+2020-12-02 18:09:25,100 ****** Training tree for non-binding cases *******
+2020-12-02 18:09:25,100 Iteration: 0
+2020-12-02 18:09:45,208 Delta:0.575663 Time: 20.107653 seconds
+2020-12-02 18:09:45,208 Iteration: 1
+2020-12-02 18:10:05,429 Delta:0.242463 Time: 20.220626 seconds
+2020-12-02 18:10:05,429 Iteration: 2
+2020-12-02 18:10:25,740 Delta:0.293337 Time: 20.311172 seconds
+2020-12-02 18:10:25,740 Iteration: 3
+2020-12-02 18:10:45,745 Delta:0.315129 Time: 20.004562 seconds
+2020-12-02 18:10:45,745 Iteration: 4
+2020-12-02 18:11:06,076 Delta:0.266746 Time: 20.330112 seconds
+2020-12-02 18:11:06,076 Iteration: 5
+2020-12-02 18:11:26,117 Delta:0.182134 Time: 20.040812 seconds
+2020-12-02 18:11:26,117 Iteration: 6
+2020-12-02 18:11:46,330 Delta:0.112493 Time: 20.212853 seconds
+2020-12-02 18:11:46,330 Iteration: 7
+2020-12-02 18:12:06,551 Delta:0.105375 Time: 20.221345 seconds
+2020-12-02 18:12:06,552 Iteration: 8
+2020-12-02 18:12:26,528 Delta:0.104629 Time: 19.976108 seconds
+2020-12-02 18:12:26,528 Iteration: 9
+2020-12-02 18:12:46,877 Delta:0.076745 Time: 20.349411 seconds
+2020-12-02 18:12:46,878 Iteration: 10
+2020-12-02 18:13:07,042 Delta:0.044448 Time: 20.164447 seconds
+2020-12-02 18:13:07,042 Iteration: 11
+2020-12-02 18:13:27,049 Delta:0.021851 Time: 20.006169 seconds
+2020-12-02 18:13:27,049 Iteration: 12
+2020-12-02 18:13:47,277 Delta:0.009701 Time: 20.228260 seconds
+2020-12-02 18:13:47,277 Iteration: 13
+2020-12-02 18:14:07,491 Delta:0.004254 Time: 20.213772 seconds
+2020-12-02 18:14:07,491 Iteration: 14
+2020-12-02 18:14:27,493 Delta:0.002150 Time: 20.001933 seconds
+2020-12-02 18:14:27,493 Iteration: 15
+2020-12-02 18:14:47,820 Delta:0.001055 Time: 20.325947 seconds
+2020-12-02 18:14:47,820 Iteration: 16
+2020-12-02 18:15:08,257 Delta:0.000505 Time: 20.437591 seconds
+2020-12-02 18:15:08,258 Iteration: 17
+2020-12-02 18:15:28,640 Delta:0.000237 Time: 20.381977 seconds
+2020-12-02 18:15:28,640 Iteration: 18
+2020-12-02 18:15:49,022 Delta:0.000110 Time: 20.382380 seconds
+2020-12-02 18:15:49,022 Iteration: 19
+2020-12-02 18:16:09,313 Delta:0.000051 Time: 20.290951 seconds
+2020-12-02 18:16:09,314 Iteration: 20
+2020-12-02 18:16:29,280 Delta:0.000023 Time: 19.966761 seconds
+2020-12-02 18:16:29,281 Iteration: 21
+2020-12-02 18:16:49,602 Delta:0.000011 Time: 20.321667 seconds
+2020-12-02 18:16:49,603 Iteration: 22
+2020-12-02 18:17:09,648 Delta:0.000005 Time: 20.045630 seconds
+2020-12-02 18:17:09,648 Convergence has reached
+2020-12-02 18:17:31,132 
+Epcoh #0 Fold #1 Training Performence Metrics
+Bind Training LL: -14.055 
+Non Bind Training LL: -8.266F1 Score: 0.796
+Accuracy Score: 0.860
+Precision Score: 0.744
+Recall Score: 0.856
+              precision    recall  f1-score   support
+
+           0       0.93      0.86      0.89       327
+           1       0.74      0.86      0.80       153
+
+    accuracy                           0.86       480
+   macro avg       0.84      0.86      0.85       480
+weighted avg       0.87      0.86      0.86       480
+
+2020-12-02 18:17:31,142 
+Epcoh #0 Fold #1 Training  Performence Metrics  (Use Posterior)
+F1 Score: 0.826
+Accuracy Score: 0.892
+Precision Score: 0.848
+Recall Score: 0.804
+              precision    recall  f1-score   support
+
+           0       0.91      0.93      0.92       327
+           1       0.85      0.80      0.83       153
+
+    accuracy                           0.89       480
+   macro avg       0.88      0.87      0.87       480
+weighted avg       0.89      0.89      0.89       480
+
+2020-12-02 18:17:37,119 Fold #1 Testing Performence Metrics
+F1 Score: 0.780
+Accuracy Score: 0.850
+Precision Score: 0.727
+Recall Score: 0.842
+              precision    recall  f1-score   support
+
+           0       0.92      0.85      0.89        82
+           1       0.73      0.84      0.78        38
+
+    accuracy                           0.85       120
+   macro avg       0.82      0.85      0.83       120
+weighted avg       0.86      0.85      0.85       120
+
+2020-12-02 18:17:37,126 Fold #1 Testing Performence Metrics  (Use Posterior)
+F1 Score: 0.800
+Accuracy Score: 0.875
+Precision Score: 0.811
+Recall Score: 0.789
+              precision    recall  f1-score   support
+
+           0       0.90      0.91      0.91        82
+           1       0.81      0.79      0.80        38
+
+    accuracy                           0.88       120
+   macro avg       0.86      0.85      0.85       120
+weighted avg       0.87      0.88      0.87       120
+
+2020-12-02 18:17:37,127 **************************************************
+2020-12-02 18:17:37,127 Training and testing in Epcoh #0 fold #2
+2020-12-02 18:17:37,127 By Chance Bind Prob: 0.319
+2020-12-02 18:17:37,127 ******** Training tree for binding cases *********
+2020-12-02 18:17:37,127 Iteration: 0
+2020-12-02 18:17:53,747 Delta:0.619507 Time: 16.619341 seconds
+2020-12-02 18:17:53,747 Iteration: 1
+2020-12-02 18:18:10,327 Delta:0.173115 Time: 16.580629 seconds
+2020-12-02 18:18:10,328 Iteration: 2
+2020-12-02 18:18:26,975 Delta:0.220594 Time: 16.647693 seconds
+2020-12-02 18:18:26,976 Iteration: 3
+2020-12-02 18:18:43,658 Delta:0.286622 Time: 16.682390 seconds
+2020-12-02 18:18:43,658 Iteration: 4
+2020-12-02 18:19:00,217 Delta:0.304408 Time: 16.558346 seconds
+2020-12-02 18:19:00,217 Iteration: 5
+2020-12-02 18:19:16,932 Delta:0.235495 Time: 16.715296 seconds
+2020-12-02 18:19:16,933 Iteration: 6
+2020-12-02 18:19:33,573 Delta:0.149719 Time: 16.639757 seconds
+2020-12-02 18:19:33,573 Iteration: 7
+2020-12-02 18:19:49,987 Delta:0.094329 Time: 16.414101 seconds
+2020-12-02 18:19:49,987 Iteration: 8
+2020-12-02 18:20:06,700 Delta:0.059483 Time: 16.713026 seconds
+2020-12-02 18:20:06,700 Iteration: 9
+2020-12-02 18:20:23,303 Delta:0.036470 Time: 16.602273 seconds
+2020-12-02 18:20:23,303 Iteration: 10
+2020-12-02 18:20:39,891 Delta:0.021667 Time: 16.588143 seconds
+2020-12-02 18:20:39,891 Iteration: 11
+2020-12-02 18:20:56,464 Delta:0.012555 Time: 16.572404 seconds
+2020-12-02 18:20:56,464 Iteration: 12
+2020-12-02 18:21:13,238 Delta:0.007148 Time: 16.773369 seconds
+2020-12-02 18:21:13,238 Iteration: 13
+2020-12-02 18:21:30,039 Delta:0.004023 Time: 16.800963 seconds
+2020-12-02 18:21:30,039 Iteration: 14
+2020-12-02 18:21:46,864 Delta:0.002247 Time: 16.825237 seconds
+2020-12-02 18:21:46,864 Iteration: 15
+2020-12-02 18:22:03,616 Delta:0.001250 Time: 16.751659 seconds
+2020-12-02 18:22:03,616 Iteration: 16
+2020-12-02 18:22:20,393 Delta:0.000693 Time: 16.776427 seconds
+2020-12-02 18:22:20,393 Iteration: 17
+2020-12-02 18:22:37,032 Delta:0.000384 Time: 16.639280 seconds
+2020-12-02 18:22:37,033 Iteration: 18
+2020-12-02 18:22:53,631 Delta:0.000213 Time: 16.598423 seconds
+2020-12-02 18:22:53,631 Iteration: 19
+2020-12-02 18:23:10,381 Delta:0.000118 Time: 16.749280 seconds
+2020-12-02 18:23:10,381 Iteration: 20
+2020-12-02 18:23:26,972 Delta:0.000065 Time: 16.591254 seconds
+2020-12-02 18:23:26,972 Iteration: 21
+2020-12-02 18:23:43,562 Delta:0.000036 Time: 16.589167 seconds
+2020-12-02 18:23:43,562 Iteration: 22
+2020-12-02 18:24:00,336 Delta:0.000020 Time: 16.774258 seconds
+2020-12-02 18:24:00,336 Iteration: 23
+2020-12-02 18:24:16,814 Delta:0.000011 Time: 16.477269 seconds
+2020-12-02 18:24:16,814 Iteration: 24
+2020-12-02 18:24:33,492 Delta:0.000006 Time: 16.678649 seconds
+2020-12-02 18:24:33,493 Convergence has reached
+2020-12-02 18:24:33,493 ****** Training tree for non-binding cases *******
+2020-12-02 18:24:33,493 Iteration: 0
+2020-12-02 18:24:54,090 Delta:0.571219 Time: 20.596839 seconds
+2020-12-02 18:24:54,091 Iteration: 1
+2020-12-02 18:25:14,515 Delta:0.244298 Time: 20.424263 seconds
+2020-12-02 18:25:14,515 Iteration: 2
+2020-12-02 18:25:35,142 Delta:0.295606 Time: 20.626481 seconds
+2020-12-02 18:25:35,142 Iteration: 3
+2020-12-02 18:25:55,711 Delta:0.315104 Time: 20.569167 seconds
+2020-12-02 18:25:55,711 Iteration: 4
+2020-12-02 18:26:16,098 Delta:0.263062 Time: 20.386208 seconds
+2020-12-02 18:26:16,098 Iteration: 5
+2020-12-02 18:26:36,713 Delta:0.176991 Time: 20.614783 seconds
+2020-12-02 18:26:36,713 Iteration: 6
+2020-12-02 18:26:57,337 Delta:0.106093 Time: 20.623532 seconds
+2020-12-02 18:26:57,337 Iteration: 7
+2020-12-02 18:27:17,775 Delta:0.090298 Time: 20.437689 seconds
+2020-12-02 18:27:17,775 Iteration: 8
+2020-12-02 18:27:38,393 Delta:0.116165 Time: 20.618320 seconds
+2020-12-02 18:27:38,393 Iteration: 9
+2020-12-02 18:27:59,202 Delta:0.109987 Time: 20.808227 seconds
+2020-12-02 18:27:59,202 Iteration: 10
+2020-12-02 18:28:19,933 Delta:0.078787 Time: 20.730679 seconds
+2020-12-02 18:28:19,933 Iteration: 11
+2020-12-02 18:28:40,630 Delta:0.045395 Time: 20.697280 seconds
+2020-12-02 18:28:40,630 Iteration: 12
+2020-12-02 18:29:01,143 Delta:0.022509 Time: 20.512885 seconds
+2020-12-02 18:29:01,143 Iteration: 13
+2020-12-02 18:29:21,743 Delta:0.010186 Time: 20.599024 seconds
+2020-12-02 18:29:21,743 Iteration: 14
+2020-12-02 18:29:42,329 Delta:0.004658 Time: 20.586091 seconds
+2020-12-02 18:29:42,329 Iteration: 15
+2020-12-02 18:30:02,851 Delta:0.002434 Time: 20.521537 seconds
+2020-12-02 18:30:02,851 Iteration: 16
+2020-12-02 18:30:23,574 Delta:0.001222 Time: 20.723438 seconds
+2020-12-02 18:30:23,575 Iteration: 17
+2020-12-02 18:30:44,012 Delta:0.000597 Time: 20.437119 seconds
+2020-12-02 18:30:44,012 Iteration: 18
+2020-12-02 18:31:04,635 Delta:0.000287 Time: 20.622892 seconds
+2020-12-02 18:31:04,635 Iteration: 19
+2020-12-02 18:31:25,074 Delta:0.000136 Time: 20.438654 seconds
+2020-12-02 18:31:25,074 Iteration: 20
+2020-12-02 18:31:45,635 Delta:0.000064 Time: 20.560885 seconds
+2020-12-02 18:31:45,635 Iteration: 21
+2020-12-02 18:32:06,253 Delta:0.000030 Time: 20.618188 seconds
+2020-12-02 18:32:06,254 Iteration: 22
+2020-12-02 18:32:26,614 Delta:0.000014 Time: 20.359864 seconds
+2020-12-02 18:32:26,614 Iteration: 23
+2020-12-02 18:32:47,263 Delta:0.000007 Time: 20.649034 seconds
+2020-12-02 18:32:47,263 Convergence has reached
+2020-12-02 18:33:09,948 
+Epcoh #0 Fold #2 Training Performence Metrics
+Bind Training LL: -14.981 
+Non Bind Training LL: -8.491F1 Score: 0.779
+Accuracy Score: 0.840
+Precision Score: 0.694
+Recall Score: 0.889
+              precision    recall  f1-score   support
+
+           0       0.94      0.82      0.87       327
+           1       0.69      0.89      0.78       153
+
+    accuracy                           0.84       480
+   macro avg       0.82      0.85      0.83       480
+weighted avg       0.86      0.84      0.84       480
+
+2020-12-02 18:33:09,957 
+Epcoh #0 Fold #2 Training  Performence Metrics  (Use Posterior)
+F1 Score: 0.812
+Accuracy Score: 0.881
+Precision Score: 0.820
+Recall Score: 0.804
+              precision    recall  f1-score   support
+
+           0       0.91      0.92      0.91       327
+           1       0.82      0.80      0.81       153
+
+    accuracy                           0.88       480
+   macro avg       0.86      0.86      0.86       480
+weighted avg       0.88      0.88      0.88       480
+
+2020-12-02 18:33:14,831 Fold #2 Testing Performence Metrics
+F1 Score: 0.690
+Accuracy Score: 0.783
+Precision Score: 0.630
+Recall Score: 0.763
+              precision    recall  f1-score   support
+
+           0       0.88      0.79      0.83        82
+           1       0.63      0.76      0.69        38
+
+    accuracy                           0.78       120
+   macro avg       0.75      0.78      0.76       120
+weighted avg       0.80      0.78      0.79       120
+
+2020-12-02 18:33:14,838 Fold #2 Testing Performence Metrics  (Use Posterior)
+F1 Score: 0.754
+Accuracy Score: 0.858
+Precision Score: 0.839
+Recall Score: 0.684
+              precision    recall  f1-score   support
+
+           0       0.87      0.94      0.90        82
+           1       0.84      0.68      0.75        38
+
+    accuracy                           0.86       120
+   macro avg       0.85      0.81      0.83       120
+weighted avg       0.86      0.86      0.85       120
+
+2020-12-02 18:33:14,838 **************************************************
+2020-12-02 18:33:14,838 Training and testing in Epcoh #0 fold #3
+2020-12-02 18:33:14,838 By Chance Bind Prob: 0.319
+2020-12-02 18:33:14,838 ******** Training tree for binding cases *********
+2020-12-02 18:33:14,838 Iteration: 0
+2020-12-02 18:33:31,337 Delta:0.619401 Time: 16.498618 seconds
+2020-12-02 18:33:31,337 Iteration: 1
+2020-12-02 18:33:47,926 Delta:0.180038 Time: 16.588448 seconds
+2020-12-02 18:33:47,926 Iteration: 2
+2020-12-02 18:34:04,616 Delta:0.223306 Time: 16.690027 seconds
+2020-12-02 18:34:04,616 Iteration: 3
+2020-12-02 18:34:21,386 Delta:0.285980 Time: 16.769645 seconds
+2020-12-02 18:34:21,386 Iteration: 4
+2020-12-02 18:34:38,030 Delta:0.305215 Time: 16.643359 seconds
+2020-12-02 18:34:38,030 Iteration: 5
+2020-12-02 18:34:54,631 Delta:0.241517 Time: 16.601132 seconds
+2020-12-02 18:34:54,631 Iteration: 6
+2020-12-02 18:35:11,271 Delta:0.154545 Time: 16.639329 seconds
+2020-12-02 18:35:11,271 Iteration: 7
+2020-12-02 18:35:27,758 Delta:0.095447 Time: 16.487058 seconds
+2020-12-02 18:35:27,758 Iteration: 8
+2020-12-02 18:35:44,387 Delta:0.059002 Time: 16.629048 seconds
+2020-12-02 18:35:44,387 Iteration: 9
+2020-12-02 18:36:00,860 Delta:0.035702 Time: 16.472759 seconds
+2020-12-02 18:36:00,860 Iteration: 10
+2020-12-02 18:36:17,425 Delta:0.021013 Time: 16.564487 seconds
+2020-12-02 18:36:17,425 Iteration: 11
+2020-12-02 18:36:34,058 Delta:0.012085 Time: 16.632431 seconds
+2020-12-02 18:36:34,058 Iteration: 12
+2020-12-02 18:36:50,466 Delta:0.006837 Time: 16.408422 seconds
+2020-12-02 18:36:50,467 Iteration: 13
+2020-12-02 18:37:07,081 Delta:0.003827 Time: 16.614146 seconds
+2020-12-02 18:37:07,081 Iteration: 14
+2020-12-02 18:37:23,663 Delta:0.002128 Time: 16.582094 seconds
+2020-12-02 18:37:23,663 Iteration: 15
+2020-12-02 18:37:40,056 Delta:0.001179 Time: 16.392836 seconds
+2020-12-02 18:37:40,057 Iteration: 16
+2020-12-02 18:37:56,655 Delta:0.000652 Time: 16.597943 seconds
+2020-12-02 18:37:56,655 Iteration: 17
+2020-12-02 18:38:13,230 Delta:0.000360 Time: 16.575038 seconds
+2020-12-02 18:38:13,230 Iteration: 18
+2020-12-02 18:38:29,836 Delta:0.000198 Time: 16.605652 seconds
+2020-12-02 18:38:29,836 Iteration: 19
+2020-12-02 18:38:46,281 Delta:0.000109 Time: 16.444984 seconds
+2020-12-02 18:38:46,281 Iteration: 20
+2020-12-02 18:39:02,904 Delta:0.000060 Time: 16.622655 seconds
+2020-12-02 18:39:02,904 Iteration: 21
+2020-12-02 18:39:19,492 Delta:0.000033 Time: 16.587080 seconds
+2020-12-02 18:39:19,492 Iteration: 22
+2020-12-02 18:39:35,992 Delta:0.000018 Time: 16.500641 seconds
+2020-12-02 18:39:35,993 Iteration: 23
+2020-12-02 18:39:52,489 Delta:0.000010 Time: 16.496039 seconds
+2020-12-02 18:39:52,489 Iteration: 24
+2020-12-02 18:40:09,138 Delta:0.000006 Time: 16.648852 seconds
+2020-12-02 18:40:09,138 Convergence has reached
+2020-12-02 18:40:09,138 ****** Training tree for non-binding cases *******
+2020-12-02 18:40:09,139 Iteration: 0
+2020-12-02 18:40:29,366 Delta:0.580948 Time: 20.227348 seconds
+2020-12-02 18:40:29,366 Iteration: 1
+2020-12-02 18:40:49,473 Delta:0.245988 Time: 20.106387 seconds
+2020-12-02 18:40:49,473 Iteration: 2
+2020-12-02 18:41:09,664 Delta:0.293779 Time: 20.190491 seconds
+2020-12-02 18:41:09,664 Iteration: 3
+2020-12-02 18:41:29,720 Delta:0.311087 Time: 20.056028 seconds
+2020-12-02 18:41:29,720 Iteration: 4
+2020-12-02 18:41:49,585 Delta:0.260539 Time: 19.864478 seconds
+2020-12-02 18:41:49,585 Iteration: 5
+2020-12-02 18:42:09,624 Delta:0.180400 Time: 20.038503 seconds
+2020-12-02 18:42:09,624 Iteration: 6
+2020-12-02 18:42:29,435 Delta:0.115113 Time: 19.811391 seconds
+2020-12-02 18:42:29,435 Iteration: 7
+2020-12-02 18:42:49,504 Delta:0.097238 Time: 20.068612 seconds
+2020-12-02 18:42:49,504 Iteration: 8
+2020-12-02 18:43:09,412 Delta:0.099812 Time: 19.907414 seconds
+2020-12-02 18:43:09,412 Iteration: 9
+2020-12-02 18:43:29,362 Delta:0.074579 Time: 19.949301 seconds
+2020-12-02 18:43:29,362 Iteration: 10
+2020-12-02 18:43:49,447 Delta:0.042973 Time: 20.085354 seconds
+2020-12-02 18:43:49,447 Iteration: 11
+2020-12-02 18:44:09,324 Delta:0.020607 Time: 19.876459 seconds
+2020-12-02 18:44:09,324 Iteration: 12
+2020-12-02 18:44:29,252 Delta:0.008909 Time: 19.927454 seconds
+2020-12-02 18:44:29,252 Iteration: 13
+2020-12-02 18:44:49,167 Delta:0.004617 Time: 19.914912 seconds
+2020-12-02 18:44:49,167 Iteration: 14
+2020-12-02 18:45:08,797 Delta:0.002435 Time: 19.629935 seconds
+2020-12-02 18:45:08,797 Iteration: 15
+2020-12-02 18:45:28,633 Delta:0.001242 Time: 19.835764 seconds
+2020-12-02 18:45:28,633 Iteration: 16
+2020-12-02 18:45:48,538 Delta:0.000619 Time: 19.904773 seconds
+2020-12-02 18:45:48,538 Iteration: 17
+2020-12-02 18:46:08,150 Delta:0.000304 Time: 19.611709 seconds
+2020-12-02 18:46:08,150 Iteration: 18
+2020-12-02 18:46:28,029 Delta:0.000147 Time: 19.878354 seconds
+2020-12-02 18:46:28,029 Iteration: 19
+2020-12-02 18:46:48,041 Delta:0.000071 Time: 20.012292 seconds
+2020-12-02 18:46:48,041 Iteration: 20
+2020-12-02 18:47:08,011 Delta:0.000034 Time: 19.969367 seconds
+2020-12-02 18:47:08,011 Iteration: 21
+2020-12-02 18:47:28,021 Delta:0.000016 Time: 20.010084 seconds
+2020-12-02 18:47:28,021 Iteration: 22
+2020-12-02 18:47:47,979 Delta:0.000008 Time: 19.957499 seconds
+2020-12-02 18:47:47,979 Convergence has reached
+2020-12-02 18:48:09,750 
+Epcoh #0 Fold #3 Training Performence Metrics
+Bind Training LL: -14.837 
+Non Bind Training LL: -8.325F1 Score: 0.736
+Accuracy Score: 0.798
+Precision Score: 0.631
+Recall Score: 0.882
+              precision    recall  f1-score   support
+
+           0       0.93      0.76      0.84       327
+           1       0.63      0.88      0.74       153
+
+    accuracy                           0.80       480
+   macro avg       0.78      0.82      0.79       480
+weighted avg       0.84      0.80      0.80       480
+
+2020-12-02 18:48:09,759 
+Epcoh #0 Fold #3 Training  Performence Metrics  (Use Posterior)
+F1 Score: 0.799
+Accuracy Score: 0.875
+Precision Score: 0.821
+Recall Score: 0.778
+              precision    recall  f1-score   support
+
+           0       0.90      0.92      0.91       327
+           1       0.82      0.78      0.80       153
+
+    accuracy                           0.88       480
+   macro avg       0.86      0.85      0.85       480
+weighted avg       0.87      0.88      0.87       480
+
+2020-12-02 18:48:14,980 Fold #3 Testing Performence Metrics
+F1 Score: 0.695
+Accuracy Score: 0.758
+Precision Score: 0.579
+Recall Score: 0.868
+              precision    recall  f1-score   support
+
+           0       0.92      0.71      0.80        82
+           1       0.58      0.87      0.69        38
+
+    accuracy                           0.76       120
+   macro avg       0.75      0.79      0.75       120
+weighted avg       0.81      0.76      0.77       120
+
+2020-12-02 18:48:14,987 Fold #3 Testing Performence Metrics  (Use Posterior)
+F1 Score: 0.822
+Accuracy Score: 0.892
+Precision Score: 0.857
+Recall Score: 0.789
+              precision    recall  f1-score   support
+
+           0       0.91      0.94      0.92        82
+           1       0.86      0.79      0.82        38
+
+    accuracy                           0.89       120
+   macro avg       0.88      0.86      0.87       120
+weighted avg       0.89      0.89      0.89       120
+
+2020-12-02 18:48:14,987 **************************************************
+2020-12-02 18:48:14,987 Training and testing in Epcoh #0 fold #4
+2020-12-02 18:48:14,987 By Chance Bind Prob: 0.318
+2020-12-02 18:48:14,988 ******** Training tree for binding cases *********
+2020-12-02 18:48:14,988 Iteration: 0
+2020-12-02 18:48:30,385 Delta:0.604778 Time: 15.396580 seconds
+2020-12-02 18:48:30,385 Iteration: 1
+2020-12-02 18:48:45,706 Delta:0.182389 Time: 15.321295 seconds
+2020-12-02 18:48:45,706 Iteration: 2
+2020-12-02 18:49:00,775 Delta:0.228025 Time: 15.068355 seconds
+2020-12-02 18:49:00,775 Iteration: 3
+2020-12-02 18:49:16,060 Delta:0.288437 Time: 15.284630 seconds
+2020-12-02 18:49:16,060 Iteration: 4
+2020-12-02 18:49:31,405 Delta:0.294838 Time: 15.345007 seconds
+2020-12-02 18:49:31,405 Iteration: 5
+2020-12-02 18:49:46,529 Delta:0.223256 Time: 15.123448 seconds
+2020-12-02 18:49:46,529 Iteration: 6
+2020-12-02 18:50:01,834 Delta:0.147821 Time: 15.305156 seconds
+2020-12-02 18:50:01,834 Iteration: 7
+2020-12-02 18:50:17,138 Delta:0.102053 Time: 15.303807 seconds
+2020-12-02 18:50:17,138 Iteration: 8
+2020-12-02 18:50:32,376 Delta:0.071806 Time: 15.237940 seconds
+2020-12-02 18:50:32,377 Iteration: 9
+2020-12-02 18:50:47,566 Delta:0.049168 Time: 15.189826 seconds
+2020-12-02 18:50:47,567 Iteration: 10
+2020-12-02 18:51:02,949 Delta:0.032457 Time: 15.382326 seconds
+2020-12-02 18:51:02,949 Iteration: 11
+2020-12-02 18:51:18,277 Delta:0.020780 Time: 15.327280 seconds
+2020-12-02 18:51:18,277 Iteration: 12
+2020-12-02 18:51:33,476 Delta:0.013016 Time: 15.199243 seconds
+2020-12-02 18:51:33,476 Iteration: 13
+2020-12-02 18:51:48,693 Delta:0.008034 Time: 15.216405 seconds
+2020-12-02 18:51:48,693 Iteration: 14
+2020-12-02 18:52:04,082 Delta:0.004914 Time: 15.389277 seconds
+2020-12-02 18:52:04,082 Iteration: 15
+2020-12-02 18:52:19,431 Delta:0.002988 Time: 15.348478 seconds
+2020-12-02 18:52:19,431 Iteration: 16
+2020-12-02 18:52:34,484 Delta:0.001811 Time: 15.052349 seconds
+2020-12-02 18:52:34,484 Iteration: 17
+2020-12-02 18:52:49,807 Delta:0.001095 Time: 15.322945 seconds
+2020-12-02 18:52:49,807 Iteration: 18
+2020-12-02 18:53:05,240 Delta:0.000661 Time: 15.432533 seconds
+2020-12-02 18:53:05,240 Iteration: 19
+2020-12-02 18:53:20,696 Delta:0.000399 Time: 15.456122 seconds
+2020-12-02 18:53:20,696 Iteration: 20
+2020-12-02 18:53:36,048 Delta:0.000241 Time: 15.351534 seconds
+2020-12-02 18:53:36,048 Iteration: 21
+2020-12-02 18:53:51,468 Delta:0.000145 Time: 15.419957 seconds
+2020-12-02 18:53:51,468 Iteration: 22
+2020-12-02 18:54:06,873 Delta:0.000088 Time: 15.404732 seconds
+2020-12-02 18:54:06,873 Iteration: 23
+2020-12-02 18:54:22,138 Delta:0.000053 Time: 15.264849 seconds
+2020-12-02 18:54:22,139 Iteration: 24
+2020-12-02 18:54:37,302 Delta:0.000032 Time: 15.163392 seconds
+2020-12-02 18:54:37,302 Iteration: 25
+2020-12-02 18:54:52,669 Delta:0.000019 Time: 15.366953 seconds
+2020-12-02 18:54:52,669 Iteration: 26
+2020-12-02 18:55:07,967 Delta:0.000012 Time: 15.297009 seconds
+2020-12-02 18:55:07,967 Iteration: 27
+2020-12-02 18:55:23,173 Delta:0.000007 Time: 15.205850 seconds
+2020-12-02 18:55:23,173 Convergence has reached
+2020-12-02 18:55:23,173 ****** Training tree for non-binding cases *******
+2020-12-02 18:55:23,174 Iteration: 0
+2020-12-02 18:55:43,738 Delta:0.593534 Time: 20.564401 seconds
+2020-12-02 18:55:43,738 Iteration: 1
+2020-12-02 18:56:04,015 Delta:0.243169 Time: 20.276999 seconds
+2020-12-02 18:56:04,016 Iteration: 2
+2020-12-02 18:56:24,643 Delta:0.291114 Time: 20.627700 seconds
+2020-12-02 18:56:24,643 Iteration: 3
+2020-12-02 18:56:45,066 Delta:0.315684 Time: 20.422767 seconds
+2020-12-02 18:56:45,067 Iteration: 4
+2020-12-02 18:57:05,502 Delta:0.277163 Time: 20.435815 seconds
+2020-12-02 18:57:05,503 Iteration: 5
+2020-12-02 18:57:26,050 Delta:0.204328 Time: 20.547808 seconds
+2020-12-02 18:57:26,051 Iteration: 6
+2020-12-02 18:57:46,415 Delta:0.149706 Time: 20.364463 seconds
+2020-12-02 18:57:46,415 Iteration: 7
+2020-12-02 18:58:06,846 Delta:0.131042 Time: 20.430162 seconds
+2020-12-02 18:58:06,846 Iteration: 8
+2020-12-02 18:58:27,392 Delta:0.139907 Time: 20.545729 seconds
+2020-12-02 18:58:27,392 Iteration: 9
+2020-12-02 18:58:47,762 Delta:0.147115 Time: 20.370373 seconds
+2020-12-02 18:58:47,762 Iteration: 10
+2020-12-02 18:59:08,241 Delta:0.125202 Time: 20.478762 seconds
+2020-12-02 18:59:08,241 Iteration: 11
+2020-12-02 18:59:28,849 Delta:0.085189 Time: 20.607475 seconds
+2020-12-02 18:59:28,849 Iteration: 12
+2020-12-02 18:59:49,598 Delta:0.054720 Time: 20.749188 seconds
+2020-12-02 18:59:49,599 Iteration: 13
+2020-12-02 19:00:10,226 Delta:0.036739 Time: 20.627553 seconds
+2020-12-02 19:00:10,226 Iteration: 14
+2020-12-02 19:00:30,805 Delta:0.025342 Time: 20.578834 seconds
+2020-12-02 19:00:30,806 Iteration: 15
+2020-12-02 19:00:51,128 Delta:0.017650 Time: 20.322091 seconds
+2020-12-02 19:00:51,128 Iteration: 16
+2020-12-02 19:01:11,685 Delta:0.012359 Time: 20.556979 seconds
+2020-12-02 19:01:11,685 Iteration: 17
+2020-12-02 19:01:32,057 Delta:0.008689 Time: 20.371512 seconds
+2020-12-02 19:01:32,057 Iteration: 18
+2020-12-02 19:01:52,571 Delta:0.006128 Time: 20.513801 seconds
+2020-12-02 19:01:52,571 Iteration: 19
+2020-12-02 19:02:13,074 Delta:0.004333 Time: 20.503039 seconds
+2020-12-02 19:02:13,074 Iteration: 20
+2020-12-02 19:02:33,486 Delta:0.003069 Time: 20.411817 seconds
+2020-12-02 19:02:33,486 Iteration: 21
+2020-12-02 19:02:53,995 Delta:0.002177 Time: 20.508084 seconds
+2020-12-02 19:02:53,995 Iteration: 22
+2020-12-02 19:03:14,236 Delta:0.001546 Time: 20.241636 seconds
+2020-12-02 19:03:14,237 Iteration: 23
+2020-12-02 19:03:34,825 Delta:0.001098 Time: 20.587959 seconds
+2020-12-02 19:03:34,825 Iteration: 24
+2020-12-02 19:03:55,307 Delta:0.000781 Time: 20.482460 seconds
+2020-12-02 19:03:55,308 Iteration: 25
+2020-12-02 19:04:15,644 Delta:0.000556 Time: 20.336353 seconds
+2020-12-02 19:04:15,644 Iteration: 26
+2020-12-02 19:04:36,272 Delta:0.000395 Time: 20.627857 seconds
+2020-12-02 19:04:36,272 Iteration: 27
+2020-12-02 19:04:56,691 Delta:0.000281 Time: 20.419039 seconds
+2020-12-02 19:04:56,692 Iteration: 28
+2020-12-02 19:05:17,108 Delta:0.000200 Time: 20.390466 seconds
+2020-12-02 19:05:17,108 Iteration: 29
+2020-12-02 19:05:37,712 Delta:0.000143 Time: 20.603206 seconds
+2020-12-02 19:05:37,712 Iteration: 30
+2020-12-02 19:05:58,443 Delta:0.000102 Time: 20.730631 seconds
+2020-12-02 19:05:58,443 Iteration: 31
+2020-12-02 19:06:19,117 Delta:0.000072 Time: 20.674234 seconds
+2020-12-02 19:06:19,117 Iteration: 32
+2020-12-02 19:06:39,803 Delta:0.000052 Time: 20.685242 seconds
+2020-12-02 19:06:39,803 Iteration: 33
+2020-12-02 19:07:00,220 Delta:0.000037 Time: 20.417325 seconds
+2020-12-02 19:07:00,220 Iteration: 34
+2020-12-02 19:07:20,654 Delta:0.000026 Time: 20.433113 seconds
+2020-12-02 19:07:20,654 Iteration: 35
+2020-12-02 19:07:41,218 Delta:0.000019 Time: 20.564226 seconds
+2020-12-02 19:07:41,218 Iteration: 36
+2020-12-02 19:08:01,619 Delta:0.000013 Time: 20.400602 seconds
+2020-12-02 19:08:01,619 Iteration: 37
+2020-12-02 19:08:22,219 Delta:0.000009 Time: 20.600136 seconds
+2020-12-02 19:08:22,220 Convergence has reached
+2020-12-02 19:08:43,868 
+Epcoh #0 Fold #4 Training Performence Metrics
+Bind Training LL: -14.100 
+Non Bind Training LL: -9.562F1 Score: 0.567
+Accuracy Score: 0.547
+Precision Score: 0.407
+Recall Score: 0.935
+              precision    recall  f1-score   support
+
+           0       0.92      0.37      0.52       328
+           1       0.41      0.93      0.57       153
+
+    accuracy                           0.55       481
+   macro avg       0.67      0.65      0.55       481
+weighted avg       0.76      0.55      0.54       481
+
+2020-12-02 19:08:43,878 
+Epcoh #0 Fold #4 Training  Performence Metrics  (Use Posterior)
+F1 Score: 0.725
+Accuracy Score: 0.778
+Precision Score: 0.597
+Recall Score: 0.922
+              precision    recall  f1-score   support
+
+           0       0.95      0.71      0.81       328
+           1       0.60      0.92      0.72       153
+
+    accuracy                           0.78       481
+   macro avg       0.77      0.82      0.77       481
+weighted avg       0.84      0.78      0.79       481
+
+2020-12-02 19:08:49,368 Fold #4 Testing Performence Metrics
+F1 Score: 0.623
+Accuracy Score: 0.613
+Precision Score: 0.452
+Recall Score: 1.000
+              precision    recall  f1-score   support
+
+           0       1.00      0.43      0.60        81
+           1       0.45      1.00      0.62        38
+
+    accuracy                           0.61       119
+   macro avg       0.73      0.72      0.61       119
+weighted avg       0.83      0.61      0.61       119
+
+2020-12-02 19:08:49,375 Fold #4 Testing Performence Metrics  (Use Posterior)
+F1 Score: 0.813
+Accuracy Score: 0.857
+Precision Score: 0.698
+Recall Score: 0.974
+              precision    recall  f1-score   support
+
+           0       0.98      0.80      0.88        81
+           1       0.70      0.97      0.81        38
+
+    accuracy                           0.86       119
+   macro avg       0.84      0.89      0.85       119
+weighted avg       0.89      0.86      0.86       119
+
+2020-12-02 19:08:49,375 **************************************************
+2020-12-02 19:08:49,376 
+Epoch #0 Overall Performence Metrics
+F1 Score: 0.717 std:0.064
+Accuracy Score: 0.771 std:0.087
+Precision Score: 0.621 std:0.100
+Recall Score: 0.874 std:0.077
+
+2020-12-02 19:08:49,376 
+Epoch #0 Overall Performence Metrics (Use Posterior)
+F1 Score: 0.804 std:0.027
+Accuracy Score: 0.875 std:0.015
+Precision Score: 0.809 std:0.058
+Recall Score: 0.811 std:0.093
+
+2020-12-02 19:08:49,376 **************************************************
